@@ -15,19 +15,43 @@ const ProductList = ({ userType, user }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
+  const [imageErrors, setImageErrors] = useState({});
 
   const itemsPerPage = 10;
 
-  const getImageUrl = (imagePath) => {
+  const getImageUrl = (product) => {
+    if (product.image1_url) {
+      return product.image1_url;
+    }
+    
+    const imagePath = product.product_image1;
     if (!imagePath) return null;
-    if (imagePath.startsWith('http')) return imagePath;
-    return `http://localhost:5000${imagePath}`;
+    
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return imagePath;
+    }
+    
+    if (imagePath.startsWith('/uploads')) {
+      return `http://localhost:5000${imagePath}`;
+    }
+    
+    if (imagePath.startsWith('uploads/')) {
+      return `http://localhost:5000/${imagePath}`;
+    }
+    
+    return `http://localhost:5000/uploads/${imagePath}`;
+  };
+
+  const handleImageError = (productId) => {
+    console.error('Image failed to load for product:', productId);
+    setImageErrors(prev => ({ ...prev, [productId]: true }));
   };
 
   const fetchProducts = async (page = 1, searchParams = {}) => {
     try {
       setLoading(true);
       setError('');
+      setImageErrors({}); // Reset image errors
 
       const params = {
         page: page,
@@ -59,6 +83,8 @@ const ProductList = ({ userType, user }) => {
       } else {
         throw new Error('Unexpected response format from server');
       }
+
+      console.log('Products loaded:', productsData);
 
       setProducts(productsData);
       setTotalPages(totalPagesData);
@@ -299,9 +325,12 @@ const ProductList = ({ userType, user }) => {
               </div>
             ) : (
               safeProducts.map((product) => {
-                const imageUrl = getImageUrl(product.product_image1);
+                const imageUrl = getImageUrl(product);
                 const description = product.product_short_description || product.product_long_description || 'No description available';
                 const productName = product.product_name || product.name || 'N/A';
+                const hasImageError = imageErrors[product.id];
+
+                console.log('Product:', product.id, 'Image URL:', imageUrl);
 
                 return (
                   <div 
@@ -311,15 +340,13 @@ const ProductList = ({ userType, user }) => {
                   >
                     <div className="product-image-section">
                       <div className="product-image-wrapper">
-                        {imageUrl ? (
+                        {imageUrl && !hasImageError ? (
                           <img 
                             src={imageUrl} 
                             alt={productName}
                             className="product-image"
-                            onError={(e) => {
-                              e.target.style.display = 'none';
-                              e.target.parentElement.innerHTML = '<span style="font-size: 40px; color: white;">📦</span>';
-                            }}
+                            onLoad={() => console.log('Image loaded:', imageUrl)}
+                            onError={() => handleImageError(product.id)}
                           />
                         ) : (
                           <div className="product-image-placeholder">
