@@ -361,9 +361,56 @@ const CustomerProductView = () => {
           </div>
 
           {/* Additional Information */}
-          {(product.additional || product.additional2) && (
+          {(product.additional || product.additional2 || product.harvest_region_new || product.harvest_region_image || product.harvest_region_image_url) && (
             <div className="customer-details-section">
               <h3>Additional Information</h3>
+              
+              {/* Harvest Regions */}
+              {product.harvest_region_new && (() => {
+                try {
+                  const regions = JSON.parse(product.harvest_region_new);
+                  if (regions && regions.length > 0) {
+                    return (
+                      <div className="customer-detail-item full-width">
+                        <label>Harvest Regions</label>
+                        <div className="region-tags">
+                          {regions.map((region, index) => (
+                            <span key={index} className="region-tag">{region}</span>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+                } catch (e) {
+                  return null;
+                }
+              })()}
+              
+              {/* Harvest Region Map Image */}
+              {(product.harvest_region_image_url || product.harvest_region_image) && (
+                <div className="customer-detail-item full-width harvest-map-section">
+                  <label>Interactive India Harvest Regions Map</label>
+                  <div className="harvest-map-container">
+                    <img
+                      src={getImageUrl(product.harvest_region_image_url || product.harvest_region_image)}
+                      alt="Harvest Region Map"
+                      className="harvest-map-image"
+                      onClick={() => openImageModal(getImageUrl(product.harvest_region_image_url || product.harvest_region_image))}
+                      onError={(e) => {
+                        console.error('Harvest region image failed to load');
+                        console.error('Attempted URL:', e.target.src);
+                        e.target.style.display = 'none';
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'image-error-msg';
+                        errorDiv.textContent = 'Failed to load harvest region map';
+                        e.target.parentNode.appendChild(errorDiv);
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+              
+              {/* Other Additional Info */}
               <div className="customer-details-grid">
                 {product.additional && (
                   <div className="customer-detail-item">

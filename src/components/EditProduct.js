@@ -48,22 +48,26 @@ const EditProduct = () => {
 
   const [images, setImages] = useState({
     image1: null,
-    image2: null
+    image2: null,
+    harvest_region_image: null
   });
 
   const [imagePreviews, setImagePreviews] = useState({
     image1: null,
-    image2: null
+    image2: null,
+    harvest_region_image: null
   });
 
   const [existingImages, setExistingImages] = useState({
     image1: null,
-    image2: null
+    image2: null,
+    harvest_region_image: null
   });
 
   const [imageLoadStates, setImageLoadStates] = useState({
     image1: 'loading',
-    image2: 'loading'
+    image2: 'loading',
+    harvest_region_image: 'loading'
   });
 
   const [errors, setErrors] = useState({});
@@ -244,10 +248,12 @@ const EditProduct = () => {
         // Set existing images
         const image1Url = product.image1_url || product.product_image1 || null;
         const image2Url = product.image2_url || product.product_image2 || null;
+        const harvestRegionImageUrl = product.harvest_region_image_url || product.harvest_region_image || null;
         
         setExistingImages({
           image1: image1Url,
-          image2: image2Url
+          image2: image2Url,
+          harvest_region_image: harvestRegionImageUrl
         });
         
         if (image1Url) {
@@ -255,6 +261,9 @@ const EditProduct = () => {
         }
         if (image2Url) {
           setImagePreviews(prev => ({ ...prev, image2: image2Url }));
+        }
+        if (harvestRegionImageUrl) {
+          setImagePreviews(prev => ({ ...prev, harvest_region_image: harvestRegionImageUrl }));
         }
       }
     } catch (error) {
@@ -419,6 +428,9 @@ const EditProduct = () => {
       }
       if (images.image2) {
         submitData.append('image2', images.image2);
+      }
+      if (images.harvest_region_image) {
+        submitData.append('harvest_region_image', images.harvest_region_image);
       }
 
       const response = await apiService.updateProductWithImages(productId, submitData);
@@ -757,6 +769,58 @@ const EditProduct = () => {
                   </label>
                 ))}
               </div>
+            </div>
+          </div>
+
+          {/* Harvest Region Image */}
+          <div className="form-group">
+            <label>Harvest Region Map Image</label>
+            <div className="image-upload-container">
+              <input
+                type="file"
+                id="harvest_region_image_edit"
+                accept="image/jpeg,image/jpg,image/png"
+                onChange={(e) => handleImageChange(e, 'harvest_region_image')}
+                className="file-input"
+                disabled={saving}
+              />
+              <label htmlFor="harvest_region_image_edit" className="upload-btn">
+                {imagePreviews.harvest_region_image ? (
+                  <div className="image-preview">
+                    <img 
+                      src={imagePreviews.harvest_region_image} 
+                      alt="Harvest Region Map Preview"
+                      onLoad={() => handleImageLoad('harvest_region_image')}
+                      onError={() => handleImageError('harvest_region_image')}
+                      style={{ 
+                        opacity: imageLoadStates.harvest_region_image === 'loaded' ? 1 : 0.7,
+                        filter: imageLoadStates.harvest_region_image === 'error' ? 'grayscale(100%)' : 'none'
+                      }}
+                    />
+                    <div className="image-overlay">
+                      <span>📁 Change Image</span>
+                      {imageLoadStates.harvest_region_image === 'loading' && <div className="image-loading">Loading...</div>}
+                      {imageLoadStates.harvest_region_image === 'error' && <div className="image-error">⚠️ Load Error</div>}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="upload-placeholder">
+                    <span className="upload-icon">🗺️</span>
+                    <span>Upload Harvest Region Map (JPEG, PNG)</span>
+                    <small>Maximum file size: 5MB</small>
+                  </div>
+                )}
+              </label>
+              {imagePreviews.harvest_region_image && (
+                <button
+                  type="button"
+                  onClick={() => removeImage('harvest_region_image')}
+                  className="remove-image-btn"
+                  disabled={saving}
+                >
+                  ✕ Remove
+                </button>
+              )}
             </div>
           </div>
         </div>

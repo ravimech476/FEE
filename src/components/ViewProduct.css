@@ -478,8 +478,202 @@
   padding: 0;
 }
 
+.uploaded-harvest-map-container {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 3px solid #e0e0e0;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.uploaded-harvest-map-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  max-height: 700px;
+  object-fit: contain;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.uploaded-harvest-map-image:hover {
+  transform: scale(1.01);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.harvest-map-footer {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid #f0f0f0;
+  text-align: center;
+}
+
+.harvest-map-note {
+  color: #667eea;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.harvest-regions-display {
+  margin-top: 24px;
+  padding: 24px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  border: 2px solid #dee2e6;
+}
+
+.harvest-regions-display h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 16px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.regions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.region-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.region-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+}
+
+.no-harvest-map-placeholder {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 3px dashed #dee2e6;
+  border-radius: 16px;
+  padding: 60px 30px;
+  text-align: center;
+  color: #6c757d;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.placeholder-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.6;
+}
+
+.no-harvest-map-placeholder p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: #495057;
+}
+
+.no-harvest-map-placeholder small {
+  font-size: 0.9rem;
+  color: #868e96;
+  display: block;
+  margin-top: 8px;
+}
+
+.placeholder-regions {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px dashed #dee2e6;
+}
+
+.placeholder-regions small {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 12px;
+}
+
+.placeholder-regions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.placeholder-region-tag {
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  color: #1565c0;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid #90caf9;
+}
+
+.harvest-image-error {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  color: #856404;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.harvest-image-error p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.harvest-image-error small {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
 @media (max-width: 768px) {
   .harvest-regions-map-section {
     margin-top: 1rem;
+  }
+  
+  .uploaded-harvest-map-container {
+    padding: 20px;
+  }
+  
+  .uploaded-harvest-map-image {
+    max-height: 400px;
+  }
+  
+  .harvest-regions-display {
+    padding: 16px;
+  }
+  
+  .harvest-regions-display h4 {
+    font-size: 0.95rem;
+  }
+  
+  .region-badge {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+  
+  .no-harvest-map-placeholder {
+    padding: 40px 20px;
+  }
+  
+  .placeholder-icon {
+    font-size: 3rem;
   }
 }

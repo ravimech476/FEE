@@ -346,6 +346,78 @@
   border: 1px solid #90caf9;
 }
 
+/* Harvest Region Map */
+.harvest-region-map {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 2px solid #e9ecef;
+}
+
+.harvest-region-map label {
+  display: block;
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.region-map-container {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e9ecef;
+  overflow: hidden;
+}
+
+.region-map-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  max-height: 500px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.region-map-image:hover {
+  transform: scale(1.02);
+  cursor: zoom-in;
+}
+
+.region-map-placeholder {
+  background: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  border-radius: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  color: #6c757d;
+}
+
+.region-map-placeholder p {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.region-map-placeholder small {
+  font-size: 0.85rem;
+  color: #868e96;
+}
+
+.image-error-message {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  color: #856404;
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+
 .month-tag {
   background: linear-gradient(135deg, #f3e5f5, #e1bee7);
   color: #7b1fa2;

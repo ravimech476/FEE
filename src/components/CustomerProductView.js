@@ -27,6 +27,8 @@ const CustomerProductView = () => {
       
       const response = await apiService.getProductById(productId);
       
+      console.log('API Response:', response); // Debug log
+      
       let productData = null;
       
       if (response) {
@@ -40,6 +42,10 @@ const CustomerProductView = () => {
           throw new Error('Unexpected response format from server');
         }
       }
+      
+      console.log('Product Data:', productData); // Debug log
+      console.log('Harvest Region Image:', productData?.harvest_region_image); // Debug log
+      console.log('Harvest Region Image URL:', productData?.harvest_region_image_url); // Debug log
       
       if (productData) {
         // Only show active products to customers
@@ -350,6 +356,37 @@ const CustomerProductView = () => {
                     <div className="detail-item">
                       <label>Availability:</label>
                       <span>{product.production_availability}</span>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Harvest Region Image */}
+                <div className="harvest-region-map">
+                  <label>Interactive India Harvest Regions Map:</label>
+                  {(product.harvest_region_image_url || product.harvest_region_image) ? (
+                    <div className="region-map-container">
+                      <img
+                        src={getImageUrl(product.harvest_region_image_url || product.harvest_region_image)}
+                        alt="Harvest Region Map"
+                        className="region-map-image"
+                        onClick={() => setSelectedImage(getImageUrl(product.harvest_region_image_url || product.harvest_region_image))}
+                        onLoad={() => console.log('Harvest region image loaded successfully')}
+                        onError={(e) => {
+                          console.error('Harvest region image failed to load');
+                          console.error('Attempted URL:', e.target.src);
+                          e.target.style.display = 'none';
+                          // Show error message
+                          const errorDiv = document.createElement('div');
+                          errorDiv.className = 'image-error-message';
+                          errorDiv.textContent = 'Failed to load harvest region map image';
+                          e.target.parentNode.appendChild(errorDiv);
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="region-map-placeholder">
+                      <p>No harvest region map image uploaded for this product.</p>
+                      <small>Harvest regions: {harvestRegions.join(', ') || 'None selected'}</small>
                     </div>
                   )}
                 </div>

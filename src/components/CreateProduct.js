@@ -39,12 +39,14 @@ const CreateProduct = () => {
 
   const [images, setImages] = useState({
     image1: null,
-    image2: null
+    image2: null,
+    harvest_region_image: null
   });
 
   const [imagePreviews, setImagePreviews] = useState({
     image1: null,
-    image2: null
+    image2: null,
+    harvest_region_image: null
   });
 
   const [errors, setErrors] = useState({});
@@ -291,6 +293,9 @@ const CreateProduct = () => {
       if (images.image2) {
         submitData.append('image2', images.image2);
       }
+      if (images.harvest_region_image) {
+        submitData.append('harvest_region_image', images.harvest_region_image);
+      }
 
       const response = await apiService.createProductWithImages(submitData);
       
@@ -335,11 +340,13 @@ const CreateProduct = () => {
     });
     setImages({
       image1: null,
-      image2: null
+      image2: null,
+      harvest_region_image: null
     });
     setImagePreviews({
       image1: null,
-      image2: null
+      image2: null,
+      harvest_region_image: null
     });
     setErrors({});
     setError(null);
@@ -494,6 +501,49 @@ const CreateProduct = () => {
                     </label>
                   ))}
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Harvest Region Image */}
+          <div className="form-row">
+            <div className="form-group full-width">
+              <label>Harvest Region Map Image</label>
+              <div className="image-upload-container">
+                <input
+                  type="file"
+                  id="harvest_region_image"
+                  accept="image/jpeg,image/jpg,image/png"
+                  onChange={(e) => handleImageChange(e, 'harvest_region_image')}
+                  className="file-input"
+                  disabled={loading}
+                />
+                <label htmlFor="harvest_region_image" className="upload-btn">
+                  {imagePreviews.harvest_region_image ? (
+                    <div className="image-preview">
+                      <img src={imagePreviews.harvest_region_image} alt="Harvest Region Preview" />
+                      <div className="image-overlay">
+                        <span>📁 Change Image</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="upload-placeholder">
+                      <span className="upload-icon">🗺️</span>
+                      <span>Upload Harvest Region Map (JPEG, PNG)</span>
+                      <small>Maximum file size: 5MB</small>
+                    </div>
+                  )}
+                </label>
+                {imagePreviews.harvest_region_image && (
+                  <button
+                    type="button"
+                    onClick={() => removeImage('harvest_region_image')}
+                    className="remove-image-btn"
+                    disabled={loading}
+                  >
+                    ✕ Remove
+                  </button>
+                )}
               </div>
             </div>
           </div>

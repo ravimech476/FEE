@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ViewProduct.css';
 import apiService from '../services/apiService';
-import IndiaHarvestMapComplete from './IndiaHarvestMapComplete';
 
 const ViewProduct = ({ userType, user }) => {
   const { id: productId } = useParams();
@@ -353,11 +352,57 @@ const ViewProduct = ({ userType, user }) => {
 
         {/* Interactive Harvest Regions Map */}
         <div className="harvest-regions-map-section">
-          <IndiaHarvestMapComplete 
-            harvestRegions={harvestRegions.length > 0 ? harvestRegions : [
-              'Tamil Nadu', 'Karnataka', 'Andhra Pradesh', 'Kerala', 'Telangana'
-            ]} 
-          />
+          <h3 style={{textAlign: 'center', marginBottom: '20px', color: '#2c3e50'}}>Interactive India Harvest Regions Map</h3>
+          {(product.harvest_region_image_url || product.harvest_region_image) ? (
+            <div className="uploaded-harvest-map-container">
+              <img
+                src={getImageUrl(product.harvest_region_image_url || product.harvest_region_image)}
+                alt="Harvest Region Map"
+                className="uploaded-harvest-map-image"
+                onClick={() => setSelectedImage(getImageUrl(product.harvest_region_image_url || product.harvest_region_image))}
+                onLoad={() => console.log('Harvest region image loaded successfully')}
+                onError={(e) => {
+                  console.error('Harvest region image failed to load');
+                  console.error('Attempted URL:', e.target.src);
+                  e.target.style.display = 'none';
+                  const errorDiv = document.createElement('div');
+                  errorDiv.className = 'harvest-image-error';
+                  errorDiv.innerHTML = '<p>❌ Failed to load harvest region map image</p><small>The uploaded image could not be displayed.</small>';
+                  e.target.parentNode.appendChild(errorDiv);
+                }}
+              />
+              <div className="harvest-map-footer">
+                <p className="harvest-map-note">📍 Click image to enlarge</p>
+              </div>
+              {harvestRegions.length > 0 && (
+                <div className="harvest-regions-display">
+                  <h4>Harvest Regions ({harvestRegions.length} states):</h4>
+                  <div className="regions-list">
+                    {harvestRegions.map((region, index) => (
+                      <span key={index} className="region-badge">{region}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="no-harvest-map-placeholder">
+              <div className="placeholder-icon">🗺️</div>
+              <p>No harvest region map image uploaded for this product</p>
+              {harvestRegions.length > 0 ? (
+                <div className="placeholder-regions">
+                  <small>Harvest Regions ({harvestRegions.length} states):</small>
+                  <div className="placeholder-regions-list">
+                    {harvestRegions.map((region, index) => (
+                      <span key={index} className="placeholder-region-tag">{region}</span>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <small>No harvest regions specified</small>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
