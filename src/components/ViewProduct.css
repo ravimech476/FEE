@@ -677,3 +677,335 @@
     font-size: 3rem;
   }
 }
+
+/* ========================================
+   ASK OUR EXPERTS DRAWER STYLES
+======================================== */
+
+/* Ask Experts Button (Green) - Top Left */
+.ask-experts-btn {
+  background: linear-gradient(135deg, #6B8E23, #556B2F);
+  color: white;
+  border: 2px solid #4A7023;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(107, 142, 35, 0.3);
+  font-family: Arial, sans-serif;
+  white-space: nowrap;
+}
+
+.ask-experts-btn:hover {
+  background: linear-gradient(135deg, #556B2F, #3d5221);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(107, 142, 35, 0.4);
+}
+
+.ask-experts-btn:active {
+  transform: translateY(0);
+}
+
+/* Drawer Backdrop */
+.drawer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Expert Drawer - Slides from Right */
+.expert-drawer {
+  position: fixed;
+  top: 0;
+  right: -450px;
+  width: 450px;
+  height: 100vh;
+  background: white;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.expert-drawer.open {
+  right: 0;
+}
+
+/* Drawer Header */
+.drawer-header {
+  background: linear-gradient(135deg, #6B8E23, #556B2F);
+  color: white;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid #4A7023;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.drawer-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-family: Arial, sans-serif;
+}
+
+.drawer-close-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.drawer-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+/* Drawer Content */
+.drawer-content {
+  padding: 2rem 1.5rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Drawer Intro */
+.drawer-intro {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-left: 4px solid #6B8E23;
+  border-radius: 4px;
+}
+
+.drawer-intro p {
+  margin: 0;
+  font-size: 1rem;
+  color: #495057;
+  line-height: 1.6;
+}
+
+/* Expert Email Section */
+.expert-email-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.expert-email-section:hover {
+  border-color: #6B8E23;
+  box-shadow: 0 4px 12px rgba(107, 142, 35, 0.1);
+}
+
+.expert-email-section h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.expert-email-link {
+  display: inline-block;
+  color: #007bff;
+  font-size: 1.05rem;
+  text-decoration: none;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  word-break: break-all;
+}
+
+.expert-email-link:hover {
+  color: #0056b3;
+  border-bottom-color: #0056b3;
+}
+
+/* Social Media Section */
+.social-media-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+}
+
+.social-media-section h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.social-media-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.social-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.social-icon-link:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  border-color: currentColor;
+}
+
+.social-icon-link i {
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.social-icon-link:hover i {
+  transform: scale(1.2);
+}
+
+/* Drawer Footer */
+.drawer-footer {
+  margin-top: auto;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-top: 2px solid #e9ecef;
+  border-radius: 8px;
+}
+
+.drawer-footer p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #6c757d;
+  text-align: center;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* Drawer Loading State */
+.drawer-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  min-height: 300px;
+}
+
+.drawer-loading .loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #6B8E23;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.drawer-loading p {
+  color: #6c757d;
+  font-size: 0.95rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design for Drawer */
+@media (max-width: 768px) {
+  .expert-drawer {
+    right: -100%;
+    width: 100%;
+  }
+  
+  .expert-drawer.open {
+    right: 0;
+  }
+  
+  .drawer-header h2 {
+    font-size: 1.2rem;
+  }
+  
+  .drawer-content {
+    padding: 1.5rem 1rem;
+  }
+  
+  .social-icon-link {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .social-icon-link i {
+    font-size: 1.3rem;
+  }
+  
+  .ask-experts-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .drawer-header {
+    padding: 1rem;
+  }
+  
+  .drawer-header h2 {
+    font-size: 1rem;
+  }
+  
+  .drawer-close-btn {
+    font-size: 1.5rem;
+    width: 30px;
+    height: 30px;
+  }
+  
+  .expert-email-section,
+  .social-media-section {
+    padding: 1rem;
+  }
+  
+  .ask-experts-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+  }
+}

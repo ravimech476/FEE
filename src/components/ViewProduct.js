@@ -14,10 +14,71 @@ const ViewProduct = ({ userType, user }) => {
     image1: 'loading',
     image2: 'loading'
   });
+  
+  // Expert Drawer State
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [expertSettings, setExpertSettings] = useState({
+    email: '',
+    socialMedia: []
+  });
+  const [loadingExpert, setLoadingExpert] = useState(false);
 
   useEffect(() => {
     fetchProduct();
   }, [productId]);
+
+  // Fetch expert settings when drawer opens
+  useEffect(() => {
+    if (isDrawerOpen && userType === 'customer') {
+      fetchExpertSettings();
+    }
+  }, [isDrawerOpen, userType]);
+
+  const fetchExpertSettings = async () => {
+    try {
+      setLoadingExpert(true);
+      
+      // Fetch expert email settings
+      const expertData = await apiService.getExpertSettings();
+      
+      // Fetch social media links
+      const socialMediaData = await apiService.getSocialMediaLinks();
+      
+      setExpertSettings({
+        email: expertData.email || '',
+        socialMedia: socialMediaData.data || []
+      });
+    } catch (error) {
+      console.error('Failed to fetch expert settings:', error);
+    } finally {
+      setLoadingExpert(false);
+    }
+  };
+
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const getSocialMediaColor = (iconClass) => {
+    const colorMap = {
+      'fab fa-facebook-f': '#1877f2',
+      'fab fa-twitter': '#1da1f2',
+      'fab fa-instagram': '#e4405f',
+      'fab fa-linkedin-in': '#0077b5',
+      'fab fa-youtube': '#ff0000',
+      'fab fa-whatsapp': '#25d366',
+      'fab fa-telegram-plane': '#0088cc',
+      'fab fa-tiktok': '#000000',
+      'fab fa-pinterest-p': '#bd081c',
+      'fab fa-snapchat-ghost': '#fffc00',
+      'fas fa-globe': '#6c757d',
+      'fab fa-discord': '#7289da',
+      'fab fa-reddit-alien': '#ff4500',
+      'fab fa-twitch': '#9146ff',
+      'fas fa-link': '#6c757d'
+    };
+    return colorMap[iconClass] || '#6c757d';
+  };
 
   const fetchProduct = async () => {
     try {
@@ -175,14 +236,25 @@ const ViewProduct = ({ userType, user }) => {
     <div className="view-product">
       <div className="page-header">
         <div className="header-content">
-          <button onClick={handleBack} className="search-btn">
-            {userType === 'customer' ? '← Back to Products' : '← Back to Product List'}
-          </button>
+          {/* Left Side - Ask Our Experts button (only for customers) */}
+          {userType === 'customer' && (
+            <button onClick={toggleDrawer} className="ask-experts-btn">
+              Ask our Experts
+            </button>
+          )}
+          {userType !== 'customer' && <div></div>}
+          
+          {/* Center - Title */}
           <div className="header-info" style={{textAlign: 'center', flex: 1}}>
             <h1>{userType === 'customer' ? 'Product Catalog' : 'Product Catalog'}</h1>
-            
           </div>
-          {userType !== 'customer' && (
+          
+          {/* Right Side - Back or Edit button */}
+          {userType === 'customer' ? (
+            <button onClick={handleBack} className="search-btn">
+              ← Back to Products
+            </button>
+          ) : (
             <button onClick={handleEdit} className="search-btn" style={{background: '#007bff'}}>
               Edit Product
             </button>
@@ -416,6 +488,77 @@ const ViewProduct = ({ userType, user }) => {
             </button>
           </div>
         </div>
+      )}
+
+      {/* Expert Drawer - Only for Customer */}
+      {userType === 'customer' && (
+        <>
+          {/* Backdrop */}
+          {isDrawerOpen && (
+            <div className="drawer-backdrop" onClick={toggleDrawer}></div>
+          )}
+          
+          {/* Drawer */}
+          <div className={`expert-drawer ${isDrawerOpen ? 'open' : ''}`}>
+            <div className="drawer-header">
+              <h2>Contact Ask Our Experts</h2>
+              <button className="drawer-close-btn" onClick={toggleDrawer}>
+                ✕
+              </button>
+            </div>
+            
+            <div className="drawer-content">
+              {loadingExpert ? (
+                <div className="drawer-loading">
+                  <div className="loading-spinner"></div>
+                  <p>Loading expert information...</p>
+                </div>
+              ) : (
+                <>
+                  <div className="drawer-intro">
+                    <p>For expert guidance, feel free to reach out to our support team</p>
+                  </div>
+
+                  {expertSettings.email && (
+                    <div className="expert-email-section">
+                      <h3>Email</h3>
+                      <a href={`mailto:${expertSettings.email}`} className="expert-email-link">
+                        {expertSettings.email}
+                      </a>
+                    </div>
+                  )}
+
+                  {expertSettings.socialMedia.length > 0 && (
+                    <div className="social-media-section">
+                      <h3>Connect with us</h3>
+                      <div className="social-media-icons">
+                        {expertSettings.socialMedia.map(sm => (
+                          <a
+                            key={sm.id}
+                            href={sm.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="social-icon-link"
+                            title={sm.name}
+                          >
+                            <i 
+                              className={sm.icon} 
+                              style={{ color: getSocialMediaColor(sm.icon) }}
+                            ></i>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="drawer-footer">
+                    <p>Our team is here to help you with any queries or concerns.</p>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
