@@ -354,15 +354,17 @@ const ProductList = ({ userType, user }) => {
                           </div>
                         )}
                       </div>
+                    </div>
+
+                    <div className="product-content-section">
+                      <div className="product-description-section">
+                        <p className="product-description">
+                          {description}
+                        </p>
+                      </div>
                       <div className="product-name">
                         {productName}
                       </div>
-                    </div>
-
-                    <div className="product-description-section">
-                      <p className="product-description">
-                        {description}
-                      </p>
                     </div>
                   </div>
                 );
