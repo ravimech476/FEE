@@ -11,7 +11,7 @@
 
 .main-content {
   flex: 1;
-  padding: var(--spacing-lg);
+  /* padding: var(--spacing-lg); */
   background-color: var(--color-background-default);
   overflow-y: auto;
 }

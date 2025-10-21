@@ -111,14 +111,16 @@
 
 .summary-grid-dash {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  grid-template-columns: repeat(2, 180px);
+  gap: 50px;
+  justify-content: center;
 }
 
 .summary-card-dash {
   border-radius: 6px;
   padding: 16px;
-  min-height: 100px;
+  width: 180px;
+  height: 180px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -133,18 +135,19 @@
 }
 
 .card-title-dash {
-  font-size: 12px;
-  font-weight: 500;
-  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
 .card-number-dash {
-  font-size: 36px;
+  font-size: 48px;
   font-weight: 700;
   line-height: 1;
   flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 /* Card Colors - Exact from Figma with Hover Effects */
@@ -169,7 +172,6 @@
 }
 
 .performance-card {
-  grid-column: 1 / -1;
   background-color: #33691e;
   color: #ffffff;
 }
@@ -192,8 +194,11 @@
 /* Sales Performance Metrics */
 .performance-metrics {
   display: flex;
-  gap: 30px;
-  margin-top: 10px;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+  flex: 1;
+  justify-content: center;
 }
 
 .metric-box {
@@ -203,25 +208,26 @@
 }
 
 .metric-name {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.5px;
   opacity: 0.9;
 }
 
 .metric-val {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 700;
 }
 
 /* MOM Attachment Link */
 .mom-attachment-link {
-  font-size: 10px;
+  font-size: 11px;
   color: #2c3e50;
   text-decoration: underline;
-  margin-top: 6px;
+  margin-top: auto;
   display: block;
   transition: color 0.2s ease;
+  align-self: flex-start;
 }
 
 .mom-attachment-link:hover {
@@ -708,15 +714,13 @@
   }
   
   .summary-grid-dash {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 150px);
+    justify-content: center;
   }
   
-  .performance-card {
-    grid-column: 1;
-  }
-  
-  .card-number-dash {
-    font-size: 28px;
+  .summary-card-dash {
+    width: 150px;
+    height: 150px;
   }
   
   .product-card-box {
@@ -731,11 +735,6 @@
   .product-num {
     position: static;
     margin-bottom: 8px;
-  }
-  
-  .performance-metrics {
-    flex-direction: column;
-    gap: 12px;
   }
   
   .summary-box,
@@ -755,12 +754,26 @@
     font-size: 13px;
   }
   
+  .summary-grid-dash {
+    grid-template-columns: repeat(2, 140px);
+  }
+  
+  .summary-card-dash {
+    width: 140px;
+    height: 140px;
+    padding: 12px;
+  }
+  
   .card-number-dash {
     font-size: 24px;
   }
   
   .metric-val {
-    font-size: 16px;
+    font-size: 18px;
+  }
+  
+  .metric-name {
+    font-size: 10px;
   }
   
   .section-header {
