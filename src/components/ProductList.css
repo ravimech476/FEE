@@ -1,4 +1,4 @@
-/* Product List - Match User Management Theme */
+/* Product List Container */
 .product-list-container {
   padding: 20px;
   max-width: 1400px;
@@ -6,62 +6,112 @@
   background: transparent;
 }
 
-/* Header - Match User Management */
+.product-list-container.customer-view {
+  max-width: 1400px;
+}
+
+/* ============================================
+   CUSTOMER VIEW - HEADER WITH SEARCH IN SAME ROW
+   ============================================ */
+.page-header-with-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  gap: 30px;
+  flex-wrap: nowrap;
+}
+
+.page-header-with-search .header-left h1 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #5856d6;
+  margin: 0;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+.page-header-with-search .header-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+/* Customer - Search Filters Inline */
+.search-filters-inline {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.filter-group-inline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.filter-group-inline:first-child {
+  flex: 1;
+  max-width: 400px;
+}
+
+.filter-group-inline label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  white-space: nowrap;
+  margin: 0;
+}
+
+/* Customer - Buttons */
+.clear-btn {
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  background-color: #6b7280;
+  color: white;
+  height: 42px;
+}
+
+.clear-btn:hover {
+  background-color: #4b5563;
+}
+
+/* ============================================
+   ADMIN VIEW - ORIGINAL HEADER (SEPARATE ROWS)
+   ============================================ */
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
   background: transparent !important;
-  background-color: transparent !important;
   border: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
   padding: 0 !important;
 }
 
-.page-header .header-content {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.page-title {
+.page-header h1 {
   font-size: 1.5rem;
   font-weight: 600;
   color: #333 !important;
   margin: 0;
-  background: transparent !important;
-  background-color: transparent !important;
-  padding: 0 !important;
-  border: none !important;
 }
 
-.page-info {
-  display: flex;
-  align-items: center;
-}
-
-.total-count {
-  background: #e3f2fd;
-  color: #1976d2;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* Main Content Container */
-.main-content {
-  width: 100%;
-  margin: 0;
-  background: transparent;
-}
-
-/* Search Section - Match User Management */
+/* Admin - Search Section */
 .search-section {
   display: flex;
   gap: 15px;
@@ -69,13 +119,6 @@
   align-items: center;
   background: transparent;
   padding: 0;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.search-section h2 {
-  display: none;
 }
 
 .search-filters {
@@ -97,18 +140,47 @@
   margin-bottom: 8px;
 }
 
-.search-input {
-  min-width: 250px;
+/* Main Content */
+.main-content {
+  width: 100%;
+  margin: 0;
+  background: transparent;
 }
 
-.search-input,
+/* ============================================
+   SHARED INPUT STYLES
+   ============================================ */
+.search-input {
+  min-width: 100%;
+  padding: 10px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 25px;
+  font-size: 14px;
+  background-color: white;
+  height: 42px;
+}
+
 .status-select,
 .date-input {
-  padding: 10px 12px;
+  padding: 10px 16px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
   font-size: 14px;
   background-color: white;
+  min-width: 160px;
+  height: 42px;
+}
+
+.admin-view .search-input {
+  min-width: 250px;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+
+.admin-view .status-select,
+.admin-view .date-input {
+  padding: 10px 12px;
+  min-width: 150px;
 }
 
 .search-input:focus,
@@ -119,10 +191,9 @@
   box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
 }
 
-.status-select {
-  min-width: 150px;
-}
-
+/* ============================================
+   BUTTON STYLES
+   ============================================ */
 .search-btn {
   background-color: #ff6b35;
   color: white;
@@ -132,8 +203,9 @@
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  height: fit-content;
+  height: 42px;
   transition: background 0.2s ease;
+  white-space: nowrap;
 }
 
 .search-btn:hover {
@@ -143,20 +215,6 @@
 .search-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-.clear-search-btn {
-  background: none;
-  border: none;
-  color: #ef4444;
-  font-size: 14px;
-  cursor: pointer;
-  text-decoration: underline;
-  margin-left: 10px;
-}
-
-.clear-search-btn:hover {
-  color: #dc2626;
 }
 
 /* Error Message */
@@ -176,7 +234,103 @@
   font-size: 16px;
 }
 
-/* Products Table - Match User Management */
+/* ============================================
+   CUSTOMER VIEW - CARD LAYOUT
+   ============================================ */
+.products-card-list {
+  background-color: white;
+  border-radius: 0;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.product-card {
+  display: flex;
+  align-items: flex-start;
+  padding: 18px 20px;
+  border-bottom: 2px solid #e8e8e8;
+  background: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+  min-height: 145px;
+}
+
+.product-card:last-child {
+  border-bottom: none;
+}
+
+.product-card:hover {
+  background-color: #f9f9f9;
+}
+
+/* IMAGE SECTION */
+.product-image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 25px;
+  flex-shrink: 0;
+}
+
+.product-image-wrapper {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  margin-bottom: 12px;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: white;
+}
+
+.product-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #333333;
+  text-align: center;
+  max-width: 100px;
+  word-wrap: break-word;
+  line-height: 1.3;
+}
+
+/* DESCRIPTION SECTION */
+.product-description-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.product-description {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #666666;
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+/* ============================================
+   ADMIN VIEW - TABLE LAYOUT
+   ============================================ */
 .products-table {
   background-color: white;
   border-radius: 10px;
@@ -185,16 +339,14 @@
   margin-bottom: 20px;
 }
 
-/* Table Header */
 .table-header {
   background-color: #f8f9fa;
   border-bottom: 1px solid #e5e7eb;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 100px;
+  grid-template-columns: 1fr 1fr 100px;
   gap: 20px;
   padding: 15px 20px;
   align-items: center;
-  height: auto;
   min-height: 50px;
 }
 
@@ -208,37 +360,10 @@
 }
 
 .actions-header {
-  display: flex;
   justify-content: center;
-  align-items: center;
   text-align: center;
 }
 
-.add-product-btn {
-  background-color: #ff6b35;
-  color: white;
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 1;
-  transition: background 0.2s ease;
-}
-
-.add-product-btn:hover {
-  background-color: #e55a2b;
-}
-
-.plus-icon {
-  font-weight: bold;
-}
-
-/* Table Body */
 .table-body {
   display: flex;
   flex-direction: column;
@@ -246,7 +371,7 @@
 
 .table-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 100px;
+  grid-template-columns: 1fr 1fr 100px;
   gap: 20px;
   padding: 15px 20px;
   border-bottom: 1px solid #f3f4f6;
@@ -273,40 +398,13 @@
   color: #1f2937;
 }
 
-/* Status Display */
-.status-display {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-  flex-shrink: 0;
-}
-
-.status-text {
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
-  color: #333;
-}
-
-/* Actions Column */
 .actions-column {
-  display: flex;
   justify-content: center;
-  align-items: center;
   text-align: center;
 }
 
 .action-buttons {
   display: flex;
-  flex-direction: row;
   gap: 8px;
   align-items: center;
   justify-content: center;
@@ -348,7 +446,9 @@
   transform: scale(1.1);
 }
 
-/* Loading States */
+/* ============================================
+   LOADING & EMPTY STATES
+   ============================================ */
 .loading-row {
   display: flex;
   align-items: center;
@@ -405,15 +505,15 @@
   color: #2563eb;
 }
 
-/* Pagination - Match User Management */
+/* ============================================
+   PAGINATION
+   ============================================ */
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
   margin-top: 20px;
-  flex-direction: row !important;
-  flex-wrap: nowrap;
   width: 100%;
   background: transparent;
   padding: 15px 0;
@@ -475,21 +575,110 @@
   font-weight: 500;
 }
 
-/* Responsive Design */
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 1200px) {
+  .page-header-with-search {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .page-header-with-search .header-right {
+    width: 100%;
+  }
+
+  .search-filters-inline {
+    flex-wrap: wrap;
+  }
+
+  .filter-group-inline:first-child {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .product-list-container {
     padding: 15px;
   }
 
-  .search-filters {
+  .page-header-with-search .header-left h1 {
+    font-size: 18px;
+  }
+
+  .page-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .page-header {
     flex-direction: column;
+    align-items: flex-start;
     gap: 15px;
   }
 
-  .search-input {
+  .search-section {
+    width: 100%;
+  }
+
+  .search-filters,
+  .search-filters-inline {
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .filter-group,
+  .filter-group-inline {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter-group-inline:first-child {
+    max-width: 100%;
+  }
+
+  .search-input,
+  .status-select,
+  .date-input {
+    width: 100%;
     min-width: auto;
   }
-  
+
+  .search-btn,
+  .clear-btn {
+    width: 100%;
+  }
+
+  .product-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 15px;
+  }
+
+  .product-image-section {
+    flex-direction: row;
+    margin-right: 0;
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  .product-image-wrapper {
+    margin-bottom: 0;
+    margin-right: 15px;
+  }
+
+  .product-name {
+    text-align: left;
+    max-width: none;
+    flex: 1;
+  }
+
+  .product-description-section {
+    width: 100%;
+  }
+
   .table-header,
   .table-row {
     grid-template-columns: 1fr;
@@ -502,7 +691,6 @@
   }
   
   .action-buttons {
-    flex-direction: row;
     justify-content: flex-start;
   }
 
@@ -514,5 +702,34 @@
     color: #374151;
     font-size: 0.7rem;
     text-transform: uppercase;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .pagination-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header-with-search .header-left h1 {
+    font-size: 16px;
+  }
+
+  .product-image-wrapper {
+    width: 80px;
+    height: 80px;
+  }
+
+  .product-name {
+    font-size: 15px;
+  }
+
+  .product-description {
+    font-size: 14px;
   }
 }

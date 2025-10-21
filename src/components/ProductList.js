@@ -18,6 +18,12 @@ const ProductList = ({ userType, user }) => {
 
   const itemsPerPage = 10;
 
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    if (imagePath.startsWith('http')) return imagePath;
+    return `http://localhost:5000${imagePath}`;
+  };
+
   const fetchProducts = async (page = 1, searchParams = {}) => {
     try {
       setLoading(true);
@@ -28,7 +34,6 @@ const ProductList = ({ userType, user }) => {
         limit: itemsPerPage
       };
 
-      // Add search parameters if they exist
       if (searchText.trim()) {
         params.search = searchText.trim();
       }
@@ -39,12 +44,10 @@ const ProductList = ({ userType, user }) => {
         params.date = dateFilter.trim();
       }
 
-      // Override with any passed search params
       Object.assign(params, searchParams);
 
       const response = await apiService.getProducts(params);
 
-      // Handle API response format
       let productsData = [];
       let totalPagesData = 1;
       let totalCountData = 0;
@@ -73,7 +76,6 @@ const ProductList = ({ userType, user }) => {
     }
   };
 
-  // Initial load
   useEffect(() => {
     fetchProducts(1);
   }, []);
@@ -115,10 +117,8 @@ const ProductList = ({ userType, user }) => {
     }
   };
 
-  // Ensure products is always an array
   const safeProducts = Array.isArray(products) ? products : [];
 
-  // Generate page numbers for pagination
   const generatePageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
@@ -152,37 +152,83 @@ const ProductList = ({ userType, user }) => {
   }
 
   return (
-    <div className="product-list-container">
-      {/* Header - Consistent with ViewProduct */}
-      <div className="page-header">
-        <h1>Product Management</h1>
-        {userType !== 'customer' && (
-          <button onClick={handleCreateProduct} className="search-btn">
-            Add New User Product
-          </button>
-        )}
-        {userType === 'customer' && 'Actions'}
+    <div className={`product-list-container ${userType === 'customer' ? 'customer-view' : 'admin-view'}`}>
+      
+      {/* CUSTOMER HEADER - Single Row with Inline Search */}
+      {userType === 'customer' && (
+        <div className="page-header-with-search">
+          <div className="header-left">
+            <h1>Product Catalogue</h1>
+          </div>
 
-      </div>
+          <div className="header-right">
+            <div className="search-filters-inline">
+              <div className="filter-group-inline">
+                <label>Search Products</label>
+                <input
+                  type="text"
+                  placeholder="Search by product number or name"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                  className="search-input"
+                />
+              </div>
 
-      <div className="main-content">
-        {/* Search Section */}
-        <div className="search-section">
-          <h2>Search & Filters</h2>
+              <div className="filter-group-inline">
+                <label>Date Filter</label>
+                <input
+                  type="date"
+                  value={dateFilter}
+                  onChange={(e) => setDateFilter(e.target.value)}
+                  className="date-input"
+                />
+              </div>
 
-          <div className="search-filters">
-            <div className="filter-group">
-              <label>Search Products</label>
-              <input
-                type="text"
-                placeholder="Search by product number or product name"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                className="search-input"
-              />
+              <div className="filter-group-inline">
+                <button
+                  className="search-btn"
+                  onClick={handleSearch}
+                  disabled={isSearching}
+                >
+                  {isSearching ? 'Searching...' : 'Search'}
+                </button>
+              </div>
+
+              <div className="filter-group-inline">
+                <button className="clear-btn" onClick={handleClearSearch}>
+                  Clear
+                </button>
+              </div>
             </div>
-            {userType !== 'customer' && (
+          </div>
+        </div>
+      )}
+
+      {/* ADMIN HEADER - Separate Rows */}
+      {userType !== 'customer' && (
+        <>
+          <div className="page-header">
+            <h1>Product Management</h1>
+            <button onClick={handleCreateProduct} className="search-btn">
+              Add New Product
+            </button>
+          </div>
+
+          <div className="search-section">
+            <div className="search-filters">
+              <div className="filter-group">
+                <label>Search Products</label>
+                <input
+                  type="text"
+                  placeholder="Search by product number or product name"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                  className="search-input"
+                />
+              </div>
+
               <div className="filter-group">
                 <label>Status Filter</label>
                 <select
@@ -195,38 +241,38 @@ const ProductList = ({ userType, user }) => {
                   <option value="inactive">Inactive</option>
                 </select>
               </div>
-            )}
 
+              <div className="filter-group">
+                <label>Date Filter</label>
+                <input
+                  type="date"
+                  value={dateFilter}
+                  onChange={(e) => setDateFilter(e.target.value)}
+                  className="date-input"
+                />
+              </div>
 
-            <div className="filter-group">
-              <label>Date Filter</label>
-              <input
-                type="date"
-                value={dateFilter}
-                onChange={(e) => setDateFilter(e.target.value)}
-                className="date-input"
-              />
-            </div>
-
-            <div className="filter-group">
-              <button
-                className="search-btn"
-                onClick={handleSearch}
-                disabled={isSearching}
-              >
-                {isSearching ? 'Searching...' : 'Search'}
-              </button>
-
-            </div>
-            <div className="filter-group">
-              <button className="search-btn" onClick={handleClearSearch}>
-                Clear
-              </button>
+              <div className="filter-group">
+                <button
+                  className="search-btn"
+                  onClick={handleSearch}
+                  disabled={isSearching}
+                >
+                  {isSearching ? 'Searching...' : 'Search'}
+                </button>
+              </div>
+              
+              <div className="filter-group">
+                <button className="search-btn" onClick={handleClearSearch}>
+                  Clear
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </>
+      )}
 
-        {/* Error Message */}
+      <div className="main-content">
         {error && (
           <div className="error-message">
             <span className="error-icon">⚠️</span>
@@ -234,18 +280,9 @@ const ProductList = ({ userType, user }) => {
           </div>
         )}
 
-        {/* Products Table */}
-        <div className="products-table">
-          {/* Table Headers */}
-          <div className="table-header">
-            <div className="header-column">Product Number</div>
-            <div className="header-column">Product Name</div>
-            {/* <div className="header-column">Status</div> */}
-            <div className="header-column actions-header">Action</div>
-          </div>
-
-          {/* Table Content */}
-          <div className="table-body">
+        {/* CUSTOMER VIEW - Card Layout */}
+        {userType === 'customer' && (
+          <div className="products-card-list">
             {loading && isSearching ? (
               <div className="loading-row">
                 <div className="loading-spinner"></div>
@@ -261,30 +298,87 @@ const ProductList = ({ userType, user }) => {
                 )}
               </div>
             ) : (
-              safeProducts.map((product) => (
-                <div key={product.id} className="table-row">
-                  <div className="data-column" data-label="Product Number:">
-                    <div className="data-value">{product.product_number || 'N/A'}</div>
-                  </div>
-                  <div className="data-column" data-label="Product Name:">
-                    <div className="data-value">{product.product_name || product.name || 'N/A'}</div>
-                  </div>
-                  {/* <div className="data-column" data-label="Status:">
-                    <div className="data-value">
-                      <div className="status-display">
-                        <span
-                          className="status-dot"
-                          style={{
-                            backgroundColor: (product.status || 'active').toLowerCase() === 'active' ? '#228B22' : '#dc2626'
-                          }}
-                        ></span>
-                        <span className="status-text">{(product.status || 'Active').toUpperCase()}</span>
+              safeProducts.map((product) => {
+                const imageUrl = getImageUrl(product.product_image1);
+                const description = product.product_short_description || product.product_long_description || 'No description available';
+                const productName = product.product_name || product.name || 'N/A';
+
+                return (
+                  <div 
+                    key={product.id} 
+                    className="product-card"
+                    onClick={() => handleViewProduct(product.id)}
+                  >
+                    <div className="product-image-section">
+                      <div className="product-image-wrapper">
+                        {imageUrl ? (
+                          <img 
+                            src={imageUrl} 
+                            alt={productName}
+                            className="product-image"
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                              e.target.parentElement.innerHTML = '<span style="font-size: 40px; color: white;">📦</span>';
+                            }}
+                          />
+                        ) : (
+                          <div className="product-image-placeholder">
+                            <span>📦</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="product-name">
+                        {productName}
                       </div>
                     </div>
-                  </div> */}
-                  <div className="data-column actions-column" data-label="Actions:">
-                    <div className="action-buttons">
-                      {userType !== 'customer' && (
+
+                    <div className="product-description-section">
+                      <p className="product-description">
+                        {description}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        )}
+
+        {/* ADMIN VIEW - Table Layout */}
+        {userType !== 'customer' && (
+          <div className="products-table">
+            <div className="table-header">
+              <div className="header-column">Product Number</div>
+              <div className="header-column">Product Name</div>
+              <div className="header-column actions-header">Action</div>
+            </div>
+
+            <div className="table-body">
+              {loading && isSearching ? (
+                <div className="loading-row">
+                  <div className="loading-spinner"></div>
+                  <span>Searching products...</span>
+                </div>
+              ) : !Array.isArray(products) || products.length === 0 ? (
+                <div className="no-data">
+                  {error ? 'Failed to load products' : 'No products found'}
+                  {(searchText || statusFilter || dateFilter) && (
+                    <div className="no-data-suggestion">
+                      Try adjusting your search criteria or <button onClick={handleClearSearch} className="link-btn">clear all filters</button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                safeProducts.map((product) => (
+                  <div key={product.id} className="table-row">
+                    <div className="data-column" data-label="Product Number:">
+                      <div className="data-value">{product.product_number || 'N/A'}</div>
+                    </div>
+                    <div className="data-column" data-label="Product Name:">
+                      <div className="data-value">{product.product_name || product.name || 'N/A'}</div>
+                    </div>
+                    <div className="data-column actions-column" data-label="Actions:">
+                      <div className="action-buttons">
                         <button
                           className="action-btn edit-btn"
                           onClick={() => handleEditProduct(product.id)}
@@ -292,21 +386,21 @@ const ProductList = ({ userType, user }) => {
                         >
                           ✏️
                         </button>
-                      )}
-                      <button
-                        className="action-btn view-btn"
-                        onClick={() => handleViewProduct(product.id)}
-                        title="View Product"
-                      >
-                        👁️
-                      </button>
+                        <button
+                          className="action-btn view-btn"
+                          onClick={() => handleViewProduct(product.id)}
+                          title="View Product"
+                        >
+                          👁️
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
-            )}
+                ))
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Pagination */}
         {totalPages > 1 && (
