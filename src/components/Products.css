@@ -1,0 +1,421 @@
+.jasmine-products-management {
+  padding: 0;
+}
+
+.jasmine-products-header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.jasmine-products-header h1 {
+  color: var(--color-success-main);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  border-bottom: 2px solid var(--color-success-main);
+  padding-bottom: var(--spacing-sm);
+}
+
+/* Search Section */
+.jasmine-search-section {
+  background-color: var(--color-background-paper);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-light);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.jasmine-search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.jasmine-search-header h2 {
+  color: var(--color-text-primary);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.jasmine-clear-search-btn {
+  background: none;
+  border: none;
+  color: var(--color-error-main);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.jasmine-clear-search-btn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.jasmine-search-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: var(--spacing-lg);
+  align-items: end;
+}
+
+.jasmine-search-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.jasmine-search-label {
+  font-weight: 500;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+}
+
+.jasmine-search-input,
+.jasmine-search-select {
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border-medium);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  background-color: var(--color-background-paper);
+  color: var(--color-text-primary);
+  transition: all 0.2s ease-in-out;
+}
+
+.jasmine-search-input:focus,
+.jasmine-search-select:focus {
+  outline: none;
+  border-color: var(--color-primary-main);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.jasmine-search-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+.jasmine-search-btn {
+  background-color: var(--color-primary-main);
+  color: var(--color-primary-contrast);
+  border: none;
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: var(--shadow-sm);
+}
+
+.jasmine-search-btn:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Products Table Section */
+.jasmine-products-table-section {
+  background-color: var(--color-background-paper);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-light);
+  overflow: hidden;
+}
+
+.jasmine-table-header {
+  background-color: var(--color-neutral-gray200);
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.jasmine-table-header-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: var(--spacing-lg);
+  align-items: center;
+  width: 100%;
+}
+
+.jasmine-table-columns {
+  display: contents;
+}
+
+.jasmine-table-columns span {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+}
+
+.jasmine-add-product-btn {
+  background-color: var(--color-primary-main);
+  color: var(--color-primary-contrast);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+}
+
+.jasmine-add-product-btn:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Products Table */
+.jasmine-products-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.jasmine-product-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: var(--spacing-lg);
+  align-items: center;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-light);
+  transition: all 0.2s ease;
+}
+
+.jasmine-product-row:hover {
+  background-color: var(--color-neutral-gray50);
+}
+
+.jasmine-product-row:last-child {
+  border-bottom: none;
+}
+
+.jasmine-product-cell {
+  font-size: 0.875rem;
+}
+
+.jasmine-product-number {
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.jasmine-product-name {
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.jasmine-status-badge {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.jasmine-status-badge.success {
+  background-color: var(--color-success-main);
+  color: var(--color-success-contrast);
+}
+
+.jasmine-status-badge.warning {
+  background-color: var(--color-warning-main);
+  color: var(--color-warning-contrast);
+}
+
+.jasmine-status-badge.secondary {
+  background-color: var(--color-secondary-main);
+  color: var(--color-secondary-contrast);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.status-text {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #333;
+}
+
+.jasmine-product-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  align-items: center;
+}
+
+.jasmine-action-btn {
+  background: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+}
+
+.jasmine-edit-btn:hover {
+  background-color: rgba(37, 99, 235, 0.1);
+}
+
+.jasmine-star-btn:hover {
+  background-color: rgba(245, 158, 11, 0.1);
+}
+
+/* Pagination */
+.jasmine-pagination {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.jasmine-page-btn {
+  background: none;
+  border: 1px solid var(--color-border-medium);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.jasmine-page-btn:hover {
+  border-color: var(--color-primary-main);
+  color: var(--color-primary-main);
+}
+
+.jasmine-page-btn.jasmine-page-active {
+  background-color: var(--color-success-main);
+  border-color: var(--color-success-main);
+  color: var(--color-success-contrast);
+}
+
+/* No Products */
+.jasmine-no-products {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  background-color: var(--color-background-paper);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-light);
+}
+
+.jasmine-no-products-content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.jasmine-no-products-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: var(--spacing-lg);
+}
+
+.jasmine-no-products-content h3 {
+  color: var(--color-text-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+}
+
+.jasmine-no-products-content p {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.jasmine-btn {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: none;
+}
+
+.jasmine-btn-primary {
+  background-color: var(--color-primary-main);
+  color: var(--color-primary-contrast);
+  box-shadow: var(--shadow-sm);
+}
+
+.jasmine-btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+  .jasmine-search-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+  }
+  
+  .jasmine-search-actions {
+    grid-column: span 2;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .jasmine-search-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .jasmine-search-actions {
+    grid-column: span 1;
+  }
+  
+  .jasmine-table-header-content {
+    grid-template-columns: 1fr 1fr auto;
+    gap: var(--spacing-md);
+  }
+  
+  .jasmine-table-header-content span:nth-child(3) {
+    display: none;
+  }
+  
+  .jasmine-product-row {
+    grid-template-columns: 1fr 1fr auto;
+    gap: var(--spacing-md);
+  }
+  
+  .jasmine-product-status {
+    display: none;
+  }
+  
+  .jasmine-pagination {
+    flex-wrap: wrap;
+  }
+}

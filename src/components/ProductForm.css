@@ -1,0 +1,296 @@
+.jasmine-product-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-lg);
+}
+
+.jasmine-product-form-container {
+  background-color: var(--color-background-paper);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.jasmine-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-light);
+  position: sticky;
+  top: 0;
+  background-color: var(--color-background-paper);
+  z-index: 1;
+}
+
+.jasmine-form-header h2 {
+  margin: 0;
+  color: var(--color-success-main);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.jasmine-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jasmine-close-btn:hover {
+  background-color: var(--color-neutral-gray100);
+  color: var(--color-text-primary);
+}
+
+.jasmine-product-form {
+  padding: var(--spacing-lg);
+}
+
+.jasmine-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.jasmine-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+}
+
+.jasmine-form-row:last-of-type {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.jasmine-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.jasmine-form-label {
+  font-weight: 500;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+}
+
+.jasmine-form-input {
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border-medium);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  background-color: var(--color-background-paper);
+  color: var(--color-text-primary);
+  transition: all 0.2s ease-in-out;
+}
+
+.jasmine-form-input:focus {
+  outline: none;
+  border-color: var(--color-primary-main);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.jasmine-form-input.error {
+  border-color: var(--color-error-main);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.jasmine-form-input::placeholder {
+  color: var(--color-text-disabled);
+}
+
+.jasmine-form-textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.jasmine-form-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+.jasmine-file-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+  border: 2px dashed var(--color-border-medium);
+  border-radius: var(--radius-md);
+  background-color: var(--color-neutral-gray50);
+  transition: all 0.2s ease;
+}
+
+.jasmine-file-upload:hover {
+  border-color: var(--color-primary-main);
+  background-color: rgba(255, 107, 53, 0.05);
+}
+
+.jasmine-upload-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.jasmine-upload-btn:hover {
+  color: var(--color-primary-main);
+  background-color: rgba(255, 107, 53, 0.1);
+}
+
+.jasmine-error-message {
+  color: var(--color-error-main);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.jasmine-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.jasmine-btn {
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.jasmine-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.jasmine-btn-primary {
+  background-color: var(--color-primary-main);
+  color: var(--color-primary-contrast);
+  box-shadow: var(--shadow-sm);
+}
+
+.jasmine-btn-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.jasmine-btn-secondary {
+  background-color: var(--color-neutral-gray300);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-medium);
+}
+
+.jasmine-btn-secondary:hover:not(:disabled) {
+  background-color: var(--color-neutral-gray400);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.jasmine-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .jasmine-product-form-overlay {
+    padding: var(--spacing-md);
+  }
+  
+  .jasmine-product-form-container {
+    max-height: 95vh;
+  }
+  
+  .jasmine-form-header {
+    padding: var(--spacing-md);
+  }
+  
+  .jasmine-form-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .jasmine-product-form {
+    padding: var(--spacing-md);
+  }
+  
+  .jasmine-form-row {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+  
+  .jasmine-form-row:last-of-type {
+    grid-template-columns: 1fr;
+  }
+  
+  .jasmine-form-actions {
+    flex-direction: column-reverse;
+    gap: var(--spacing-sm);
+  }
+  
+  .jasmine-btn {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .jasmine-form-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+  
+  .jasmine-close-btn {
+    align-self: flex-end;
+    margin-top: calc(var(--spacing-sm) * -1);
+  }
+}

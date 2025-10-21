@@ -1,0 +1,106 @@
+import React, { useState } from 'react';
+import apiService from '../services/apiService';
+
+const APIResponseDebugger = () => {
+  const [response, setResponse] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const testAPI = async () => {
+    setLoading(true);
+    setError(null);
+    setResponse(null);
+
+    try {
+      console.log('Testing API...');
+      const result = await apiService.getProducts({ page: 1, limit: 5 });
+      console.log('Raw Response:', result);
+      setResponse(result);
+    } catch (err) {
+      console.error('API Error:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div style={{ 
+      padding: '20px', 
+      margin: '20px', 
+      border: '2px solid #ff6b35', 
+      borderRadius: '8px',
+      backgroundColor: '#fff5f0'
+    }}>
+      <h3 style={{ color: '#ff6b35', marginBottom: '15px' }}>API Response Debugger</h3>
+      
+      <button 
+        onClick={testAPI} 
+        disabled={loading}
+        style={{
+          backgroundColor: '#ff6b35',
+          color: 'white',
+          border: 'none',
+          padding: '10px 20px',
+          borderRadius: '4px',
+          cursor: loading ? 'not-allowed' : 'pointer',
+          marginBottom: '15px'
+        }}
+      >
+        {loading ? 'Testing API...' : 'Test Products API'}
+      </button>
+
+      {error && (
+        <div style={{ 
+          color: '#dc2626', 
+          backgroundColor: '#fef2f2',
+          padding: '10px',
+          borderRadius: '4px',
+          marginBottom: '15px',
+          border: '1px solid #fecaca'
+        }}>
+          <strong>Error:</strong> {error}
+        </div>
+      )}
+
+      {response && (
+        <div>
+          <div style={{ marginBottom: '10px' }}>
+            <strong>Response Analysis:</strong>
+          </div>
+          
+          <div style={{ 
+            backgroundColor: '#f8f9fa', 
+            padding: '10px', 
+            borderRadius: '4px',
+            marginBottom: '10px',
+            fontSize: '14px'
+          }}>
+            <div><strong>Type:</strong> {Array.isArray(response) ? 'Array' : typeof response}</div>
+            <div><strong>Keys:</strong> {typeof response === 'object' && response !== null ? Object.keys(response).join(', ') : 'N/A'}</div>
+            {typeof response === 'object' && response !== null && (
+              <div><strong>Array Properties:</strong> {Object.keys(response).filter(key => Array.isArray(response[key])).join(', ') || 'None found'}</div>
+            )}
+          </div>
+          
+          <div style={{ marginBottom: '10px' }}>
+            <strong>Raw Response:</strong>
+          </div>
+          <pre style={{ 
+            backgroundColor: '#f3f4f6', 
+            padding: '15px', 
+            borderRadius: '4px',
+            overflow: 'auto',
+            maxHeight: '400px',
+            fontSize: '12px',
+            lineHeight: '1.4'
+          }}>
+            {JSON.stringify(response, null, 2)}
+          </pre>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default APIResponseDebugger;

@@ -1,0 +1,384 @@
+/* Add User Page - Dedicated CSS */
+
+/* Hide all scrollbars globally but keep functionality */
+* {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* Internet Explorer 10+ */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera on all elements */
+*::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Hide scrollbars on html and body */
+html, body {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Hide scrollbars on common scrollable elements */
+div, section, article, main, aside, nav, header, footer,
+ul, ol, li, table, tbody, thead, tr, td, th,
+select, textarea, input, iframe {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+div::-webkit-scrollbar, section::-webkit-scrollbar, article::-webkit-scrollbar,
+main::-webkit-scrollbar, aside::-webkit-scrollbar, nav::-webkit-scrollbar,
+header::-webkit-scrollbar, footer::-webkit-scrollbar, ul::-webkit-scrollbar,
+ol::-webkit-scrollbar, li::-webkit-scrollbar, table::-webkit-scrollbar,
+tbody::-webkit-scrollbar, thead::-webkit-scrollbar, tr::-webkit-scrollbar,
+td::-webkit-scrollbar, th::-webkit-scrollbar, select::-webkit-scrollbar,
+textarea::-webkit-scrollbar, input::-webkit-scrollbar, iframe::-webkit-scrollbar {
+  display: none !important;
+}
+
+.add-user-page {
+  padding: 20px !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  background: transparent !important;
+  height: calc(100vh - 120px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+.add-user-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 20px !important;
+  margin-bottom: 25px !important;
+  padding-bottom: 15px !important;
+  border-bottom: 2px solid #e9ecef !important;
+  position: relative !important;
+  background: #f8f9fa !important;
+  padding: 15px 0 !important;
+  flex-shrink: 0 !important;
+}
+
+.add-user-back-btn {
+  background: #F0661E !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: background-color 0.2s !important;
+  position: static !important;
+  left: auto !important;
+}
+
+.add-user-back-btn:hover {
+  background: #E55A1A !important;
+}
+
+.add-user-title {
+  margin: 0 !important;
+  color: #333 !important;
+  font-size: 2.2rem !important;
+  text-align: center !important;
+  flex: 1 !important;
+  font-weight: 700 !important;
+
+}
+
+.add-user-form-container {
+  background: white !important;
+  border-radius: 10px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+  overflow: hidden !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+}
+
+.add-user-form {
+  padding: 15px !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  min-height: 0 !important;
+  /* Hide scrollbar but keep functionality */
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* Internet Explorer 10+ */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.add-user-form::-webkit-scrollbar {
+  display: none !important;
+}
+
+.add-user-section {
+  margin-bottom: 20px !important;
+  padding-bottom: 12px !important;
+  border-bottom: 1px solid #e9ecef !important;
+}
+
+.add-user-section:last-of-type {
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.add-user-section-title {
+  margin: 0 0 12px 0 !important;
+  color: #333 !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  padding-bottom: 6px !important;
+  border-bottom: 3px solid #007bff !important;
+  display: block !important;
+  text-align: center !important;
+  width: 100% !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+}
+
+.add-user-form-row {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr !important;
+  gap: 18px !important;
+  margin-bottom: 12px !important;
+  width: 100% !important;
+}
+
+.add-user-form-group {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+}
+
+.add-user-label {
+  margin-bottom: 6px !important;
+  font-weight: 600 !important;
+  color: #333 !important;
+  font-size: 13px !important;
+}
+
+.add-user-input,
+.add-user-select {
+  padding: 10px !important;
+  border: 1px solid #e9ecef !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+  background: white !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.add-user-input:focus,
+.add-user-select:focus {
+  outline: none !important;
+  border-color: #007bff !important;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1) !important;
+}
+
+.add-user-input:disabled,
+.add-user-select:disabled {
+  background: #f8f9fa !important;
+  color: #6c757d !important;
+  cursor: not-allowed !important;
+}
+
+.add-user-customer-code-input {
+  display: flex !important;
+  gap: 10px !important;
+}
+
+.add-user-customer-code-input input {
+  flex: 1 !important;
+}
+
+.add-user-generate-btn {
+  background: #28a745 !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 14px !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  transition: background-color 0.2s !important;
+}
+
+.add-user-generate-btn:hover:not(:disabled) {
+  background: #218838 !important;
+}
+
+.add-user-generate-btn:disabled {
+  background: #6c757d !important;
+  cursor: not-allowed !important;
+}
+
+.add-user-form-actions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 15px !important;
+  margin-top: 10px !important;
+  padding-top: 8px !important;
+  border-top: 1px solid #e9ecef !important;
+  flex-shrink: 0 !important;
+}
+
+.add-user-btn {
+  padding: 10px 20px !important;
+  border: none !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  min-width: 110px !important;
+  justify-content: center !important;
+}
+
+.add-user-btn-primary {
+  background: #007bff !important;
+  color: white !important;
+}
+
+.add-user-btn-primary:hover:not(:disabled) {
+  background: #0056b3 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3) !important;
+}
+
+.add-user-btn-secondary {
+  background: #6c757d !important;
+  color: white !important;
+}
+
+.add-user-btn-secondary:hover:not(:disabled) {
+  background: #545b62 !important;
+}
+
+.add-user-btn:disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.add-user-spinner {
+  width: 16px !important;
+  height: 16px !important;
+  border: 2px solid transparent !important;
+  border-top: 2px solid currentColor !important;
+  border-radius: 50% !important;
+  animation: spin 1s linear infinite !important;
+}
+
+.add-user-error-message {
+  background: #f8d7da !important;
+  color: #721c24 !important;
+  padding: 12px !important;
+  border-radius: 6px !important;
+  margin-bottom: 20px !important;
+  border: 1px solid #f5c6cb !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.add-user-hidden-placeholder {
+  visibility: hidden !important;
+}
+
+.add-user-hidden-placeholder label {
+  visibility: hidden !important;
+}
+
+.add-user-hidden-placeholder input {
+  visibility: hidden !important;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .add-user-page {
+    padding: 10px !important;
+    height: 100vh !important;
+  }
+
+  .add-user-header {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+    position: static !important;
+    margin-bottom: 15px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .add-user-back-btn {
+    position: static !important;
+    order: -1 !important;
+    align-self: flex-start !important;
+    padding: 8px 16px !important;
+  }
+
+  .add-user-title {
+    font-size: 1.5rem !important;
+  }
+
+  .add-user-form {
+    padding: 15px !important;
+  }
+
+  .add-user-form-row {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+    margin-bottom: 15px !important;
+  }
+
+  .add-user-section {
+    margin-bottom: 20px !important;
+  }
+
+  .add-user-section-title {
+    font-size: 1.4rem !important;
+    margin: 0 0 20px 0 !important;
+  }
+
+  .add-user-form-actions {
+    flex-direction: column !important;
+  }
+
+  .add-user-customer-code-input {
+    flex-direction: column !important;
+  }
+
+  .add-user-generate-btn {
+    padding: 8px 14px !important;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .add-user-form-row {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20px !important;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

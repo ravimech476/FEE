@@ -1,0 +1,662 @@
+/* Modern Customer Dashboard - Ultra Modern Design */
+
+.modern-dashboard {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  color: #374151;
+  line-height: 1.6;
+}
+
+/* Loading and Error States */
+.customer-dashboard .loading-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 400px !important;
+  background: white !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.customer-dashboard .spinner {
+  width: 24px !important;
+  height: 24px !important;
+  border: 2px solid #e5e7eb !important;
+  border-top: 2px solid #10b981 !important;
+  border-radius: 50% !important;
+  animation: customer-spin 1s linear infinite !important;
+}
+
+@keyframes customer-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.customer-dashboard .error-message {
+  color: #dc2626 !important;
+  background: #fef2f2 !important;
+  border: 1px solid #fecaca !important;
+  padding: 16px !important;
+  border-radius: 8px !important;
+  margin-bottom: 24px !important;
+  font-weight: 500 !important;
+}
+
+.customer-dashboard .info-message {
+  color: #1d4ed8 !important;
+  background: #eff6ff !important;
+  border: 1px solid #bfdbfe !important;
+  padding: 16px !important;
+  border-radius: 8px !important;
+  margin-bottom: 24px !important;
+}
+
+/* Main Dashboard Container */
+.customer-dashboard .dashboard-container {
+  display: grid !important;
+  grid-template-columns: 2fr 1fr !important;
+  grid-template-rows: auto auto !important;
+  gap: 24px !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  grid-template-areas: 
+    "summary products"
+    "news reports" !important;
+}
+
+.customer-dashboard .dashboard-main {
+  display: contents !important;
+}
+
+.customer-dashboard .dashboard-sidebar {
+  display: contents !important;
+}
+
+/* Grid Area Assignments */
+.customer-dashboard .summary-section {
+  grid-area: summary !important;
+}
+
+.customer-dashboard .company-news-section {
+  grid-area: news !important;
+}
+
+.customer-dashboard .top-products-section {
+  grid-area: products !important;
+}
+
+.customer-dashboard .market-report-section {
+  grid-area: reports !important;
+}
+
+/* Section Headers */
+.customer-dashboard .summary-section h2,
+.customer-dashboard .company-news-section h2 {
+  color: #1f2937 !important;
+  font-size: 1.2rem !important;
+  font-weight: 700 !important;
+  margin: 0 0 16px 0 !important;
+  padding-bottom: 8px !important;
+  border-bottom: 2px solid #10b981 !important;
+  position: relative !important;
+}
+
+.customer-dashboard .top-products-section h2,
+.customer-dashboard .market-report-section h2 {
+  color: #1f2937 !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  margin: 0 0 8px 0 !important;
+  padding-bottom: 5px !important;
+  border-bottom: 2px solid #10b981 !important;
+  position: relative !important;
+}
+
+.customer-dashboard .summary-section h2::after,
+.customer-dashboard .company-news-section h2::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: -2px !important;
+  left: 0 !important;
+  width: 50px !important;
+  height: 2px !important;
+  background: #059669 !important;
+  border-radius: 1px !important;
+}
+
+.customer-dashboard .top-products-section h2::after,
+.customer-dashboard .market-report-section h2::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: -2px !important;
+  left: 0 !important;
+  width: 40px !important;
+  height: 2px !important;
+  background: #059669 !important;
+  border-radius: 1px !important;
+}
+
+/* Summary Section */
+.customer-dashboard .summary-section {
+  background: white !important;
+  border-radius: 16px !important;
+  padding: 28px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid #f3f4f6 !important;
+}
+
+.customer-dashboard .summary-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 20px !important;
+}
+
+.customer-dashboard .summary-card {
+  border-radius: 12px !important;
+  padding: 24px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.customer-dashboard .summary-card::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 4px !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.customer-dashboard .summary-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+.customer-dashboard .summary-content {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.customer-dashboard .summary-title {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  margin-bottom: 12px !important;
+  opacity: 0.9 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.customer-dashboard .summary-value {
+  font-size: 2.5rem !important;
+  font-weight: 800 !important;
+  margin-bottom: 8px !important;
+  line-height: 1 !important;
+}
+
+.customer-dashboard .summary-subtitle {
+  font-size: 13px !important;
+  opacity: 0.8 !important;
+  font-weight: 500 !important;
+}
+
+/* Company News Section */
+.customer-dashboard .company-news-section {
+  background: white !important;
+  border-radius: 16px !important;
+  padding: 28px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid #f3f4f6 !important;
+}
+
+.customer-dashboard .news-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+}
+
+.customer-dashboard .news-item {
+  display: flex !important;
+  gap: 16px !important;
+  background: #f9fafb !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  border: 1px solid #f3f4f6 !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+}
+
+.customer-dashboard .news-item:hover {
+  background: #f3f4f6 !important;
+  transform: translateX(4px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.customer-dashboard .news-image {
+  flex-shrink: 0 !important;
+  width: 56px !important;
+  height: 56px !important;
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3) !important;
+}
+
+.customer-dashboard .news-emoji {
+  font-size: 1.5rem !important;
+}
+
+.customer-dashboard .news-content {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.customer-dashboard .news-title {
+  color: #1f2937 !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 8px !important;
+  line-height: 1.4 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.customer-dashboard .news-text {
+  color: #6b7280 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.customer-dashboard .news-time {
+  flex-shrink: 0 !important;
+  color: #9ca3af !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  align-self: flex-start !important;
+  background: #f3f4f6 !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+}
+
+.customer-dashboard .no-news {
+  text-align: center !important;
+  padding: 40px 20px !important;
+  color: #6b7280 !important;
+  font-style: italic !important;
+}
+
+/* Top Products Section - Card Style Layout */
+.customer-dashboard .top-products-section {
+  background: white !important;
+  border-radius: 8px !important;
+  padding: 20px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+.customer-dashboard .products-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+}
+
+.customer-dashboard .product-item {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 16px !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+  color: white !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.2s ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+  min-height: 100px !important;
+  width: 100% !important;
+}
+
+.customer-dashboard .product-item::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%) !important;
+  pointer-events: none !important;
+}
+
+.customer-dashboard .product-item:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.customer-dashboard .product-rank-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-shrink: 0 !important;
+}
+
+.customer-dashboard .product-rank {
+  font-size: 32px !important;
+  font-weight: 900 !important;
+  width: 50px !important;
+  height: 50px !important;
+  background: rgba(255, 255, 255, 0.25) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.customer-dashboard .product-image {
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 8px !important;
+  object-fit: cover !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.customer-dashboard .product-image-fallback {
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 24px !important;
+}
+
+.customer-dashboard .product-content {
+  flex: 1 !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+.customer-dashboard .product-name {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+.customer-dashboard .product-description {
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+  opacity: 0.9 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+}
+
+.customer-dashboard .product-date {
+  font-size: 11px !important;
+  opacity: 0.8 !important;
+  font-weight: 500 !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  align-self: flex-start !important;
+  white-space: nowrap !important;
+  margin: 0 !important;
+}
+
+/* Market Report Section - Ultra Compact */
+.customer-dashboard .market-report-section {
+  background: white !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid #f3f4f6 !important;
+}
+
+.customer-dashboard .reports-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+.customer-dashboard .report-item {
+  background: #f9fafb !important;
+  border-radius: 8px !important;
+  padding: 12px !important;
+  border: 1px solid #f3f4f6 !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  transition: all 0.2s ease !important;
+  position: relative !important;
+}
+
+.customer-dashboard .report-item:hover {
+  background: #f3f4f6 !important;
+  transform: translateX(2px) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+.customer-dashboard .report-item::before {
+  content: '📊' !important;
+  font-size: 1.1rem !important;
+  flex-shrink: 0 !important;
+  width: 28px !important;
+  height: 28px !important;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+  border-radius: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 1px 3px rgba(59, 130, 246, 0.2) !important;
+}
+
+.customer-dashboard .report-content {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.customer-dashboard .report-title {
+  color: #1f2937 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  margin: 0 0 4px 0 !important;
+  line-height: 1.3 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.customer-dashboard .report-text {
+  color: #6b7280 !important;
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+  margin: 0 0 6px 0 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.customer-dashboard .report-date {
+  color: #9ca3af !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  background: #f3f4f6 !important;
+  padding: 2px 5px !important;
+  border-radius: 3px !important;
+  display: inline-block !important;
+}
+
+.customer-dashboard .no-reports {
+  text-align: center !important;
+  padding: 20px 10px !important;
+  color: #6b7280 !important;
+  font-style: italic !important;
+  font-size: 12px !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .customer-dashboard .dashboard-container {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto auto auto !important;
+    gap: 20px !important;
+    grid-template-areas: 
+      "summary"
+      "products"
+      "news"
+      "reports" !important;
+  }
+  
+  .customer-dashboard .summary-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .customer-dashboard {
+    padding: 16px !important;
+  }
+  
+  .customer-dashboard .dashboard-container {
+    gap: 16px !important;
+    grid-template-areas: 
+      "summary"
+      "products"
+      "news"
+      "reports" !important;
+  }
+  
+  .customer-dashboard .summary-section,
+  .customer-dashboard .company-news-section,
+  .customer-dashboard .top-products-section,
+  .customer-dashboard .market-report-section {
+    padding: 20px !important;
+  }
+  
+  .customer-dashboard .summary-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  
+  .customer-dashboard .summary-value {
+    font-size: 2rem !important;
+  }
+  
+  .customer-dashboard .news-item {
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+  
+  .customer-dashboard .news-time {
+    align-self: center !important;
+  }
+  
+  .customer-dashboard .product-item {
+    flex-direction: row !important;
+    text-align: left !important;
+    padding: 6px !important;
+  }
+  
+  .customer-dashboard .product-rank {
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 9px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .customer-dashboard {
+    padding: 12px !important;
+  }
+  
+  .customer-dashboard .dashboard-container {
+    gap: 12px !important;
+  }
+  
+  .customer-dashboard .summary-section h2,
+  .customer-dashboard .company-news-section h2 {
+    font-size: 1.1rem !important;
+  }
+  
+  .customer-dashboard .top-products-section h2,
+  .customer-dashboard .market-report-section h2 {
+    font-size: 0.9rem !important;
+  }
+  
+  .customer-dashboard .news-title {
+    font-size: 1rem !important;
+  }
+  
+  .customer-dashboard .product-name {
+    font-size: 10px !important;
+  }
+}
+
+/* Animation for smooth loading */
+.customer-dashboard .summary-card,
+.customer-dashboard .news-item,
+.customer-dashboard .product-item,
+.customer-dashboard .report-item {
+  animation: customer-fadeInUp 0.6s ease-out !important;
+}
+
+@keyframes customer-fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar for better appearance */
+.customer-dashboard .news-list::-webkit-scrollbar,
+.customer-dashboard .reports-list::-webkit-scrollbar,
+.customer-dashboard .products-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.customer-dashboard .news-list::-webkit-scrollbar-track,
+.customer-dashboard .reports-list::-webkit-scrollbar-track,
+.customer-dashboard .products-list::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.customer-dashboard .news-list::-webkit-scrollbar-thumb,
+.customer-dashboard .reports-list::-webkit-scrollbar-thumb,
+.customer-dashboard .products-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.customer-dashboard .news-list::-webkit-scrollbar-thumb:hover,
+.customer-dashboard .reports-list::-webkit-scrollbar-thumb:hover,
+.customer-dashboard .products-list::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

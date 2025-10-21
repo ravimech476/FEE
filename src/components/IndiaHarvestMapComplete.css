@@ -1,0 +1,242 @@
+/* IndiaHarvestMapComplete.css */
+.india-harvest-map-complete {
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #cbd5e1;
+}
+
+.map-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #1e293b;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.map-container {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.india-svg-map {
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+  display: block;
+  margin: 0 auto;
+}
+
+.india-outline {
+  transition: all 0.3s ease;
+}
+
+.india-outline:hover {
+  fill: #f1f5f9;
+}
+
+.state-path {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.state-path:hover {
+  stroke-width: 3 !important;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)) !important;
+}
+
+.location-pin {
+  animation: pulse 2s infinite;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+@keyframes pulse {
+  0% {
+    r: 4;
+    opacity: 1;
+  }
+  50% {
+    r: 6;
+    opacity: 0.7;
+  }
+  100% {
+    r: 4;
+    opacity: 1;
+  }
+}
+
+.tooltip-bg {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.tooltip-text {
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.map-legend {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.legend-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #1e293b;
+  text-align: center;
+}
+
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.legend-item:hover {
+  background: #f1f5f9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.legend-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  flex-grow: 1;
+}
+
+.legend-population {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.no-regions {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  padding: 2rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 2px dashed #d1d5db;
+}
+
+/* Population-based state styling */
+.state-path[data-population="high"] {
+  stroke-width: 2.5;
+}
+
+.state-path[data-population="medium"] {
+  stroke-width: 2;
+}
+
+.state-path[data-population="low"] {
+  stroke-width: 1.5;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .india-harvest-map-complete {
+    padding: 1.5rem;
+  }
+  
+  .map-title {
+    font-size: 1.75rem;
+  }
+  
+  .legend-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .india-harvest-map-complete {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .map-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .map-container {
+    padding: 1rem;
+  }
+  
+  .india-svg-map {
+    max-height: 400px;
+  }
+  
+  .legend-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .legend-item {
+    padding: 0.5rem;
+  }
+  
+  .legend-label {
+    font-size: 0.8rem;
+  }
+  
+  .legend-population {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .india-harvest-map-complete {
+    padding: 0.75rem;
+  }
+  
+  .map-title {
+    font-size: 1.25rem;
+  }
+  
+  .map-container {
+    padding: 0.75rem;
+  }
+  
+  .india-svg-map {
+    max-height: 300px;
+  }
+  
+  .tooltip-text {
+    font-size: 10px;
+  }
+}

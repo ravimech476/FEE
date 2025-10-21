@@ -1,0 +1,701 @@
+/* Customer Product View Styles */
+.customer-product-view {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 0;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  background: white;
+  padding: 20px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.breadcrumb-link {
+  background: none;
+  border: none;
+  color: #667eea;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: block;
+  text-align: left;
+}
+
+.breadcrumb-link:hover {
+  background: #f8f9fa;
+  color: #5a6fd8;
+}
+
+/* Product Container */
+.product-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+/* Product Images Section */
+.product-images-section {
+  position: sticky;
+  top: 40px;
+}
+
+.main-image-container {
+  position: relative;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.main-product-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  cursor: zoom-in;
+  transition: transform 0.3s ease;
+}
+
+.main-product-image:hover {
+  transform: scale(1.02);
+}
+
+.image-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #495057;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.main-image-container:hover .image-nav-btn {
+  opacity: 1;
+}
+
+.image-nav-btn:hover {
+  background: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn {
+  left: 15px;
+}
+
+.next-btn {
+  right: 15px;
+}
+
+.image-thumbnails {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.thumbnail:hover {
+  border-color: #667eea;
+  opacity: 0.8;
+}
+
+.thumbnail.active {
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
+}
+
+.no-image-placeholder {
+  height: 400px;
+  background: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  border-radius: 16px;
+}
+
+.no-image-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+/* Product Info Section */
+.product-info-section {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.product-header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid #f8f9fa;
+}
+
+.product-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+
+.botanical-name {
+  font-size: 1.2rem;
+  color: #6c757d;
+  margin: 0 0 16px;
+  font-style: italic;
+}
+
+.product-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.product-number {
+  background: #f8f9fa;
+  color: #495057;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.featured-badge {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Quick Info */
+.quick-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 0.8rem;
+  color: #6c757d;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  font-size: 1rem;
+  color: #2d3748;
+  font-weight: 500;
+}
+
+/* Product Descriptions */
+.product-descriptions {
+  margin-bottom: 32px;
+}
+
+.description-section {
+  margin-bottom: 24px;
+}
+
+.description-section h3 {
+  font-size: 1.2rem;
+  color: #2d3748;
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+
+.description-text,
+.sensory-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #4a5568;
+  background: #f8f9fa;
+  padding: 16px 20px;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+  margin: 0;
+}
+
+.sensory-text {
+  border-left-color: #764ba2;
+}
+
+/* Product Details Tabs */
+.product-details-tabs {
+  margin-bottom: 32px;
+}
+
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.detail-section {
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+}
+
+.detail-section h3 {
+  font-size: 1.3rem;
+  color: #2d3748;
+  margin: 0 0 20px;
+  font-weight: 600;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.detail-item label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-item span {
+  font-size: 1rem;
+  color: #2d3748;
+  line-height: 1.5;
+}
+
+/* Region and Month Tags */
+.region-tags,
+.month-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.region-tag {
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  color: #1565c0;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid #90caf9;
+}
+
+.month-tag {
+  background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+  color: #7b1fa2;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid #ce93d8;
+}
+
+.long-description {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #4a5568;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  white-space: pre-wrap;
+}
+
+/* Contact Section */
+.contact-section {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 32px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.contact-section h3 {
+  font-size: 1.5rem;
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+
+.contact-section p {
+  margin: 0 0 24px;
+  opacity: 0.9;
+  font-size: 1.1rem;
+}
+
+.contact-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary {
+  background: white;
+  color: #667eea;
+  border-color: white;
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  /* background: transparent; */
+  color: white;
+  border-color: white;
+}
+
+.btn-secondary:hover {
+  background: white;
+  color: #667eea;
+  transform: translateY(-2px);
+}
+
+/* Image Modal */
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.modal-content img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.close-modal {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  background: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #495057;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.close-modal:hover {
+  background: #f8f9fa;
+  transform: scale(1.1);
+}
+
+/* Error and Loading States */
+.error-container,
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.error-container h2 {
+  color: #495057;
+  margin: 0 0 12px;
+  font-size: 1.8rem;
+}
+
+.error-container p {
+  color: #6c757d;
+  margin: 0 0 24px;
+  font-size: 1.1rem;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container p {
+  color: #6c757d;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .product-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .product-images-section {
+    position: static;
+  }
+  
+  .main-product-image {
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-container {
+    padding: 30px 15px;
+  }
+  
+  .product-info-section {
+    padding: 30px 20px;
+  }
+  
+  .product-title {
+    font-size: 2rem;
+  }
+  
+  .botanical-name {
+    font-size: 1.1rem;
+  }
+  
+  .quick-info {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    width: 200px;
+  }
+  
+  .main-product-image {
+    height: 300px;
+  }
+  
+  .thumbnail {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .breadcrumb-link {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+  
+  .product-container {
+    padding: 20px 10px;
+  }
+  
+  .product-info-section {
+    padding: 25px 15px;
+  }
+  
+  .product-title {
+    font-size: 1.8rem;
+  }
+  
+  .botanical-name {
+    font-size: 1rem;
+  }
+  
+  .product-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .quick-info {
+    padding: 16px;
+  }
+  
+  .detail-section {
+    padding: 20px 15px;
+  }
+  
+  .contact-section {
+    padding: 25px 20px;
+  }
+  
+  .contact-section h3 {
+    font-size: 1.3rem;
+  }
+  
+  .contact-section p {
+    font-size: 1rem;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 14px 20px;
+  }
+  
+  .main-product-image {
+    height: 250px;
+  }
+  
+  .image-nav-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+  
+  .prev-btn {
+    left: 10px;
+  }
+  
+  .next-btn {
+    right: 10px;
+  }
+  
+  .close-modal {
+    top: -35px;
+    right: -35px;
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .breadcrumb,
+  .contact-section,
+  .image-nav-btn {
+    display: none;
+  }
+  
+  .customer-product-view {
+    background: white;
+  }
+  
+  .product-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .product-info-section,
+  .detail-section {
+    box-shadow: none;
+    border: 1px solid #dee2e6;
+  }
+}
