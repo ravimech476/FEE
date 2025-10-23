@@ -268,7 +268,23 @@ const Dashboard = ({ userType, user }) => {
                 dashboardData.marketResearch.map((report, index) => (
                   <div key={report.id || index} className="market-item-box">
                     <div className="market-chart-box">
-                      <div className="chart-visual-box">
+                      {report.research_image1 ? (
+                        <img 
+                          src={`http://localhost:5000${report.research_image1}`}
+                          alt={report.research_name || 'Market Report'}
+                          className="market-report-image"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }}
+                          onError={(e) => {
+                            // Fallback to bar chart if image fails to load
+                            e.target.style.display = 'none';
+                            const chartFallback = e.target.nextElementSibling;
+                            if (chartFallback) {
+                              chartFallback.style.display = 'block';
+                            }
+                          }}
+                        />
+                      ) : null}
+                      <div className="chart-visual-box" style={{ display: report.research_image1 ? 'none' : 'block' }}>
                         <div className="bars-container">
                           <div className="bar-item" style={{ height: '40%' }}></div>
                           <div className="bar-item" style={{ height: '60%' }}></div>
