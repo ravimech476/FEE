@@ -171,9 +171,13 @@ class ApiService {
     return this.request(`/products?${queryString}`);
   }
 
-  async getTopProducts(limit = 3) {
+  async getTopProducts(limit = 3, customerCode = null) {
     try {
-      const response = await this.request(`/products?limit=${limit}&sort=sales_count&order=desc`);
+      let url = `/products/top/by-sales?limit=${limit}`;
+      if (customerCode) {
+        url += `&customer_code=${customerCode}`;
+      }
+      const response = await this.request(url);
       return {
         success: true,
         data: response.data || response

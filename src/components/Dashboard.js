@@ -30,7 +30,7 @@ const Dashboard = ({ userType, user }) => {
               console.warn('Customer stats not available:', err);
               return { success: false };
             }),
-            apiService.getTopProducts(3),
+            apiService.getTopProducts(3, user.customer_code),
             apiService.getCustomerMeetings(user.customer_code, { limit: 10, sort: 'created_date', order: 'desc' })
           ]);
         } else {
@@ -60,11 +60,11 @@ const Dashboard = ({ userType, user }) => {
               return [];
             })() : [],
           invoiceStats: invoiceStatsResponse.success ? {
-            total: invoiceStatsResponse.data?.totalOrders || invoiceStatsResponse.totalOrders || 0,
+            total: invoiceStatsResponse.data?.total || invoiceStatsResponse.data?.totalOrders || invoiceStatsResponse.totalOrders || 0,
             totalAmount: invoiceStatsResponse.data?.totalAmount || invoiceStatsResponse.totalAmount || 0,
             byStatus: {
-              dispatched: invoiceStatsResponse.data?.dispatchedOrders || invoiceStatsResponse.dispatchedOrders || 0,
-              pending: invoiceStatsResponse.data?.pendingOrders || invoiceStatsResponse.pendingOrders || 0
+              dispatched: invoiceStatsResponse.data?.byStatus?.dispatched || invoiceStatsResponse.data?.dispatchedOrders || invoiceStatsResponse.dispatchedOrders || 0,
+              pending: invoiceStatsResponse.data?.byStatus?.pending || invoiceStatsResponse.data?.pendingOrders || invoiceStatsResponse.pendingOrders || 0
             }
           } : null,
           meetingMinutes: meetingResponse.success ?
