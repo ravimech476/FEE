@@ -111,16 +111,16 @@
 
 .summary-grid-dash {
   display: grid;
-  grid-template-columns: repeat(2, 180px);
+  grid-template-columns: repeat(2, 250px);
   gap: 50px;
-  justify-content: center;
+  justify-content: start;
 }
 
 .summary-card-dash {
   border-radius: 6px;
   padding: 16px;
-  width: 180px;
-  height: 180px;
+  width: 250px;
+  height: 190px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -141,7 +141,7 @@
 }
 
 .card-number-dash {
-  font-size: 48px;
+  font-size: 64px;
   font-weight: 700;
   line-height: 1;
   flex: 1;
@@ -204,7 +204,7 @@
 .metric-box {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0px;
 }
 
 .metric-name {
@@ -215,7 +215,7 @@
 }
 
 .metric-val {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
 }
 
@@ -271,7 +271,7 @@
 .news-icon-box {
   flex-shrink: 0;
   width: 32px;
-  height: 32px;
+  height: 78px;
   background: #e8e8e8;
   border-radius: 6px;
   display: flex;
@@ -714,13 +714,13 @@
   }
   
   .summary-grid-dash {
-    grid-template-columns: repeat(2, 150px);
+    grid-template-columns: repeat(2, 180px);
     justify-content: center;
   }
   
   .summary-card-dash {
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 180px;
   }
   
   .product-card-box {

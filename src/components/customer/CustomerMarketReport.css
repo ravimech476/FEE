@@ -1,0 +1,562 @@
+/* Market Report List Container */
+.market-report-list-container {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: transparent;
+}
+
+.market-report-list-container.customer-view {
+  max-width: 1400px;
+}
+
+/* ============================================
+   CUSTOMER VIEW - HEADER WITH SEARCH IN SAME ROW
+   ============================================ */
+.page-header-with-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  gap: 30px;
+  flex-wrap: nowrap;
+}
+
+.page-header-with-search .header-left h1 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #5856d6;
+  margin: 0;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+.page-header-with-search .header-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+/* Customer - Search Filters Inline */
+.search-filters-inline {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.filter-group-inline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.filter-group-inline:first-child {
+  flex: 1;
+  max-width: 400px;
+}
+
+.filter-group-inline label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  white-space: nowrap;
+  margin: 0;
+}
+
+/* Customer - Buttons */
+.clear-btn {
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  background-color: #6b7280;
+  color: white;
+  height: 42px;
+}
+
+.clear-btn:hover {
+  background-color: #4b5563;
+}
+
+/* Main Content */
+.main-content {
+  width: 100%;
+  margin: 0;
+  background: transparent;
+}
+
+/* ============================================
+   SHARED INPUT STYLES
+   ============================================ */
+.search-input {
+  min-width: 100%;
+  padding: 10px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 25px;
+  font-size: 14px;
+  background-color: white;
+  height: 42px;
+}
+
+.date-input {
+  padding: 10px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: white;
+  min-width: 160px;
+  height: 42px;
+}
+
+.search-input:focus,
+.date-input:focus {
+  outline: none;
+  border-color: #ff6b35;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+/* ============================================
+   BUTTON STYLES
+   ============================================ */
+.search-btn {
+  background-color: #ff6b35;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  height: 42px;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.search-btn:hover {
+  background-color: #e55a2b;
+}
+
+.search-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Error Message */
+.error-message {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-icon {
+  font-size: 16px;
+}
+
+/* ============================================
+   CUSTOMER VIEW - CARD LAYOUT
+   ============================================ */
+.reports-card-list {
+  background-color: white;
+  border-radius: 0;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.report-card {
+  display: flex;
+  align-items: flex-start;
+  padding: 18px 20px;
+  border-bottom: 2px solid #e8e8e8;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  min-height: 145px;
+  border: 1px solid transparent;
+}
+
+.report-card:last-child {
+  border-bottom: none;
+}
+
+.report-card:hover {
+  background-color: #f9f9f9;
+  transform: translateY(-4px);
+  border: 1px solid #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #d1d5db;
+}
+
+/* IMAGE SECTION */
+.report-image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 20px;
+  align-self: center;
+}
+
+.report-image-wrapper {
+  width: 100px;
+  height: 80px;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.report-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.report-chart-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-visual-box {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+.report-card:hover .chart-visual-box {
+  background: linear-gradient(135deg, #7e92f2 0%, #8b5cb8 100%);
+}
+
+.bars-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 50px;
+  width: 100%;
+}
+
+.bar-item {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 2px 2px 0 0;
+  min-height: 8px;
+  transition: all 0.3s ease;
+}
+
+.report-card:hover .bar-item {
+  background: rgba(255, 255, 255, 1);
+  transform: scaleY(1.1);
+}
+
+/* CONTENT SECTION - Contains description and name */
+.report-content-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* DESCRIPTION SECTION */
+.report-description-new {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 20px 25px;
+  background-color: #f3f4f6 !important;
+  margin-right: -20px;
+  border-radius: 4px;
+}
+
+.report-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2d2d2d;
+  text-align: left;
+  padding: 12px 0 0 0;
+  line-height: 1.3;
+}
+
+.report-description {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #666666;
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+.report-date {
+  font-size: 11px;
+  color: #999;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ============================================
+   LOADING & EMPTY STATES
+   ============================================ */
+.loading-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 20px;
+  color: #6b7280;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f4f6;
+  border-top: 2px solid #ff6b35;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading {
+  padding: 40px 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.no-data {
+  padding: 40px 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.no-data-suggestion {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.link-btn:hover {
+  color: #2563eb;
+}
+
+/* ============================================
+   PAGINATION
+   ============================================ */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+  background: transparent;
+  padding: 15px 0;
+}
+
+.pagination-info {
+  color: #666;
+  font-size: 14px;
+  margin: 0 10px;
+  white-space: nowrap;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.page-btn {
+  min-width: 32px;
+  height: 32px;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  color: #374151;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  transition: all 0.2s;
+}
+
+.page-btn:hover:not(:disabled) {
+  background-color: #f3f4f6;
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-btn.active {
+  background-color: #4ade80;
+  color: white;
+  border-color: #4ade80;
+}
+
+.page-btn.dots {
+  border: none;
+  background: none;
+  cursor: default;
+}
+
+.prev-btn,
+.next-btn {
+  padding: 0 12px;
+  font-weight: 500;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 1200px) {
+  .page-header-with-search {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .page-header-with-search .header-right {
+    width: 100%;
+  }
+
+  .search-filters-inline {
+    flex-wrap: wrap;
+  }
+
+  .filter-group-inline:first-child {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .market-report-list-container {
+    padding: 15px;
+  }
+
+  .page-header-with-search .header-left h1 {
+    font-size: 18px;
+  }
+
+  .search-filters-inline {
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .filter-group-inline {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter-group-inline:first-child {
+    max-width: 100%;
+  }
+
+  .search-input,
+  .date-input {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .search-btn,
+  .clear-btn {
+    width: 100%;
+  }
+
+  .report-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 15px;
+  }
+
+  .report-image-section {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .report-content-section {
+    width: 100%;
+  }
+
+  .report-description-new {
+    margin-right: 0;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .pagination-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header-with-search .header-left h1 {
+    font-size: 16px;
+  }
+
+  .report-image-wrapper {
+    width: 80px;
+    height: 64px;
+  }
+
+  .report-name {
+    font-size: 14px;
+  }
+
+  .report-description {
+    font-size: 14px;
+  }
+}

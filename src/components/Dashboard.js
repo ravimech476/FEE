@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import apiService from '../services/apiService';
 
 const Dashboard = ({ userType, user }) => {
+  const navigate = useNavigate();
   const [dashboardData, setDashboardData] = useState({
     companyNews: [],
     marketResearch: [],
@@ -62,6 +64,8 @@ const Dashboard = ({ userType, user }) => {
           invoiceStats: invoiceStatsResponse.success ? {
             total: invoiceStatsResponse.data?.total || invoiceStatsResponse.data?.totalOrders || invoiceStatsResponse.totalOrders || 0,
             totalAmount: invoiceStatsResponse.data?.totalAmount || invoiceStatsResponse.totalAmount || 0,
+            totalQuantity: invoiceStatsResponse.data?.totalQuantity || invoiceStatsResponse.totalQuantity || 0,
+            
             byStatus: {
               dispatched: invoiceStatsResponse.data?.byStatus?.dispatched || invoiceStatsResponse.data?.dispatchedOrders || invoiceStatsResponse.dispatchedOrders || 0,
               pending: invoiceStatsResponse.data?.byStatus?.pending || invoiceStatsResponse.data?.pendingOrders || invoiceStatsResponse.pendingOrders || 0
@@ -168,7 +172,7 @@ const Dashboard = ({ userType, user }) => {
                     </div>
                     <div className="metric-box">
                       <span className="metric-name">QUANTITY</span>
-                      <span className="metric-val">{dashboardData.invoiceStats?.total || 0}</span>
+                      <span className="metric-val">{dashboardData.invoiceStats?.totalQuantity || 0}</span>
                     </div>
                   </div>
                 </div>
@@ -266,7 +270,11 @@ const Dashboard = ({ userType, user }) => {
             <div className="market-content-scroll">
               {dashboardData.marketResearch.length > 0 ? (
                 dashboardData.marketResearch.map((report, index) => (
-                  <div key={report.id || index} className="market-item-box">
+                  <div 
+                    key={report.id || index} 
+                    className="market-item-box"
+                    onClick={() => navigate(`/market-report-details/${report.id}`)}
+                  >
                     <div className="market-chart-box">
                       {report.research_image1 ? (
                         <img 

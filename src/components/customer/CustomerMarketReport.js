@@ -1,29 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../MarketReport.css';
+import './CustomerMarketReport.css';
 import apiService from '../../services/apiService';
 
 const CustomerMarketReport = ({ userType, user }) => {
+  const navigate = useNavigate();
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('created_date');
-  const [sortOrder, setSortOrder] = useState('desc');
+  const [searchText, setSearchText] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [isSearching, setIsSearching] = useState(false);
+  const [imageErrors, setImageErrors] = useState({});
+
   const itemsPerPage = 10;
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    fetchReports();
-  }, [searchTerm, sortBy, sortOrder, currentPage]);
+    fetchReports(1);
+  }, []);
 
-  const fetchReports = async () => {
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return imagePath;
+    }
+    
+    if (imagePath.startsWith('/uploads')) {
+      return `http://localhost:5000${imagePath}`;
+    }
+    
+    if (imagePath.startsWith('uploads/')) {
+      return `http://localhost:5000/${imagePath}`;
+    }
+    
+    return `http://localhost:5000/uploads/${imagePath}`;
+  };
+
+  const handleImageError = (reportId) => {
+    console.error('Image failed to load for report:', reportId);
+    setImageErrors(prev => ({ ...prev, [reportId]: true }));
+  };
+
+  const fetchReports = async (page = 1) => {
     try {
       setLoading(true);
       setError('');
+      setImageErrors({});
 
       if (!user?.customer_code) {
         setError('Customer code not found. Please contact administrator.');
@@ -32,236 +57,262 @@ const CustomerMarketReport = ({ userType, user }) => {
       }
 
       const params = {
-        page: currentPage,
+        page: page,
         limit: itemsPerPage,
-        sort: sortBy,
-        order: sortOrder
+        sort: 'created_date',
+        order: 'desc'
       };
 
-      if (searchTerm) {
-        params.search = searchTerm;
+      if (searchText.trim()) {
+        params.search = searchText.trim();
       }
 
       const response = await apiService.getCustomerMarketReports(user.customer_code, params);
 
       if (response.success) {
-        setReports(response.data.reports || response.data);
-        setTotalPages(response.data.totalPages || Math.ceil((response.data.total || 0) / itemsPerPage));
+        const reportsData = response.data.reports || response.data || [];
+        const totalCountData = response.data.total || response.data.pagination?.total || reportsData.length;
+        const totalPagesData = response.data.totalPages || response.data.pagination?.totalPages || Math.ceil(totalCountData / itemsPerPage);
+        
+        setReports(reportsData);
+        setTotalPages(totalPagesData);
+        setTotalCount(totalCountData);
+        setCurrentPage(page);
       } else {
         setError(response.message || 'Failed to fetch market reports');
+        setReports([]);
+        setTotalCount(0);
+        setTotalPages(1);
       }
     } catch (error) {
       console.error('Error fetching market reports:', error);
       setError('Failed to load market reports. Please try again.');
+      setReports([]);
+      setTotalCount(0);
+      setTotalPages(1);
     } finally {
       setLoading(false);
+      setIsSearching(false);
     }
   };
 
-  const handleSort = (field) => {
-    if (sortBy === field) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortBy(field);
-      setSortOrder('asc');
+  const handleSearch = () => {
+    setIsSearching(true);
+    setCurrentPage(1);
+    fetchReports(1);
+  };
+
+  const handleClearSearch = () => {
+    setSearchText('');
+    setCurrentPage(1);
+    setIsSearching(true);
+    fetchReports(1);
+  };
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages && page !== currentPage) {
+      fetchReports(page);
     }
-    setCurrentPage(1);
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setCurrentPage(1);
-    fetchReports();
+  const handleViewReport = (reportId) => {
+    navigate(`/market-report-details/${reportId}`);
   };
 
-  const handleViewReport = (id) => {
-    navigate(`/market-report-details/${id}`);
-  };
-
-  const getSortIcon = (field) => {
-    if (sortBy !== field) return ' ↕️';
-    return sortOrder === 'asc' ? ' ↑' : ' ↓';
-  };
-
-  const renderPagination = () => {
+  const generatePageNumbers = () => {
     const pages = [];
-    const startPage = Math.max(1, currentPage - 2);
-    const endPage = Math.min(totalPages, currentPage + 2);
+    const maxVisiblePages = 5;
 
-    if (startPage > 1) {
-      pages.push(
-        <button key={1} onClick={() => setCurrentPage(1)} className="pagination-btn">
-          1
-        </button>
-      );
-      if (startPage > 2) {
-        pages.push(<span key="ellipsis1" className="pagination-ellipsis">...</span>);
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
       }
-    }
+    } else {
+      const startPage = Math.max(1, currentPage - 2);
+      const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(
-        <button
-          key={i}
-          onClick={() => setCurrentPage(i)}
-          className={`pagination-btn ${currentPage === i ? 'active' : ''}`}
-        >
-          {i}
-        </button>
-      );
-    }
-
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pages.push(<span key="ellipsis2" className="pagination-ellipsis">...</span>);
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
       }
-      pages.push(
-        <button key={totalPages} onClick={() => setCurrentPage(totalPages)} className="pagination-btn">
-          {totalPages}
-        </button>
-      );
+
+      if (endPage < totalPages) {
+        pages.push('...');
+      }
     }
 
     return pages;
   };
 
-  if (loading) {
+  if (loading && !isSearching) {
     return (
-      <div className="market-reports-container">
-        <div className="loading-container">
-          <div className="spinner"></div>
-          <p>Loading market reports...</p>
-        </div>
+      <div className="market-report-list-container">
+        <div className="loading">Loading market reports...</div>
       </div>
     );
   }
 
+  const safeReports = Array.isArray(reports) ? reports : [];
+
   return (
-    <div className="market-reports-container">
-      <div className="page-header">
-        <div className="header-content">
+    <div className="market-report-list-container customer-view">
+      {/* CUSTOMER HEADER - Single Row with Inline Search */}
+      <div className="page-header-with-search">
+        <div className="header-left">
           <h1>Market Reports</h1>
-          <p>View market research and analysis reports</p>
+        </div>
+
+        <div className="header-right">
+          <div className="search-filters-inline">
+            <div className="filter-group-inline">
+              <label>Search Reports</label>
+              <input
+                type="text"
+                placeholder="Search by title or description"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                className="search-input"
+              />
+            </div>
+
+            <div className="filter-group-inline">
+              <button
+                className="search-btn"
+                onClick={handleSearch}
+                disabled={isSearching}
+              >
+                {isSearching ? 'Searching...' : 'Search'}
+              </button>
+            </div>
+
+            <div className="filter-group-inline">
+              <button className="clear-btn" onClick={handleClearSearch}>
+                Clear
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      {error && (
-        <div className="error-message">
-          {error}
-        </div>
-      )}
-
-      <div className="reports-content">
-        <div className="table-controls">
-          <form onSubmit={handleSearch} className="search-form">
-            <div className="search-group">
-              <input
-                type="text"
-                placeholder="Search market reports..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="search-input"
-              />
-              <button type="submit" className="search-btn">
-                🔍
-              </button>
-            </div>
-          </form>
-
-          <div className="table-info">
-            <span>Total: {reports.length} reports</span>
+      <div className="main-content">
+        {error && (
+          <div className="error-message">
+            <span className="error-icon">⚠️</span>
+            {error}
           </div>
-        </div>
+        )}
 
-        <div className="table-container">
-          <table className="reports-table">
-            <thead>
-              <tr>
-                <th onClick={() => handleSort('research_title')} className="sortable">
-                  Report Title {getSortIcon('research_title')}
-                </th>
-                <th onClick={() => handleSort('research_category')} className="sortable">
-                  Category {getSortIcon('research_category')}
-                </th>
-                <th onClick={() => handleSort('research_date')} className="sortable">
-                  Research Date {getSortIcon('research_date')}
-                </th>
-                <th onClick={() => handleSort('created_date')} className="sortable">
-                  Created Date {getSortIcon('created_date')}
-                </th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reports.map((report) => (
-                <tr key={report.id}>
-                  <td>
-                    <div className="report-info">
-                      <div className="report-title">{report.research_title}</div>
-                      {report.research_short_description && (
-                        <div className="report-description">
-                          {report.research_short_description.substring(0, 100)}...
+        {/* CUSTOMER VIEW - Card Layout */}
+        <div className="reports-card-list">
+          {loading && isSearching ? (
+            <div className="loading-row">
+              <div className="loading-spinner"></div>
+              <span>Searching reports...</span>
+            </div>
+          ) : !Array.isArray(reports) || reports.length === 0 ? (
+            <div className="no-data">
+              {error ? 'Failed to load market reports' : 'No market reports found'}
+              {searchText && (
+                <div className="no-data-suggestion">
+                  Try adjusting your search criteria or <button onClick={handleClearSearch} className="link-btn">clear all filters</button>
+                </div>
+              )}
+            </div>
+          ) : (
+            safeReports.map((report) => {
+              const imageUrl = getImageUrl(report.research_image1);
+              const description = report.research_short_description || report.research_long_description || 'No description available';
+              const reportTitle = report.research_title || report.research_name || 'N/A';
+              const hasImageError = imageErrors[report.id];
+
+              return (
+                <div 
+                  key={report.id} 
+                  className="report-card"
+                  onClick={() => handleViewReport(report.id)}
+                >
+                  <div className="report-image-section">
+                    <div className="report-image-wrapper">
+                      {imageUrl && !hasImageError ? (
+                        <img 
+                          src={imageUrl} 
+                          alt={reportTitle}
+                          className="report-image"
+                          onError={() => handleImageError(report.id)}
+                        />
+                      ) : (
+                        <div className="report-chart-placeholder">
+                          <div className="chart-visual-box">
+                            <div className="bars-container">
+                              <div className="bar-item" style={{ height: '40%' }}></div>
+                              <div className="bar-item" style={{ height: '60%' }}></div>
+                              <div className="bar-item" style={{ height: '85%' }}></div>
+                              <div className="bar-item" style={{ height: '100%' }}></div>
+                              <div className="bar-item" style={{ height: '70%' }}></div>
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>
-                  </td>
-                  <td>{report.research_category || 'N/A'}</td>
-                  <td>
-                    {report.research_date 
-                      ? new Date(report.research_date).toLocaleDateString('en-IN')
-                      : 'N/A'
-                    }
-                  </td>
-                  <td>
-                    {report.created_date 
-                      ? new Date(report.created_date).toLocaleDateString('en-IN')
-                      : 'N/A'
-                    }
-                  </td>
-                  <td>
-                    <div className="action-buttons">
-                      <button
-                        onClick={() => handleViewReport(report.id)}
-                        // className="btn btn-sm"
-                        title="View Report"
-                      >
-                        👁️
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </div>
 
-          {reports.length === 0 && !loading && (
-            <div className="empty-state">
-              <div className="empty-state-content">
-                <span className="empty-state-icon">📊</span>
-                <h3>No market reports found</h3>
-                <p>No market reports are available for your account.</p>
-              </div>
-            </div>
+                  <div className="report-content-section">
+                    <div className="report-description-new">
+                      <p className="report-description">
+                        {description.length > 150 ? description.substring(0, 150) + '...' : description}
+                      </p>
+                    </div>
+                    <div className="report-name">
+                      {reportTitle}
+                    </div>
+                    <div className="report-date">
+                      📅 {report.research_date 
+                        ? new Date(report.research_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                        : new Date(report.created_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                      }
+                    </div>
+                  </div>
+                </div>
+              );
+            })
           )}
         </div>
 
+        {/* Pagination */}
         {totalPages > 1 && (
           <div className="pagination">
-            <button
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="pagination-btn"
-            >
-              Previous
-            </button>
-            {renderPagination()}
-            <button
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="pagination-btn"
-            >
-              Next
-            </button>
+            <div className="pagination-info">
+              Page {currentPage} of {totalPages} ({totalCount} total reports)
+            </div>
+
+            <div className="pagination-controls">
+              <button
+                className="page-btn prev-btn"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+
+              {generatePageNumbers().map((pageNum, index) => (
+                <button
+                  key={index}
+                  onClick={() => typeof pageNum === 'number' && handlePageChange(pageNum)}
+                  className={`page-btn ${currentPage === pageNum ? 'active' : ''} ${typeof pageNum !== 'number' ? 'dots' : ''}`}
+                  disabled={typeof pageNum !== 'number'}
+                >
+                  {pageNum}
+                </button>
+              ))}
+
+              <button
+                className="page-btn next-btn"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </button>
+            </div>
           </div>
         )}
       </div>
