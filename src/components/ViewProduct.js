@@ -306,9 +306,9 @@ const ViewProduct = ({ userType, user }) => {
         </div>
 
         {/* Product Description Section */}
-        <div className="product-description-section">
+        <div className="view-product-desc-section">
           <h3>Product Description</h3>
-          <div className="description-text">
+          <div className="view-product-desc-text">
             {product.product_long_description || product.product_short_description || 'Spanning cultures and continents, Jasminum grandiflorum weaves a fragrant legacy from Himalayan origins to its new home nestled along the Indian Ocean basin along Africa’s eastern shores. Treasured by diverse cultural symbolisms, adorning individuals and gracing global festivities, rituals, and ceremonies across time. the first-ever poetic flower offers a rich, mellow-floral fruity aroma that intoxicates the senses and delights the spirit.'}
           </div>
         </div>

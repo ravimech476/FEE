@@ -357,7 +357,7 @@ const ProductList = ({ userType, user }) => {
                     </div>
 
                     <div className="product-content-section">
-                      <div className="product-description-section">
+                      <div className="product-description-new">
                         <p className="product-description">
                           {description}
                         </p>

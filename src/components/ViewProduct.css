@@ -227,6 +227,46 @@
   border: 1px solid #D2B48C;
 }
 
+/* === NEW UNIQUE CLASSES FOR VIEW PRODUCT PAGE ONLY === */
+/* View Product Page - Product Description Section */
+.view-product-desc-section {
+  background: linear-gradient(to bottom, #F5DEB3, #DEB887);
+  padding: 2rem;
+  border-bottom: 1px solid #8B4513;
+}
+
+.view-product-desc-section h3 {
+  background: #8B4513;
+  color: white;
+  margin: -2rem -2rem 1.5rem -2rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.view-product-desc-text {
+  color: #333;
+  line-height: 1.6;
+  font-size: 1rem;
+  text-align: justify;
+  font-family: 'Times New Roman', serif;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 1.5rem;
+  border-radius: 5px;
+  border: 1px solid #D2B48C;
+  /* Fix for overlapping/tooltip issue */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
 /* Product Parameters Table */
 .product-parameters {
   padding: 0;

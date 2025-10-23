@@ -301,28 +301,7 @@ const Dashboard = ({ userType, user }) => {
         </div>
       </div>
 
-      {/* Performance Chart Section */}
-      <div className="chart-section">
-        <div className="section-header">
-          <h3>Sales Performance</h3>
-          <select
-            value={selectedPeriod}
-            onChange={(e) => setSelectedPeriod(e.target.value)}
-            className="period-select"
-          >
-            <option value="thisWeek">This Week</option>
-            <option value="thisMonth">This Month</option>
-            <option value="thisQuarter">This Quarter</option>
-          </select>
-        </div>
-        <div className="chart-container">
-          <div className="chart-placeholder">
-            <span className="chart-icon">📊</span>
-            <p>Chart visualization would go here</p>
-            <p className="chart-subtitle">Sales trends and analytics</p>
-          </div>
-        </div>
-      </div>
+    
     </div>
   );
 };
