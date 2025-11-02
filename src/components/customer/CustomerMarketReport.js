@@ -252,11 +252,11 @@ const CustomerMarketReport = ({ userType, user }) => {
                   </div>
 
                   <div className="report-content-section">
-                    <div className="report-description-new">
+                    {/* <div className="report-description-new">
                       <p className="report-description">
                         {description.length > 150 ? description.substring(0, 150) + '...' : description}
                       </p>
-                    </div>
+                    </div> */}
                     <div className="report-name">
                       {reportTitle}
                     </div>

@@ -17,25 +17,14 @@ const CustomerViewMarketReport = ({ userType, user }) => {
   const fetchResearchDetails = async () => {
     try {
       setLoading(true);
-      setError(null);
-
-      if (!user?.customer_code) {
-        setError('Customer code not found. Please contact administrator.');
-        setLoading(false);
-        return;
-      }
-
-      // For customers, fetch via customer-specific API
-      const response = await apiService.getCustomerMarketReportById(user.customer_code, id);
+      // Use general API (same as admin - no customer_code parameter)
+      const response = await apiService.getMarketReportById(id);
       
-      if (response.success) {
-        setResearch(response.data);
-      } else {
-        setError(response.message || 'Failed to fetch market report details');
-      }
+      // Handle different response structures
+      const data = response.data || response;
+      setResearch(data);
     } catch (error) {
-      console.error('Error fetching market report details:', error);
-      setError(`Failed to load market report details. Please try again. ${JSON.stringify(error.response || error.message, null, 2)}`);
+      setError(error.message || 'Failed to fetch research details');
     } finally {
       setLoading(false);
     }
@@ -193,9 +182,35 @@ const CustomerViewMarketReport = ({ userType, user }) => {
               </div>
             )}
 
-           
+            {research.video_link && (
+              <div className="media-item">
+                <h3>Video</h3>
+                <a 
+                  href={research.video_link} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn btn-info"
+                >
+                  <span>🎥</span> Watch Video
+                </a>
+              </div>
+            )}
 
-            
+            {research.document && (
+              <div className="media-item">
+                <h3>Document</h3>
+                <a 
+                  href={research.document.startsWith('http') 
+                    ? research.document 
+                    : `http://localhost:5000${research.document}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn btn-info"
+                >
+                  <span>📄</span> View Document
+                </a>
+              </div>
+            )}
 
             {/* Show message if no media available */}
             {!research.research_image1 && !research.research_image2 && !research.video_link && !research.document && (

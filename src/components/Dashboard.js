@@ -304,7 +304,7 @@ const Dashboard = ({ userType, user }) => {
                     </div>
                     <div className="market-text-box">
                       <p className="market-desc-box">
-                        {report.research_short_description || report.research_long_description?.substring(0, 100) + '...'}
+                        {report.research_name }
                       </p>
                       <div className="market-date-box">
                         {report.research_date
