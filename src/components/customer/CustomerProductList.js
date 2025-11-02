@@ -115,10 +115,10 @@ const CustomerProductList = ({ userType, user }) => {
         
         <div className="customer-search-grid">
           <div className="customer-search-group">
-            <label className="customer-search-label">Product Number</label>
+            <label className="customer-search-label">CAS Number</label>
             <input
               type="text"
-              placeholder="Search by product number"
+              placeholder="Search by CAS number"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="customer-search-input"
@@ -161,7 +161,7 @@ const CustomerProductList = ({ userType, user }) => {
       <div className="customer-products-table-section">
         <div className="customer-table-header">
           <div className="customer-table-header-content">
-            <span>Product Number</span>
+            <span>CAS Number</span>
             <span>Product Name</span>
             <span>Status</span>
             <span style={{ textAlign: 'center' }}>Actions</span>

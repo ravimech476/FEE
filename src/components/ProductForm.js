@@ -57,7 +57,7 @@ const ProductForm = ({ onClose, product = null }) => {
     const newErrors = {};
 
     if (!formData.product_number.trim()) {
-      newErrors.product_number = 'Product Number is required';
+      newErrors.product_number = 'CAS Number is required';
     }
 
     if (!formData.product_name.trim()) {
@@ -126,7 +126,7 @@ const ProductForm = ({ onClose, product = null }) => {
             <div className="jasmine-form-row">
               <div className="jasmine-form-group">
                 <label htmlFor="product_number" className="jasmine-form-label">
-                  Product Number *
+                  CAS Number *
                 </label>
                 <input
                   type="text"
@@ -135,7 +135,7 @@ const ProductForm = ({ onClose, product = null }) => {
                   value={formData.product_number}
                   onChange={handleInputChange}
                   className={`jasmine-form-input ${errors.product_number ? 'error' : ''}`}
-                  placeholder="Enter product number"
+                  placeholder="Enter CAS number"
                   disabled={isSubmitting}
                 />
                 {errors.product_number && <span className="jasmine-error-message">{errors.product_number}</span>}

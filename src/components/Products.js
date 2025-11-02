@@ -133,10 +133,10 @@ const Products = ({ onAddProduct }) => {
         
         <div className="jasmine-search-grid">
           <div className="jasmine-search-group">
-            <label className="jasmine-search-label">Product Number</label>
+            <label className="jasmine-search-label">CAS Number</label>
             <input
               type="text"
-              placeholder="Search by product number"
+              placeholder="Search by CAS number"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="jasmine-search-input"
@@ -179,7 +179,7 @@ const Products = ({ onAddProduct }) => {
       <div className="jasmine-products-table-section">
         <div className="jasmine-table-header">
           <div className="jasmine-table-header-content">
-            <span>Product Number</span>
+            <span>CAS Number</span>
             <span>Product Name</span>
             <span>Status</span>
             <button className="jasmine-add-product-btn" onClick={onAddProduct} title="Add New Product">

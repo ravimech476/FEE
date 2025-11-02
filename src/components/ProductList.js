@@ -193,7 +193,7 @@ const ProductList = ({ userType, user }) => {
                 <label>Search Products</label>
                 <input
                   type="text"
-                  placeholder="Search by product number or name"
+                  placeholder="Search by CAS number or name"
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
@@ -247,7 +247,7 @@ const ProductList = ({ userType, user }) => {
                 <label>Search Products</label>
                 <input
                   type="text"
-                  placeholder="Search by product number or product name"
+                  placeholder="Search by CAS number or product name"
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
@@ -377,7 +377,7 @@ const ProductList = ({ userType, user }) => {
         {userType !== 'customer' && (
           <div className="products-table">
             <div className="table-header">
-              <div className="header-column">Product Number</div>
+              <div className="header-column">CAS Number</div>
               <div className="header-column">Product Name</div>
               <div className="header-column actions-header">Action</div>
             </div>
@@ -400,7 +400,7 @@ const ProductList = ({ userType, user }) => {
               ) : (
                 safeProducts.map((product) => (
                   <div key={product.id} className="table-row">
-                    <div className="data-column" data-label="Product Number:">
+                    <div className="data-column" data-label="CAS Number:">
                       <div className="data-value">{product.product_number || 'N/A'}</div>
                     </div>
                     <div className="data-column" data-label="Product Name:">

@@ -252,7 +252,7 @@ const CreateProduct = () => {
     const newErrors = {};
 
     if (!formData.product_number.trim()) {
-      newErrors.product_number = 'Product Number is required';
+      newErrors.product_number = 'CAS Number is required';
     }
 
     setErrors(newErrors);
@@ -386,7 +386,7 @@ const CreateProduct = () => {
           
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="product_number">Product Number *</label>
+              <label htmlFor="product_number">CAS Number *</label>
               <input
                 type="text"
                 id="product_number"
@@ -394,7 +394,7 @@ const CreateProduct = () => {
                 value={formData.product_number}
                 onChange={handleInputChange}
                 className={`form-control ${errors.product_number ? 'error' : ''}`}
-                placeholder="Enter product number"
+                placeholder="Enter CAS number"
                 disabled={loading}
               />
               {errors.product_number && <span className="error-text">{errors.product_number}</span>}
