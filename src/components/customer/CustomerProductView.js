@@ -305,6 +305,7 @@ const CustomerProductView = () => {
             <div className="customer-details-grid">
               <div className="customer-detail-item">
                 <label>CAS Number</label>
+                
                 <span className="detail-value">{product.product_number}</span>
               </div>
               <div className="customer-detail-item">
