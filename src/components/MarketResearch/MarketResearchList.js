@@ -9,13 +9,12 @@ const MarketResearchList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     fetchReports();
-  }, [currentPage, searchTerm, filterStatus]);
+  }, [currentPage, searchTerm]);
 
   const fetchReports = async () => {
     try {
@@ -23,8 +22,7 @@ const MarketResearchList = () => {
       const params = {
         page: currentPage,
         limit: 10,
-        search: searchTerm,
-        status: filterStatus
+        search: searchTerm
       };
       const response = await apiService.getMarketReports(params);
       
@@ -70,16 +68,6 @@ const MarketResearchList = () => {
     return new Date(dateString).toLocaleDateString();
   };
 
-  const getStatusColor = (status) => {
-    switch (status?.toLowerCase()) {
-      case 'active': return '#28a745';
-      case 'inactive': return '#6c757d';
-      case 'draft': return '#ffc107';
-      case 'published': return '#007bff';
-      default: return '#6c757d';
-    }
-  };
-
   if (loading && reports.length === 0) {
     return (
       <div className="market-research-page">
@@ -102,11 +90,11 @@ const MarketResearchList = () => {
 
       {error && <div className="error-message">{error}</div>}
 
-      {/* Filters */}
+      {/* Search Filter */}
       <div className="filters">
         <input
           type="text"
-          placeholder="Search research..."
+          placeholder="Search by title..."
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
@@ -114,18 +102,6 @@ const MarketResearchList = () => {
           }}
           className="search-input"
         />
-        <select 
-          value={filterStatus} 
-          onChange={(e) => {
-            setFilterStatus(e.target.value);
-            setCurrentPage(1);
-          }} 
-          className="filter-select"
-        >
-          <option value="">All Status</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
       </div>
 
       {/* Reports Table */}
@@ -133,11 +109,8 @@ const MarketResearchList = () => {
         <table className="reports-table">
           <thead>
             <tr>
-              <th>Research Number</th>
-              <th>Research Name</th>
               <th>Title</th>
-              <th>Status</th>
-              <th>Priority</th>
+              <th>Image</th>
               <th>Created Date</th>
               <th>Actions</th>
             </tr>
@@ -145,24 +118,54 @@ const MarketResearchList = () => {
           <tbody>
             {reports.map(report => (
               <tr key={report.id}>
-                <td>{report.research_number}</td>
                 <td>
-                  <div className="report-title">{report.research_name}</div>
-                  {report.research_short_description && (
-                    <div className="report-description">{report.research_short_description}</div>
-                  )}
+                  <div className="report-title">{report.research_title || 'Untitled'}</div>
                 </td>
-                <td>{report.research_title || 'N/A'}</td>
                 <td>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                    <span 
-                      className="status-dot"
-                      style={{ backgroundColor: getStatusColor(report.status) }}
-                    ></span>
-                    <span className="status-text">{report.status}</span>
+                  {report.research_image1 ? (
+                    <img 
+                      src={report.research_image1.startsWith('http') 
+                        ? report.research_image1 
+                        : `http://localhost:5000${report.research_image1}`}
+                      alt={report.research_title}
+                      style={{
+                        width: '80px',
+                        height: '60px',
+                        objectFit: 'cover',
+                        borderRadius: '4px'
+                      }}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                  ) : (
+                    <div style={{
+                      width: '80px',
+                      height: '60px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: '#f0f0f0',
+                      borderRadius: '4px',
+                      color: '#999'
+                    }}>
+                      No Image
+                    </div>
+                  )}
+                  <div style={{
+                    display: 'none',
+                    width: '80px',
+                    height: '60px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: '#f0f0f0',
+                    borderRadius: '4px',
+                    color: '#999'
+                  }}>
+                    No Image
                   </div>
                 </td>
-                <td>{report.priority || 0}</td>
                 <td>{formatDate(report.created_date)}</td>
                 <td>
                   <div className="action-buttons">

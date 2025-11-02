@@ -12,31 +12,19 @@ const EditMarketResearch = () => {
   const [error, setError] = useState(null);
   
   const [formData, setFormData] = useState({
-    research_number: '',
-    research_name: '',
-    research_title: '',
-    research_short_description: '',
-    research_long_description: '',
-    video_link: '',
-    priority: 0,
-    status: 'active'
+    research_title: ''
   });
 
   const [existingFiles, setExistingFiles] = useState({
-    research_image1: null,
-    research_image2: null,
-    document: null
+    research_image1: null
   });
 
   const [files, setFiles] = useState({
-    research_image1: null,
-    research_image2: null,
-    document: null
+    research_image1: null
   });
 
   const [previews, setPreviews] = useState({
-    research_image1: null,
-    research_image2: null
+    research_image1: null
   });
 
   useEffect(() => {
@@ -52,21 +40,12 @@ const EditMarketResearch = () => {
       const research = response.data || response;
       
       setFormData({
-        research_number: research.research_number || '',
-        research_name: research.research_name || '',
-        research_title: research.research_title || '',
-        research_short_description: research.research_short_description || '',
-        research_long_description: research.research_long_description || '',
-        video_link: research.video_link || '',
-        priority: research.priority || 0,
-        status: research.status || 'active'
+        research_title: research.research_title || ''
       });
 
-      // Set existing file URLs
+      // Set existing file URL
       setExistingFiles({
-        research_image1: research.research_image1 || null,
-        research_image2: research.research_image2 || null,
-        document: research.document || null
+        research_image1: research.research_image1 || null
       });
     } catch (error) {
       setError(error.message || 'Failed to fetch research details');
@@ -83,87 +62,80 @@ const EditMarketResearch = () => {
     }));
   };
 
-  const handleFileChange = (e, fileType) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
     
     if (file) {
-      // Validate file types
-      if (fileType === 'research_image1' || fileType === 'research_image2') {
-        const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-        if (!validImageTypes.includes(file.type)) {
-          setError(`Please select a valid image file (JPEG, JPG, PNG, GIF, WebP) for ${fileType}`);
-          return;
-        }
-      } else if (fileType === 'document') {
-        const validDocTypes = ['application/pdf', 'application/msword', 
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-          'application/vnd.ms-excel',
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
-        if (!validDocTypes.includes(file.type)) {
-          setError('Please select a valid document file (PDF, DOC, DOCX, XLS, XLSX)');
-          return;
-        }
+      // Validate file type
+      const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+      if (!validImageTypes.includes(file.type)) {
+        setError('Please select a valid image file (JPEG, JPG, PNG, GIF, WebP)');
+        return;
       }
 
       // Validate file size (5MB max)
       const maxSize = 5 * 1024 * 1024; // 5MB in bytes
       if (file.size > maxSize) {
-        setError(`File size should be less than 5MB for ${fileType}`);
+        setError('File size should be less than 5MB');
         return;
       }
 
       // Update files state
-      setFiles(prev => ({
-        ...prev,
-        [fileType]: file
-      }));
+      setFiles({
+        research_image1: file
+      });
 
-      // Create preview for images
-      if (fileType === 'research_image1' || fileType === 'research_image2') {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setPreviews(prev => ({
-            ...prev,
-            [fileType]: e.target.result
-          }));
-        };
-        reader.readAsDataURL(file);
-      }
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setPreviews({
+          research_image1: e.target.result
+        });
+      };
+      reader.readAsDataURL(file);
 
       // Clear any existing error
       setError(null);
     }
   };
 
-  const removeFile = (fileType) => {
-    setFiles(prev => ({
-      ...prev,
-      [fileType]: null
-    }));
+  const removeFile = () => {
+    setFiles({
+      research_image1: null
+    });
     
-    if (fileType === 'research_image1' || fileType === 'research_image2') {
-      setPreviews(prev => ({
-        ...prev,
-        [fileType]: null
-      }));
-    }
+    setPreviews({
+      research_image1: null
+    });
 
     // Clear the file input
-    const input = document.getElementById(`${fileType}-input`);
+    const input = document.getElementById('research_image1-input');
     if (input) {
       input.value = '';
     }
   };
 
-  const removeExistingFile = (fileType) => {
-    setExistingFiles(prev => ({
-      ...prev,
-      [fileType]: null
-    }));
+  const removeExistingFile = () => {
+    setExistingFiles({
+      research_image1: null
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate required fields
+    if (!formData.research_title.trim()) {
+      setError('Title is required');
+      return;
+    }
+
+    // Check if image exists (either existing or new)
+    if (!existingFiles.research_image1 && !files.research_image1) {
+      setError('Image is required');
+      return;
+    }
+
     setSaving(true);
     setError(null);
 
@@ -171,31 +143,17 @@ const EditMarketResearch = () => {
       // Create FormData object for file upload
       const formDataToSend = new FormData();
       
-      // Add all text fields
-      Object.keys(formData).forEach(key => {
-        formDataToSend.append(key, formData[key]);
-      });
+      // Add only the required field
+      formDataToSend.append('research_title', formData.research_title);
       
-      // Add existing file references (if not removed)
+      // Add existing file reference if not removed and no new file
       if (existingFiles.research_image1 && !files.research_image1) {
         formDataToSend.append('existing_research_image1', existingFiles.research_image1);
       }
-      if (existingFiles.research_image2 && !files.research_image2) {
-        formDataToSend.append('existing_research_image2', existingFiles.research_image2);
-      }
-      if (existingFiles.document && !files.document) {
-        formDataToSend.append('existing_document', existingFiles.document);
-      }
       
-      // Add new files
+      // Add new file if selected
       if (files.research_image1) {
         formDataToSend.append('research_image1', files.research_image1);
-      }
-      if (files.research_image2) {
-        formDataToSend.append('research_image2', files.research_image2);
-      }
-      if (files.document) {
-        formDataToSend.append('document', files.document);
       }
 
       // Send request with FormData
@@ -226,136 +184,54 @@ const EditMarketResearch = () => {
   return (
     <div className="market-research-page">
       <div className="page-header">
-        <h1>Edit Market Research</h1>
-        <button 
-          onClick={() => navigate('/market-report')} 
-          className="btn btn-secondary"
-        >
-          Back to List
-        </button>
+        <div className="header-content">
+          <button onClick={() => navigate('/market-report')} className="search-btn">
+            ← Back to Market Reports
+          </button>
+          <div className="header-info" style={{textAlign: 'center', flex: 1}}>
+            <h1>Edit Market Research</h1>
+          </div>
+        </div>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
-      <div className="form-container">
-        <form onSubmit={handleSubmit} className="market-research-form">
-          <div className="form-section">
-            <h2>Basic Information</h2>
-            
-            <div className="form-row">
-              <div className="form-group">
-                <label>Research Number *</label>
+      <div className="add-market-research-form-container">
+        <form onSubmit={handleSubmit} className="add-market-research-form">
+          {/* Title Field */}
+          <div className="add-market-research-form-section">
+            <div className="add-market-research-form-row">
+              <div className="add-market-research-form-group full-width">
+                <label htmlFor="research_title">Title *</label>
                 <input
                   type="text"
-                  name="research_number"
-                  value={formData.research_number}
+                  id="research_title"
+                  name="research_title"
+                  value={formData.research_title}
                   onChange={handleInputChange}
+                  placeholder="Enter title"
+                  className="add-market-research-form-control"
+                  disabled={saving}
                   required
-                  placeholder="e.g., MR-2024-001"
                 />
-              </div>
-              <div className="form-group">
-                <label>Research Name *</label>
-                <input
-                  type="text"
-                  name="research_name"
-                  value={formData.research_name}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="Enter research name"
-                />
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>Research Title</label>
-              <input
-                type="text"
-                name="research_title"
-                value={formData.research_title}
-                onChange={handleInputChange}
-                placeholder="Enter research title"
-              />
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label>Priority</label>
-                <input
-                  type="number"
-                  name="priority"
-                  value={formData.priority}
-                  onChange={handleInputChange}
-                  min="0"
-                  placeholder="Display priority (0 = lowest)"
-                />
-              </div>
-              <div className="form-group">
-                <label>Status</label>
-                <select
-                  name="status"
-                  value={formData.status}
-                  onChange={handleInputChange}
-                >
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                </select>
               </div>
             </div>
           </div>
 
-          <div className="form-section">
-            <h2>Content</h2>
-            
-            <div className="form-group">
-              <label>Short Description</label>
-              <textarea
-                name="research_short_description"
-                value={formData.research_short_description}
-                onChange={handleInputChange}
-                rows="3"
-                placeholder="Brief description of the research"
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Long Description</label>
-              <textarea
-                name="research_long_description"
-                value={formData.research_long_description}
-                onChange={handleInputChange}
-                rows="8"
-                placeholder="Detailed description of the research"
-              />
-            </div>
-          </div>
-
-          <div className="form-section">
-            <h2>Media & Documents</h2>
-            
-            <div className="form-group">
-              <label>Video Link</label>
-              <input
-                type="url"
-                name="video_link"
-                value={formData.video_link}
-                onChange={handleInputChange}
-                placeholder="https://example.com/video"
-              />
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label>Research Image 1</label>
-                <div className="file-upload-container">
+          {/* Upload Image */}
+          <div className="add-market-research-form-section">
+            <div className="add-market-research-form-row">
+              <div className="add-market-research-form-group full-width">
+                <label>Upload Image *</label>
+                <div className="add-market-research-file-upload-container">
                   {existingFiles.research_image1 && !files.research_image1 && (
                     <div className="existing-file-display">
-                      <div className="existing-image-preview">
+                      <div className="add-market-research-image-preview">
                         <img 
                           src={existingFiles.research_image1.startsWith('http') 
                             ? existingFiles.research_image1 
                             : `http://localhost:5000${existingFiles.research_image1}`} 
-                          alt="Current image 1"
+                          alt="Current image"
                           onError={(e) => {
                             e.target.style.display = 'none';
                             e.target.nextSibling.style.display = 'block';
@@ -368,8 +244,9 @@ const EditMarketResearch = () => {
                       </div>
                       <button 
                         type="button" 
-                        onClick={() => removeExistingFile('research_image1')}
-                        className="btn btn-sm btn-danger"
+                        onClick={removeExistingFile}
+                        className="add-market-research-remove-file-btn"
+                        style={{marginTop: '10px'}}
                       >
                         Remove Current Image
                       </button>
@@ -379,158 +256,52 @@ const EditMarketResearch = () => {
                   <input
                     type="file"
                     id="research_image1-input"
-                    onChange={(e) => handleFileChange(e, 'research_image1')}
+                    onChange={handleFileChange}
                     accept=".jpg,.jpeg,.png,.gif,.webp"
-                    className="file-input"
+                    className="add-market-research-file-input"
                   />
-                  <label htmlFor="research_image1-input" className="file-label">
-                    <span className="upload-icon">📷</span>
+                  <label htmlFor="research_image1-input" className="add-market-research-file-label">
+                    <span className="add-market-research-upload-icon">📷</span>
                     {existingFiles.research_image1 && !files.research_image1 ? 'Replace Image' : 'Choose Image'}
                   </label>
                   
                   {files.research_image1 && (
-                    <div className="file-info-container">
-                      <span className="file-name">{files.research_image1.name}</span>
+                    <div className="add-market-research-file-info-container">
+                      <span className="add-market-research-file-name">{files.research_image1.name}</span>
                       <button 
                         type="button" 
-                        onClick={() => removeFile('research_image1')}
-                        className="remove-file-btn"
+                        onClick={removeFile}
+                        className="add-market-research-remove-file-btn"
                       >
                         ✕
                       </button>
                     </div>
                   )}
                   {previews.research_image1 && (
-                    <div className="image-preview">
+                    <div className="add-market-research-image-preview">
                       <img src={previews.research_image1} alt="New preview" />
                     </div>
                   )}
                 </div>
               </div>
-              
-              <div className="form-group">
-                <label>Research Image 2</label>
-                <div className="file-upload-container">
-                  {existingFiles.research_image2 && !files.research_image2 && (
-                    <div className="existing-file-display">
-                      <div className="existing-image-preview">
-                        <img 
-                          src={existingFiles.research_image2.startsWith('http') 
-                            ? existingFiles.research_image2 
-                            : `http://localhost:5000${existingFiles.research_image2}`} 
-                          alt="Current image 2"
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'block';
-                          }}
-                        />
-                        <div className="image-error" style={{display: 'none'}}>
-                          <span>🖼️</span>
-                          <p>Current image</p>
-                        </div>
-                      </div>
-                      <button 
-                        type="button" 
-                        onClick={() => removeExistingFile('research_image2')}
-                        className="btn btn-sm btn-danger"
-                      >
-                        Remove Current Image
-                      </button>
-                    </div>
-                  )}
-                  
-                  <input
-                    type="file"
-                    id="research_image2-input"
-                    onChange={(e) => handleFileChange(e, 'research_image2')}
-                    accept=".jpg,.jpeg,.png,.gif,.webp"
-                    className="file-input"
-                  />
-                  <label htmlFor="research_image2-input" className="file-label">
-                    <span className="upload-icon">📷</span>
-                    {existingFiles.research_image2 && !files.research_image2 ? 'Replace Image' : 'Choose Image'}
-                  </label>
-                  
-                  {files.research_image2 && (
-                    <div className="file-info-container">
-                      <span className="file-name">{files.research_image2.name}</span>
-                      <button 
-                        type="button" 
-                        onClick={() => removeFile('research_image2')}
-                        className="remove-file-btn"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  )}
-                  {previews.research_image2 && (
-                    <div className="image-preview">
-                      <img src={previews.research_image2} alt="New preview" />
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>Document</label>
-              <div className="file-upload-container">
-                {existingFiles.document && !files.document && (
-                  <div className="existing-file-display">
-                    <div className="existing-document">
-                      <span className="doc-icon">📄</span>
-                      <span className="doc-name">Current document</span>
-                    </div>
-                    <button 
-                      type="button" 
-                      onClick={() => removeExistingFile('document')}
-                      className="btn btn-sm btn-danger"
-                    >
-                      Remove Current Document
-                    </button>
-                  </div>
-                )}
-                
-                <input
-                  type="file"
-                  id="document-input"
-                  onChange={(e) => handleFileChange(e, 'document')}
-                  accept=".pdf,.doc,.docx,.xls,.xlsx"
-                  className="file-input"
-                />
-                <label htmlFor="document-input" className="file-label">
-                  <span className="upload-icon">📄</span>
-                  {existingFiles.document && !files.document ? 'Replace Document' : 'Choose Document'}
-                </label>
-                
-                {files.document && (
-                  <div className="file-info-container">
-                    <span className="file-name">{files.document.name}</span>
-                    <button 
-                      type="button" 
-                      onClick={() => removeFile('document')}
-                      className="remove-file-btn"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                )}
-              </div>
             </div>
           </div>
 
-          <div className="form-actions">
+          {/* Form Actions */}
+          <div className="add-market-research-form-actions">
             <button 
               type="button" 
               onClick={() => navigate('/market-report')} 
-              className="btn btn-secondary"
+              className="search-btn"
+              disabled={saving}
             >
               Cancel
             </button>
             <button 
               type="submit" 
-              className="btn btn-primary"
+              className="search-btn"
               disabled={saving}
+              style={{background: '#007bff'}}
             >
               {saving ? 'Updating...' : 'Update Research'}
             </button>
