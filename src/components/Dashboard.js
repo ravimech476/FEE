@@ -27,7 +27,7 @@ const Dashboard = ({ userType, user }) => {
         if (userType === 'customer' && user?.customer_code) {
           [companyNewsResponse, researchResponse, invoiceStatsResponse, topProductsResponse, meetingResponse] = await Promise.all([
             apiService.getCustomerMeetings(user.customer_code, { limit: 5, sort: 'created_date', order: 'desc' }),
-            apiService.getCustomerMarketReports(user.customer_code, { limit: 3, sort: 'created_date', order: 'desc' }),
+            apiService.getLatestMarketResearch(3), // Changed to fetch ALL market reports (not customer-specific)
             apiService.getCustomerOrderStats(user.customer_code).catch(err => {
               console.warn('Customer stats not available:', err);
               return { success: false };
