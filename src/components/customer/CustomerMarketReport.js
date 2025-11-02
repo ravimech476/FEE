@@ -50,12 +50,6 @@ const CustomerMarketReport = ({ userType, user }) => {
       setError('');
       setImageErrors({});
 
-      if (!user?.customer_code) {
-        setError('Customer code not found. Please contact administrator.');
-        setLoading(false);
-        return;
-      }
-
       const params = {
         page: page,
         limit: itemsPerPage,
@@ -67,10 +61,11 @@ const CustomerMarketReport = ({ userType, user }) => {
         params.search = searchText.trim();
       }
 
-      const response = await apiService.getCustomerMarketReports(user.customer_code, params);
+      // Fetch ALL market reports (not filtered by customer_code)
+      const response = await apiService.getMarketReports(params);
 
       if (response.success) {
-        const reportsData = response.data.reports || response.data || [];
+        const reportsData = response.data.research || response.data.reports || response.data || [];
         const totalCountData = response.data.total || response.data.pagination?.total || reportsData.length;
         const totalPagesData = response.data.totalPages || response.data.pagination?.totalPages || Math.ceil(totalCountData / itemsPerPage);
         
