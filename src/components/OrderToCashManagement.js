@@ -110,7 +110,7 @@ const OrderToCashManagement = () => {
         <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-header">
-              <h3>Total Orders</h3>
+              <h3>No of Orders</h3>
               <span className="stat-icon">📦</span>
             </div>
             <div className="stat-value">{stats.totalOrders || 0}</div>

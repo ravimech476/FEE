@@ -12,11 +12,9 @@ const CustomerOrderToCash = ({ userType, user }) => {
   const [filterStatus, setFilterStatus] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [stats, setStats] = useState(null);
 
   useEffect(() => {
     fetchOrders();
-    fetchStats();
   }, [currentPage, searchTerm, filterStatus]);
 
   const fetchOrders = async () => {
@@ -50,19 +48,6 @@ const CustomerOrderToCash = ({ userType, user }) => {
       setError('Failed to load orders. Please try again.');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const fetchStats = async () => {
-    try {
-      if (!user?.customer_code) return;
-      
-      const response = await apiService.getCustomerOrderStats(user.customer_code);
-      if (response.success) {
-        setStats(response.data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch stats:', error);
     }
   };
 
@@ -115,40 +100,6 @@ const CustomerOrderToCash = ({ userType, user }) => {
       </div>
 
       {error && <div className="error-message">{error}</div>}
-
-      {/* Statistics Cards */}
-      {stats && (
-        <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-header">
-              <h3>Total Orders</h3>
-              <span className="stat-icon">📦</span>
-            </div>
-            <div className="stat-value">{stats.totalOrders || orders.length}</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-header">
-              <h3>Total Amount</h3>
-              <span className="stat-icon">💰</span>
-            </div>
-            <div className="stat-value">{formatCurrency(stats.totalAmount || 0)}</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-header">
-              <h3>Pending Orders</h3>
-              <span className="stat-icon">⏳</span>
-            </div>
-            <div className="stat-value">{stats.pendingOrders || 0}</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-header">
-              <h3>Delivered</h3>
-              <span className="stat-icon">✅</span>
-            </div>
-            <div className="stat-value">{stats.deliveredOrders || 0}</div>
-          </div>
-        </div>
-      )}
 
       {/* Filters */}
       <div className="filters">
