@@ -616,3 +616,61 @@
 .download-doc-btn:active {
   transform: translateY(0px);
 }
+
+/* Image with Actions - Hover Overlay */
+.image-with-actions {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.image-with-actions .report-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-with-actions:hover .image-overlay {
+  opacity: 1;
+}
+
+.image-action-btn {
+  background: white;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  min-width: 100px;
+}
+
+.image-action-btn:hover {
+  background: #007bff;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.image-action-btn:active {
+  transform: translateY(0px);
+}

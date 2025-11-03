@@ -249,12 +249,33 @@ const CustomerMarketReport = ({ userType, user }) => {
                   <div className="report-image-section">
                     <div className="report-image-wrapper">
                       {fileType === 'image' && imageUrl && !hasImageError ? (
-                        <img 
-                          src={imageUrl} 
-                          alt={reportTitle}
-                          className="report-image"
-                          onError={() => handleImageError(report.id)}
-                        />
+                        <div className="image-with-actions">
+                          <img 
+                            src={imageUrl} 
+                            alt={reportTitle}
+                            className="report-image"
+                            onError={() => handleImageError(report.id)}
+                          />
+                          <div className="image-overlay">
+                            <button 
+                              className="image-action-btn"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                window.open(imageUrl, '_blank');
+                              }}
+                              title="View Full Image"
+                            >
+                              👁️ View
+                            </button>
+                            {/* <button 
+                              className="image-action-btn"
+                              onClick={(e) => handleDownload(report.research_image1, reportTitle, e)}
+                              title="Download Image"
+                            >
+                              ⬇️ Download
+                            </button> */}
+                          </div>
+                        </div>
                       ) : fileType === 'pdf' ? (
                         <div className="report-document-preview">
                           <div className="document-icon-large">📄</div>

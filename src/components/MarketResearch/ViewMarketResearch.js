@@ -192,13 +192,13 @@ const ViewMarketResearch = () => {
                         >
                           👁️ View PDF
                         </a>
-                        {/* <button 
+                        <button 
                           onClick={handleDownload}
                           className="btn btn-info"
                           style={{background: '#28a745', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer'}}
                         >
                           ⬇️ Download
-                        </button> */}
+                        </button>
                       </div>
                     </div>
                   ) : fileType === 'word' ? (
@@ -240,6 +240,76 @@ const ViewMarketResearch = () => {
                   )}
                 </div>
               );
+            })()}
+
+            {/* Image Action Buttons - Moved Outside */}
+            {research.research_image1 && (() => {
+              const getFileType = (filePath) => {
+                if (!filePath) return 'none';
+                const ext = filePath.split('.').pop().toLowerCase();
+                if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) return 'image';
+                return 'other';
+              };
+              
+              const fileType = getFileType(research.research_image1);
+              const fileUrl = research.research_image1.startsWith('http') 
+                ? research.research_image1 
+                : `http://localhost:5000${research.research_image1}`;
+              
+              const handleDownload = () => {
+                const link = document.createElement('a');
+                link.href = fileUrl;
+                link.download = research.research_title || 'document';
+                link.target = '_blank';
+                link.click();
+              };
+              
+              if (fileType === 'image') {
+                return (
+                  <div className="media-item" style={{marginTop: '20px'}}>
+                    <div style={{display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap'}}>
+                      <a 
+                        href={fileUrl}
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="btn btn-info"
+                        style={{
+                          background: '#007bff',
+                          color: 'white',
+                          padding: '12px 24px',
+                          borderRadius: '6px',
+                          textDecoration: 'none',
+                          fontSize: '15px',
+                          fontWeight: '600',
+                          display: 'inline-block',
+                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                          border: 'none'
+                        }}
+                      >
+                        👁️ View Full Image
+                      </a>
+                      {/* <button 
+                        onClick={handleDownload}
+                        className="btn btn-info"
+                        style={{
+                          background: '#28a745',
+                          color: 'white',
+                          padding: '12px 24px',
+                          borderRadius: '6px',
+                          border: 'none',
+                          cursor: 'pointer',
+                          fontSize: '15px',
+                          fontWeight: '600',
+                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                        }}
+                      >
+                        ⬇️ Download Image
+                      </button> */}
+                    </div>
+                  </div>
+                );
+              }
+              return null;
             })()}
 
             {research.research_image2 && (
