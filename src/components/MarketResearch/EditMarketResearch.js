@@ -261,14 +261,14 @@ const EditMarketResearch = () => {
                           <p>Current document</p>
                         </div>
                       </div>
-                      <button 
+                      {/* <button 
                         type="button" 
                         onClick={removeExistingFile}
                         className="add-market-research-remove-file-btn"
                         style={{marginTop: '10px'}}
                       >
                         Remove Current Document
-                      </button>
+                      </button> */}
                     </div>
                   )}
                   
