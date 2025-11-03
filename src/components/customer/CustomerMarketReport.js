@@ -39,6 +39,25 @@ const CustomerMarketReport = ({ userType, user }) => {
     return `http://localhost:5000/uploads/${imagePath}`;
   };
 
+  const getFileType = (filePath) => {
+    if (!filePath) return 'none';
+    const ext = filePath.split('.').pop().toLowerCase();
+    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) return 'image';
+    if (ext === 'pdf') return 'pdf';
+    if (['doc', 'docx'].includes(ext)) return 'word';
+    if (['xls', 'xlsx'].includes(ext)) return 'excel';
+    return 'unknown';
+  };
+
+  const handleDownload = (filePath, fileName, e) => {
+    e.stopPropagation();
+    const link = document.createElement('a');
+    link.href = getImageUrl(filePath);
+    link.download = fileName || 'document';
+    link.target = '_blank';
+    link.click();
+  };
+
   const handleImageError = (reportId) => {
     console.error('Image failed to load for report:', reportId);
     setImageErrors(prev => ({ ...prev, [reportId]: true }));
@@ -216,6 +235,7 @@ const CustomerMarketReport = ({ userType, user }) => {
           ) : (
             safeReports.map((report) => {
               const imageUrl = getImageUrl(report.research_image1);
+              const fileType = getFileType(report.research_image1);
               const description = report.research_short_description || report.research_long_description || 'No description available';
               const reportTitle = report.research_title || report.research_name || 'N/A';
               const hasImageError = imageErrors[report.id];
@@ -228,13 +248,49 @@ const CustomerMarketReport = ({ userType, user }) => {
                 >
                   <div className="report-image-section">
                     <div className="report-image-wrapper">
-                      {imageUrl && !hasImageError ? (
+                      {fileType === 'image' && imageUrl && !hasImageError ? (
                         <img 
                           src={imageUrl} 
                           alt={reportTitle}
                           className="report-image"
                           onError={() => handleImageError(report.id)}
                         />
+                      ) : fileType === 'pdf' ? (
+                        <div className="report-document-preview">
+                          <div className="document-icon-large">📄</div>
+                          <div className="document-type-label">PDF Document</div>
+                          <button 
+                            className="download-doc-btn"
+                            onClick={(e) => handleDownload(report.research_image1, reportTitle, e)}
+                            title="Download PDF"
+                          >
+                            ⬇️ Download
+                          </button>
+                        </div>
+                      ) : fileType === 'word' ? (
+                        <div className="report-document-preview">
+                          <div className="document-icon-large">📝</div>
+                          <div className="document-type-label">Word Document</div>
+                          <button 
+                            className="download-doc-btn"
+                            onClick={(e) => handleDownload(report.research_image1, reportTitle, e)}
+                            title="Download Document"
+                          >
+                            ⬇️ Download
+                          </button>
+                        </div>
+                      ) : fileType === 'excel' ? (
+                        <div className="report-document-preview">
+                          <div className="document-icon-large">📊</div>
+                          <div className="document-type-label">Excel Spreadsheet</div>
+                          <button 
+                            className="download-doc-btn"
+                            onClick={(e) => handleDownload(report.research_image1, reportTitle, e)}
+                            title="Download Spreadsheet"
+                          >
+                            ⬇️ Download
+                          </button>
+                        </div>
                       ) : (
                         <div className="report-chart-placeholder">
                           <div className="chart-visual-box">

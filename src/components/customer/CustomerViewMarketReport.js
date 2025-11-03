@@ -138,27 +138,111 @@ const CustomerViewMarketReport = ({ userType, user }) => {
         <div className="detail-section">
           <h2>Media & Documents</h2>
           <div className="media-grid">
-            {research.research_image1 && (
-              <div className="media-item">
-                <h3>Research Image 1</h3>
-                <div className="image-container">
-                  <img 
-                    src={research.research_image1.startsWith('http') 
-                      ? research.research_image1 
-                      : `http://localhost:5000${research.research_image1}`} 
-                    alt="Research Image 1" 
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'block';
-                    }}
-                  />
-                  <div className="image-error" style={{display: 'none'}}>
-                    <span>🖼️</span>
-                    <p>Image not available</p>
-                  </div>
+            {research.research_image1 && (() => {
+              const getFileType = (filePath) => {
+                if (!filePath) return 'none';
+                const ext = filePath.split('.').pop().toLowerCase();
+                if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) return 'image';
+                if (ext === 'pdf') return 'pdf';
+                if (['doc', 'docx'].includes(ext)) return 'word';
+                if (['xls', 'xlsx'].includes(ext)) return 'excel';
+                return 'unknown';
+              };
+              
+              const fileType = getFileType(research.research_image1);
+              const fileUrl = research.research_image1.startsWith('http') 
+                ? research.research_image1 
+                : `http://localhost:5000${research.research_image1}`;
+              
+              const handleDownload = () => {
+                const link = document.createElement('a');
+                link.href = fileUrl;
+                link.download = research.research_title || 'document';
+                link.target = '_blank';
+                link.click();
+              };
+              
+              return (
+                <div className="media-item">
+                  <h3>Attached Document</h3>
+                  {fileType === 'image' ? (
+                    <div className="image-container">
+                      <img 
+                        src={fileUrl}
+                        alt="Research Document" 
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'block';
+                        }}
+                      />
+                      <div className="image-error" style={{display: 'none'}}>
+                        <span>🖼️</span>
+                        <p>Image not available</p>
+                      </div>
+                    </div>
+                  ) : fileType === 'pdf' ? (
+                    <div className="document-preview" style={{textAlign: 'center', padding: '20px'}}>
+                      <div style={{fontSize: '48px', marginBottom: '15px'}}>📄</div>
+                      <p style={{marginBottom: '15px', color: '#666'}}>PDF Document</p>
+                      <div style={{display: 'flex', gap: '10px', justifyContent: 'center'}}>
+                        <a 
+                          href={fileUrl}
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="btn btn-info"
+                          style={{background: '#dc3545', color: 'white', padding: '10px 20px', borderRadius: '5px', textDecoration: 'none'}}
+                        >
+                          👁️ View PDF
+                        </a>
+                        <button 
+                          onClick={handleDownload}
+                          className="btn btn-info"
+                          style={{background: '#28a745', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer'}}
+                        >
+                          ⬇️ Download
+                        </button>
+                      </div>
+                    </div>
+                  ) : fileType === 'word' ? (
+                    <div className="document-preview" style={{textAlign: 'center', padding: '20px'}}>
+                      <div style={{fontSize: '48px', marginBottom: '15px'}}>📝</div>
+                      <p style={{marginBottom: '15px', color: '#666'}}>Word Document</p>
+                      <button 
+                        onClick={handleDownload}
+                        className="btn btn-info"
+                        style={{background: '#2b579a', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer'}}
+                      >
+                        ⬇️ Download Document
+                      </button>
+                    </div>
+                  ) : fileType === 'excel' ? (
+                    <div className="document-preview" style={{textAlign: 'center', padding: '20px'}}>
+                      <div style={{fontSize: '48px', marginBottom: '15px'}}>📊</div>
+                      <p style={{marginBottom: '15px', color: '#666'}}>Excel Spreadsheet</p>
+                      <button 
+                        onClick={handleDownload}
+                        className="btn btn-info"
+                        style={{background: '#217346', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer'}}
+                      >
+                        ⬇️ Download Spreadsheet
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="document-preview" style={{textAlign: 'center', padding: '20px'}}>
+                      <div style={{fontSize: '48px', marginBottom: '15px'}}>📁</div>
+                      <p style={{marginBottom: '15px', color: '#666'}}>File</p>
+                      <button 
+                        onClick={handleDownload}
+                        className="btn btn-info"
+                        style={{background: '#6c757d', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer'}}
+                      >
+                        ⬇️ Download File
+                      </button>
+                    </div>
+                  )}
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {research.research_image2 && (
               <div className="media-item">
