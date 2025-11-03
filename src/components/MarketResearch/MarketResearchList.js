@@ -110,40 +110,133 @@ const MarketResearchList = () => {
           <thead>
             <tr>
               <th>Title</th>
-              <th>Image</th>
+              <th>Document</th>
               <th>Created Date</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {reports.map(report => (
-              <tr key={report.id}>
-                <td>
-                  <div className="report-title">{report.research_title || 'Untitled'}</div>
-                </td>
-                <td>
-                  {report.research_image1 ? (
-                    <img 
-                      src={report.research_image1.startsWith('http') 
-                        ? report.research_image1 
-                        : `http://localhost:5000${report.research_image1}`}
-                      alt={report.research_title}
-                      style={{
+            {reports.map(report => {
+              const getFileType = (filePath) => {
+                if (!filePath) return 'none';
+                const ext = filePath.split('.').pop().toLowerCase();
+                if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) return 'image';
+                if (ext === 'pdf') return 'pdf';
+                if (['doc', 'docx'].includes(ext)) return 'word';
+                if (['xls', 'xlsx'].includes(ext)) return 'excel';
+                return 'unknown';
+              };
+              
+              const fileType = getFileType(report.research_image1);
+              const fileUrl = report.research_image1?.startsWith('http') 
+                ? report.research_image1 
+                : `http://localhost:5000${report.research_image1}`;
+              
+              const handleDownload = () => {
+                const link = document.createElement('a');
+                link.href = fileUrl;
+                link.download = report.research_title || 'document';
+                link.target = '_blank';
+                link.click();
+              };
+              
+              return (
+                <tr key={report.id}>
+                  <td>
+                    <div className="report-title">{report.research_title || 'Untitled'}</div>
+                  </td>
+                  <td>
+                    {fileType === 'image' ? (
+                      <img 
+                        src={fileUrl}
+                        alt={report.research_title}
+                        style={{
+                          width: '80px',
+                          height: '60px',
+                          objectFit: 'cover',
+                          borderRadius: '4px'
+                        }}
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'flex';
+                        }}
+                      />
+                    ) : fileType === 'pdf' ? (
+                      <button 
+                        onClick={handleDownload}
+                        style={{
+                          padding: '8px 12px',
+                          background: '#dc3545',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontSize: '13px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px'
+                        }}
+                        title="Download PDF"
+                      >
+                        📄 PDF
+                      </button>
+                    ) : fileType === 'word' ? (
+                      <button 
+                        onClick={handleDownload}
+                        style={{
+                          padding: '8px 12px',
+                          background: '#2b579a',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontSize: '13px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px'
+                        }}
+                        title="Download Word"
+                      >
+                        📝 DOC
+                      </button>
+                    ) : fileType === 'excel' ? (
+                      <button 
+                        onClick={handleDownload}
+                        style={{
+                          padding: '8px 12px',
+                          background: '#217346',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontSize: '13px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px'
+                        }}
+                        title="Download Excel"
+                      >
+                        📊 EXCEL
+                      </button>
+                    ) : (
+                      <div style={{
                         width: '80px',
                         height: '60px',
-                        objectFit: 'cover',
-                        borderRadius: '4px'
-                      }}
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'flex';
-                      }}
-                    />
-                  ) : (
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: '#f0f0f0',
+                        borderRadius: '4px',
+                        color: '#999',
+                        fontSize: '12px'
+                      }}>
+                        No File
+                      </div>
+                    )}
                     <div style={{
+                      display: 'none',
                       width: '80px',
                       height: '60px',
-                      display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       background: '#f0f0f0',
@@ -152,48 +245,36 @@ const MarketResearchList = () => {
                     }}>
                       No Image
                     </div>
-                  )}
-                  <div style={{
-                    display: 'none',
-                    width: '80px',
-                    height: '60px',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: '#f0f0f0',
-                    borderRadius: '4px',
-                    color: '#999'
-                  }}>
-                    No Image
-                  </div>
-                </td>
-                <td>{formatDate(report.created_date)}</td>
-                <td>
-                  <div className="action-buttons">
-                    <button 
-                      onClick={() => handleView(report.id)}
-                      className="btn-icon-only"
-                      title="View Details"
-                    >
-                      👁️
-                    </button>
-                    <button 
-                      onClick={() => handleEdit(report.id)}
-                      className="btn-icon-only"
-                      title="Edit Research"
-                    >
-                      ✏️
-                    </button>
-                    <button 
-                      onClick={() => handleDelete(report.id)}
-                      className="btn-icon-only delete-btn"
-                      title="Delete Research"
-                    >
-                      🗑️
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td>{formatDate(report.created_date)}</td>
+                  <td>
+                    <div className="action-buttons">
+                      <button 
+                        onClick={() => handleView(report.id)}
+                        className="btn-icon-only"
+                        title="View Details"
+                      >
+                        👁️
+                      </button>
+                      <button 
+                        onClick={() => handleEdit(report.id)}
+                        className="btn-icon-only"
+                        title="Edit Research"
+                      >
+                        ✏️
+                      </button>
+                      <button 
+                        onClick={() => handleDelete(report.id)}
+                        className="btn-icon-only delete-btn"
+                        title="Delete Research"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

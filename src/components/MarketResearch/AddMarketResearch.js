@@ -33,10 +33,22 @@ const AddMarketResearch = () => {
     const file = e.target.files[0];
     
     if (file) {
-      // Validate file type
-      const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-      if (!validImageTypes.includes(file.type)) {
-        setError('Please select a valid image file (JPEG, JPG, PNG, GIF, WebP)');
+      // Validate file type - Accept images, PDFs, and documents
+      const validTypes = [
+        'image/jpeg', 
+        'image/jpg', 
+        'image/png', 
+        'image/gif', 
+        'image/webp',
+        'application/pdf',
+        'application/msword', // .doc
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+        'application/vnd.ms-excel', // .xls
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' // .xlsx
+      ];
+      
+      if (!validTypes.includes(file.type)) {
+        setError('Please select a valid file (Image, PDF, Word, or Excel document)');
         return;
       }
 
@@ -52,14 +64,21 @@ const AddMarketResearch = () => {
         research_image1: file
       });
 
-      // Create preview
-      const reader = new FileReader();
-      reader.onload = (e) => {
+      // Create preview ONLY for images
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setPreviews({
+            research_image1: e.target.result
+          });
+        };
+        reader.readAsDataURL(file);
+      } else {
+        // For non-image files, clear preview
         setPreviews({
-          research_image1: e.target.result
+          research_image1: null
         });
-      };
-      reader.readAsDataURL(file);
+      }
 
       // Clear any existing error
       setError(null);
@@ -92,7 +111,7 @@ const AddMarketResearch = () => {
     }
 
     if (!files.research_image1) {
-      setError('Image is required');
+      setError('Document is required');
       return;
     }
 
@@ -171,27 +190,33 @@ const AddMarketResearch = () => {
             </div>
           </div>
 
-          {/* Upload Image */}
+          {/* Upload Document */}
           <div className="add-market-research-form-section">
             <div className="add-market-research-form-row">
               <div className="add-market-research-form-group full-width">
-                <label>Upload Image *</label>
+                <label>Upload Document (Image/PDF/Word/Excel) *</label>
                 <div className="add-market-research-file-upload-container">
                   <input
                     type="file"
                     id="research_image1-input"
                     onChange={handleFileChange}
-                    accept=".jpg,.jpeg,.png,.gif,.webp"
+                    accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.doc,.docx,.xls,.xlsx"
                     className="add-market-research-file-input"
                     required
                   />
                   <label htmlFor="research_image1-input" className="add-market-research-file-label">
-                    <span className="add-market-research-upload-icon">📷</span>
-                    Choose Image
+                    <span className="add-market-research-upload-icon">📎</span>
+                    Choose Document
                   </label>
                   {files.research_image1 && (
                     <div className="add-market-research-file-info-container">
                       <span className="add-market-research-file-name">{files.research_image1.name}</span>
+                      <span className="file-type-badge">
+                        {files.research_image1.type.includes('pdf') ? '📄 PDF' : 
+                         files.research_image1.type.includes('word') ? '📝 DOC' :
+                         files.research_image1.type.includes('excel') || files.research_image1.type.includes('spreadsheet') ? '📊 EXCEL' :
+                         '🖼️ IMAGE'}
+                      </span>
                       <button 
                         type="button" 
                         onClick={removeFile}
@@ -201,9 +226,18 @@ const AddMarketResearch = () => {
                       </button>
                     </div>
                   )}
-                  {previews.research_image1 && (
+                  {/* Show preview only for images */}
+                  {previews.research_image1 && files.research_image1?.type.startsWith('image/') && (
                     <div className="add-market-research-image-preview">
                       <img src={previews.research_image1} alt="Preview" />
+                    </div>
+                  )}
+                  {/* Show file icon for non-image files */}
+                  {files.research_image1 && !files.research_image1.type.startsWith('image/') && (
+                    <div className="file-icon-preview">
+                      {files.research_image1.type.includes('pdf') && <div className="file-icon">📄 PDF Document</div>}
+                      {files.research_image1.type.includes('word') && <div className="file-icon">📝 Word Document</div>}
+                      {(files.research_image1.type.includes('excel') || files.research_image1.type.includes('spreadsheet')) && <div className="file-icon">📊 Excel Spreadsheet</div>}
                     </div>
                   )}
                 </div>
