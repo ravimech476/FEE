@@ -27,7 +27,8 @@ const CreateProduct = () => {
     peak_season_months: [],
     harvest_season_enabled: false,
     harvest_season_months: [],
-    procurement_method: '',
+    material: '',
+    procurement_method: [],
     main_components: '',
     sensory_notes: '',
     color_absolute: '',
@@ -281,6 +282,9 @@ const CreateProduct = () => {
         } else if (key === 'harvest_region_new' && Array.isArray(formData[key])) {
           // Convert harvest_region_new array to JSON string
           submitData.append(key, JSON.stringify(formData[key]));
+        } else if (key === 'procurement_method' && Array.isArray(formData[key])) {
+          // Convert procurement_method array to JSON string
+          submitData.append(key, JSON.stringify(formData[key]));
         } else {
           submitData.append(key, formData[key]);
         }
@@ -329,7 +333,8 @@ const CreateProduct = () => {
       peak_season_months: [],
       harvest_season_enabled: false,
       harvest_season_months: [],
-      procurement_method: '',
+      material: '',
+      procurement_method: [],
       main_components: '',
       sensory_notes: '',
       color_absolute: '',
@@ -430,6 +435,22 @@ const CreateProduct = () => {
               />
             </div>
 
+            <div className="form-group">
+              <label htmlFor="material">Material</label>
+              <input
+                type="text"
+                id="material"
+                name="material"
+                value={formData.material}
+                onChange={handleInputChange}
+                className="form-control"
+                placeholder="Enter material information"
+                disabled={loading}
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
             <div className="form-group">
               <label htmlFor="plant_part">Part</label>
               <select
@@ -622,24 +643,45 @@ const CreateProduct = () => {
         <div className="form-section">
           <h3>Production Details</h3>
           
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="procurement_method">Procurement</label>
-              <select
-                id="procurement_method"
-                name="procurement_method"
-                value={formData.procurement_method}
-                onChange={handleInputChange}
-                className="form-control"
-                disabled={loading}
-              >
-                <option value="">Select procurement method</option>
+          <div className="form-group">
+            <label htmlFor="procurement_method">Procurement</label>
+            <div className="multi-select-container">
+              <div className="selected-items">
+                {formData.procurement_method.length > 0 ? (
+                  formData.procurement_method.map(method => (
+                    <span key={method} className="selected-item">
+                      {method}
+                      <button
+                        type="button"
+                        onClick={() => handleMultiSelectChange('procurement_method', method)}
+                        className="remove-item-btn"
+                        disabled={loading}
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))
+                ) : (
+                  <span className="placeholder">Select procurement methods</span>
+                )}
+              </div>
+              <div className="dropdown-options">
                 {procurementMethods.map(method => (
-                  <option key={method} value={method}>{method}</option>
+                  <label key={method} className="dropdown-option">
+                    <input
+                      type="checkbox"
+                      checked={formData.procurement_method.includes(method)}
+                      onChange={() => handleMultiSelectChange('procurement_method', method)}
+                      disabled={loading}
+                    />
+                    {method}
+                  </label>
                 ))}
-              </select>
+              </div>
             </div>
+          </div>
 
+          <div className="form-row">
             <div className="form-group">
               <label htmlFor="extraction_process">Extraction Process</label>
               <select
@@ -687,7 +729,7 @@ const CreateProduct = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="color_absolute">Color[Absolute]</label>
+            <label htmlFor="color_absolute">Color</label>
             <input
               type="text"
               id="color_absolute"

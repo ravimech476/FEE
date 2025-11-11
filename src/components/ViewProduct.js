@@ -403,7 +403,7 @@ const ViewProduct = ({ userType, user }) => {
                 <td>{product.sensory_notes || 'Sweet, Floral, Fruity, Honey, Waxy, Creamy'}</td>
               </tr>
               <tr>
-                <td>Color[Absolute]:</td>
+                <td>Color:</td>
                 <td>{product.color_absolute || 'Light to dark reddish brown with yellow tinge'}</td>
               </tr>
               <tr>

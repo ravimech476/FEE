@@ -37,7 +37,8 @@ const EditProduct = () => {
     peak_season_months: [],
     harvest_season_enabled: false,
     harvest_season_months: [],
-    procurement_method: '',
+    material: '',
+    procurement_method: [],
     main_components: '',
     sensory_notes: '',
     color_absolute: '',
@@ -215,6 +216,19 @@ const EditProduct = () => {
           console.warn('Failed to parse harvest_season_months:', e);
         }
 
+        let procurementMethods = [];
+        try {
+          if (product.procurement_method) {
+            procurementMethods = JSON.parse(product.procurement_method);
+          }
+        } catch (e) {
+          // If it's not JSON, it might be old single string format
+          if (product.procurement_method && typeof product.procurement_method === 'string') {
+            procurementMethods = [product.procurement_method];
+          }
+          console.warn('Failed to parse procurement_method:', e);
+        }
+
         const newFormData = {
           product_number: product.product_number || '',
           product_name: product.product_name || '',
@@ -234,7 +248,8 @@ const EditProduct = () => {
           peak_season_months: peakSeasonMonths,
           harvest_season_enabled: product.harvest_season_enabled || false,
           harvest_season_months: harvestSeasonMonths,
-          procurement_method: product.procurement_method || '',
+          material: product.material || '',
+          procurement_method: procurementMethods,
           main_components: product.main_components || '',
           sensory_notes: product.sensory_notes || '',
           color_absolute: product.color_absolute || '',
@@ -370,13 +385,10 @@ const EditProduct = () => {
   };
 
   const removeImage = (imageKey) => {
-    setImages(prev => ({
-      ...prev,
-      [imageKey]: null
-    }));
+    setImages(prev => ({ ...prev, [imageKey]: null }));
     setImagePreviews(prev => ({
       ...prev,
-      [imageKey]: existingImages[imageKey] || null
+      [imageKey]: null
     }));
   };
 
@@ -416,6 +428,9 @@ const EditProduct = () => {
           submitData.append(key, JSON.stringify(formData[key]));
         } else if (key === 'harvest_region_new' && Array.isArray(formData[key])) {
           // Convert harvest_region_new array to JSON string
+          submitData.append(key, JSON.stringify(formData[key]));
+        } else if (key === 'procurement_method' && Array.isArray(formData[key])) {
+          // Convert procurement_method array to JSON string
           submitData.append(key, JSON.stringify(formData[key]));
         } else {
           submitData.append(key, formData[key]);
@@ -700,6 +715,20 @@ const EditProduct = () => {
 
           <div className="form-row">
             <div className="form-group">
+              <label htmlFor="material">Material</label>
+              <input
+                type="text"
+                id="material"
+                name="material"
+                value={formData.material}
+                onChange={handleInputChange}
+                className="form-control"
+                placeholder="Enter material information"
+                disabled={saving}
+              />
+            </div>
+
+            <div className="form-group">
               <label htmlFor="plant_part">Part</label>
               <select
                 id="plant_part"
@@ -715,7 +744,9 @@ const EditProduct = () => {
                 ))}
               </select>
             </div>
+          </div>
 
+          <div className="form-row">
             <div className="form-group">
               <label htmlFor="source_country">Source</label>
               <select
@@ -898,24 +929,45 @@ const EditProduct = () => {
         <div className="form-section">
           <h3>Production Details</h3>
           
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="procurement_method">Procurement</label>
-              <select
-                id="procurement_method"
-                name="procurement_method"
-                value={formData.procurement_method}
-                onChange={handleInputChange}
-                className="form-control"
-                disabled={saving}
-              >
-                <option value="">Select procurement method</option>
+          <div className="form-group">
+            <label htmlFor="procurement_method">Procurement</label>
+            <div className="multi-select-container">
+              <div className="selected-items">
+                {formData.procurement_method.length > 0 ? (
+                  formData.procurement_method.map(method => (
+                    <span key={method} className="selected-item">
+                      {method}
+                      <button
+                        type="button"
+                        onClick={() => handleMultiSelectChange('procurement_method', method)}
+                        className="remove-item-btn"
+                        disabled={saving}
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))
+                ) : (
+                  <span className="placeholder">Select procurement methods</span>
+                )}
+              </div>
+              <div className="dropdown-options">
                 {procurementMethods.map(method => (
-                  <option key={method} value={method}>{method}</option>
+                  <label key={method} className="dropdown-option">
+                    <input
+                      type="checkbox"
+                      checked={formData.procurement_method.includes(method)}
+                      onChange={() => handleMultiSelectChange('procurement_method', method)}
+                      disabled={saving}
+                    />
+                    {method}
+                  </label>
                 ))}
-              </select>
+              </div>
             </div>
+          </div>
 
+          <div className="form-row">
             <div className="form-group">
               <label htmlFor="extraction_process">Extraction Process</label>
               <select
@@ -963,7 +1015,7 @@ const EditProduct = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="color_absolute">Color[Absolute]</label>
+            <label htmlFor="color_absolute">Color</label>
             <input
               type="text"
               id="color_absolute"
