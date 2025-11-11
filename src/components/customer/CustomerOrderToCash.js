@@ -135,8 +135,8 @@ const CustomerOrderToCash = ({ userType, user }) => {
               <th>Quantity</th>
               <th>Amount</th>
               <th>Date</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th >Status</th>
+              {/* <th>Actions</th> */}
             </tr>
           </thead>
           <tbody>
@@ -173,7 +173,7 @@ const CustomerOrderToCash = ({ userType, user }) => {
                     <span className="status-text">{order.status?.trim() || 'pending'}</span>
                   </div>
                 </td>
-                <td>
+                {/* <td>
                   <div className="action-buttons">
                     <button 
                       onClick={() => viewOrderDetails(order)}
@@ -183,7 +183,7 @@ const CustomerOrderToCash = ({ userType, user }) => {
                       👁️
                     </button>
                   </div>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './Dashboard.css';
 import apiService from '../services/apiService';
 
@@ -11,6 +12,7 @@ const Dashboard = ({ userType, user }) => {
     topProducts: [],
     invoiceStats: null,
     meetingMinutes: [],
+    salesChartData: [],
     loading: true,
     error: ''
   });
@@ -22,10 +24,10 @@ const Dashboard = ({ userType, user }) => {
       try {
         setDashboardData(prev => ({ ...prev, loading: true, error: '' }));
 
-        let companyNewsResponse, researchResponse, invoiceStatsResponse, topProductsResponse, meetingResponse;
+        let companyNewsResponse, researchResponse, invoiceStatsResponse, topProductsResponse, meetingResponse, chartResponse;
 
         if (userType === 'customer' && user?.customer_code) {
-          [companyNewsResponse, researchResponse, invoiceStatsResponse, topProductsResponse, meetingResponse] = await Promise.all([
+          [companyNewsResponse, researchResponse, invoiceStatsResponse, topProductsResponse, meetingResponse, chartResponse] = await Promise.all([
             apiService.getLatestNews(), // Changed to use news table
             apiService.getLatestMarketResearch(3), // Changed to fetch ALL market reports (not customer-specific)
             apiService.getCustomerOrderStats(user.customer_code).catch(err => {
@@ -33,10 +35,11 @@ const Dashboard = ({ userType, user }) => {
               return { success: false };
             }),
             apiService.getTopProducts(3, user.customer_code),
-            apiService.getCustomerMeetings(user.customer_code, { limit: 10, sort: 'created_date', order: 'desc' })
+            apiService.getCustomerMeetings(user.customer_code, { limit: 10, sort: 'created_date', order: 'desc' }),
+            apiService.getMonthlySalesChart(selectedPeriod, user.customer_code)
           ]);
         } else {
-          [companyNewsResponse, researchResponse, invoiceStatsResponse, topProductsResponse, meetingResponse] = await Promise.all([
+          [companyNewsResponse, researchResponse, invoiceStatsResponse, topProductsResponse, meetingResponse, chartResponse] = await Promise.all([
             apiService.getLatestNews(), // Using news table for all users
             apiService.getLatestMarketResearch(3),
             apiService.getInvoiceStats().catch(err => {
@@ -44,7 +47,8 @@ const Dashboard = ({ userType, user }) => {
               return { success: false };
             }),
             apiService.getTopProducts(3),
-            apiService.getMeetings({ limit: 10, sort: 'created_date', order: 'desc' })
+            apiService.getMeetings({ limit: 10, sort: 'created_date', order: 'desc' }),
+            apiService.getMonthlySalesChart(selectedPeriod)
           ]);
         }
 
@@ -73,6 +77,7 @@ const Dashboard = ({ userType, user }) => {
           } : null,
           meetingMinutes: meetingResponse.success ?
             (meetingResponse.data?.meetings || meetingResponse.data || []) : [],
+          salesChartData: chartResponse.success ? (chartResponse.data || []) : [],
           loading: false,
           error: ''
         };
@@ -89,7 +94,7 @@ const Dashboard = ({ userType, user }) => {
     };
 
     fetchDashboardData();
-  }, [userType, user]);
+  }, [userType, user, selectedPeriod]);
 
   const getFormattedProducts = () => {
     const productsArray = Array.isArray(dashboardData.topProducts) ? dashboardData.topProducts : [];
@@ -314,6 +319,94 @@ const Dashboard = ({ userType, user }) => {
               )}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Sales Performance Chart */}
+      <div className="chart-section">
+        <div className="section-header">
+          <h3>Sales Performance</h3>
+          <select 
+            className="period-select" 
+            value={selectedPeriod} 
+            onChange={(e) => setSelectedPeriod(e.target.value)}
+          >
+            <option value="thisMonth">This Month</option>
+            <option value="last3months">Last 3 Months</option>
+            <option value="last6months">Last 6 Months</option>
+            <option value="last12months">Last 12 Months</option>
+          </select>
+        </div>
+        <div className="chart-container">
+          {dashboardData.salesChartData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={dashboardData.salesChartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                <XAxis 
+                  dataKey="month" 
+                  stroke="#666"
+                  style={{ fontSize: '12px' }}
+                />
+                <YAxis 
+                  yAxisId="left"
+                  stroke="#27ae60"
+                  style={{ fontSize: '12px' }}
+                  tickFormatter={(value) => `₹${(value / 1000).toFixed(0)}K`}
+                />
+                <YAxis 
+                  yAxisId="right"
+                  orientation="right"
+                  stroke="#3498db"
+                  style={{ fontSize: '12px' }}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#fff', 
+                    border: '1px solid #27ae60',
+                    borderRadius: '6px',
+                    fontSize: '12px'
+                  }}
+                  formatter={(value, name) => {
+                    if (name === 'value') return [`₹${value.toLocaleString()}`, 'Sales Value'];
+                    if (name === 'quantity') return [value, 'Quantity'];
+                    return [value, name];
+                  }}
+                />
+                <Legend 
+                  wrapperStyle={{ fontSize: '12px' }}
+                  formatter={(value) => {
+                    if (value === 'value') return 'Sales Value (₹)';
+                    if (value === 'quantity') return 'Quantity';
+                    return value;
+                  }}
+                />
+                <Line 
+                  yAxisId="left"
+                  type="monotone" 
+                  dataKey="value" 
+                  stroke="#27ae60" 
+                  strokeWidth={3}
+                  dot={{ fill: '#27ae60', r: 4 }}
+                  activeDot={{ r: 6 }}
+                />
+                <Line 
+                  yAxisId="right"
+                  type="monotone" 
+                  dataKey="quantity" 
+                  stroke="#3498db" 
+                  strokeWidth={3}
+                  dot={{ fill: '#3498db', r: 4 }}
+                  activeDot={{ r: 6 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="chart-placeholder">
+              <div className="chart-icon">📊</div>
+              <p>Sales Performance Chart</p>
+              <p className="chart-subtitle">No sales data available for the selected period</p>
+            </div>
+          )}
         </div>
       </div>
 

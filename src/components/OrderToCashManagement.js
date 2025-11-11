@@ -106,7 +106,7 @@ const OrderToCashManagement = () => {
       {error && <div className="error-message">{error}</div>}
 
       {/* Statistics Cards */}
-      {stats && (
+      {/* {stats && (
         <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-header">
@@ -138,7 +138,7 @@ const OrderToCashManagement = () => {
             <div className="stat-subtitle">{formatCurrency(stats.thisMonthAmount)}</div>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Filters */}
       <div className="filters">
@@ -174,7 +174,7 @@ const OrderToCashManagement = () => {
               <th>Amount</th>
               <th>Date</th>
               <th>Status</th>
-              <th>Actions</th>
+              {/* <th>Actions</th> */}
             </tr>
           </thead>
           <tbody>
@@ -199,7 +199,7 @@ const OrderToCashManagement = () => {
                     <span className="status-text">{order.status?.trim()}</span>
                   </div>
                 </td>
-                <td>
+                {/* <td>
                   <div className="action-buttons">
                     <button 
                       onClick={() => viewOrderDetails(order)}
@@ -209,7 +209,7 @@ const OrderToCashManagement = () => {
                       👁️
                     </button>
                   </div>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

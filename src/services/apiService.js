@@ -423,6 +423,26 @@ class ApiService {
     }
   }
 
+  async getMonthlySalesChart(period = 'last6months', customerCode = null) {
+    try {
+      let url = `/orders/monthly-sales-chart?period=${period}`;
+      if (customerCode) {
+        url += `&customerCode=${customerCode}`;
+      }
+      const response = await this.request(url);
+      return {
+        success: true,
+        data: response.data || response
+      };
+    } catch (error) {
+      console.error('Error getting monthly sales chart:', error);
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  }
+
   async getCustomerData(customerCode) {
     return this.request(`/customer/${customerCode}/data`);
   }
