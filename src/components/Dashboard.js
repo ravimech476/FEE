@@ -26,7 +26,7 @@ const Dashboard = ({ userType, user }) => {
 
         if (userType === 'customer' && user?.customer_code) {
           [companyNewsResponse, researchResponse, invoiceStatsResponse, topProductsResponse, meetingResponse] = await Promise.all([
-            apiService.getCustomerMeetings(user.customer_code, { limit: 5, sort: 'created_date', order: 'desc' }),
+            apiService.getLatestNews(), // Changed to use news table
             apiService.getLatestMarketResearch(3), // Changed to fetch ALL market reports (not customer-specific)
             apiService.getCustomerOrderStats(user.customer_code).catch(err => {
               console.warn('Customer stats not available:', err);
@@ -37,7 +37,7 @@ const Dashboard = ({ userType, user }) => {
           ]);
         } else {
           [companyNewsResponse, researchResponse, invoiceStatsResponse, topProductsResponse, meetingResponse] = await Promise.all([
-            apiService.getLatestNews(5),
+            apiService.getLatestNews(), // Using news table for all users
             apiService.getLatestMarketResearch(3),
             apiService.getInvoiceStats().catch(err => {
               console.warn('Invoice stats not available:', err);
@@ -50,7 +50,7 @@ const Dashboard = ({ userType, user }) => {
 
         const finalData = {
           companyNews: companyNewsResponse.success ?
-            (companyNewsResponse.data.news || companyNewsResponse.data.meetings || companyNewsResponse.data || []) : [],
+            (companyNewsResponse.data || []) : [],
           marketResearch: researchResponse.success ?
             (researchResponse.data.research || researchResponse.data.reports || researchResponse.data || []) : [],
           topProducts: topProductsResponse.success ?
@@ -199,23 +199,15 @@ const Dashboard = ({ userType, user }) => {
                     <div className="news-icon-box">📄</div>
                     <div className="news-text-box">
                       <h3 className="news-heading">
-                        {userType === 'customer'
-                          ? (newsItem.meeting_title || newsItem.title)
-                          : (newsItem.news_title || newsItem.news_name)
-                        }
+                        {newsItem.title || 'No Title'}
                       </h3>
                       <p className="news-desc">
-                        {userType === 'customer'
-                          ? (newsItem.meeting_description || newsItem.agenda || 'Meeting details...').substring(0, 100) + '...'
-                          : (newsItem.news_short_description || newsItem.news_long_description?.substring(0, 100) + '...')
-                        }
+                        {(newsItem.excerpt || newsItem.content || 'No description available').substring(0, 100) + '...'}
                       </p>
                     </div>
                     <div className="news-date-box">
-                      {userType === 'customer'
-                        ? (newsItem.meeting_date
-                          ? new Date(newsItem.meeting_date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
-                          : new Date(newsItem.created_date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }))
+                      {newsItem.published_date
+                        ? new Date(newsItem.published_date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
                         : new Date(newsItem.created_date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
                       }
                     </div>

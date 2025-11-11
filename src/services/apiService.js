@@ -371,8 +371,9 @@ class ApiService {
   // Customer-specific data methods
   async getLatestNews(limit = 5) {
     try {
-      const response = await this.request(`/news?limit=${limit}&sort=created_date&order=desc`);
-      // The response structure is: { success: true, data: { news: [...], pagination: {...} } }
+
+      // Using raw SQL query endpoint for dashboard news
+      const response = await this.request('/news/dashboard-news');
       return {
         success: true,
         data: response.data || response
