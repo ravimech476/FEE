@@ -62,21 +62,19 @@ const OrderToCashManagement = () => {
   };
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'INR',
+      maximumFractionDigits: 2
     }).format(amount || 0);
   };
 
   const getStatusColor = (status) => {
-    switch (status?.toLowerCase()) {
-      case 'pending': return '#ffc107';
-      case 'processing': return '#17a2b8';
-      case 'shipped': return '#6f42c1';
-      case 'delivered': return '#28a745';
-      case 'completed': return '#28a745';
-      case 'cancelled': return '#dc3545';
-      default: return '#6c757d';
+    switch (status?.trim()) {
+      case 'Over Due': return '#dc3545'; // Red for overdue
+      case 'Due': return '#ffc107'; // Yellow/Orange for due today
+      case 'No Due': return '#28a745'; // Green for no due
+      default: return '#6c757d'; // Grey for unknown
     }
   };
 
@@ -155,12 +153,9 @@ const OrderToCashManagement = () => {
           className="filter-select"
         >
           <option value="">All Status</option>
-          <option value="pending">Pending</option>
-          <option value="processing">Processing</option>
-          <option value="shipped">Shipped</option>
-          <option value="delivered">Delivered</option>
-          <option value="completed">Completed</option>
-          <option value="cancelled">Cancelled</option>
+          <option value="Over Due">Over Due</option>
+          <option value="Due">Due</option>
+          <option value="No Due">No Due</option>
         </select>
       </div>
 
@@ -169,47 +164,53 @@ const OrderToCashManagement = () => {
         <table className="orders-table">
           <thead>
             <tr>
-              <th>Invoice #</th>
-              <th>Customer</th>
+              <th>Customer Code</th>
+              <th>PO Number</th>
+              <th>Invoice</th>
+              <th>Product</th>
+              <th>Quantity</th>
               <th>Amount</th>
-              <th>Date</th>
+              <th>Bill Date</th>
               <th>Status</th>
-              {/* <th>Actions</th> */}
             </tr>
           </thead>
           <tbody>
             {orders.map(order => (
               <tr key={order.id}>
                 <td>
-                  <div className="invoice-number">{order.invoice_number}</div>
+                  <div className="customer-code">{order.CustomerCode || '-'}</div>
                 </td>
                 <td>
-                  <div className="customer-name">{order.customer_name}</div>
+                  <div className="po-number">{order.customer_po_number || '-'}</div>
                 </td>
                 <td>
-                  <div className="amount">{formatCurrency(order.amount)}</div>
+                  <div className="invoice-number">{order.Invoice || '-'}</div>
                 </td>
-                <td>{new Date(order.invoice_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                <td>
+                  <div className="product-name">{order.Product || '-'}</div>
+                </td>
+                <td>
+                  <div className="quantity">{order.Quantity || 0}</div>
+                </td>
+                <td>
+                  <div className="amount">{formatCurrency(order.Amount)}</div>
+                </td>
+                <td>
+                  {order.BillDate ? new Date(order.BillDate).toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                  }) : '-'}
+                </td>
                 <td>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                     <span 
                       className="status-dot"
-                      style={{ backgroundColor: getStatusColor(order.status) }}
+                      style={{ backgroundColor: getStatusColor(order.Status) }}
                     ></span>
-                    <span className="status-text">{order.status?.trim()}</span>
+                    <span className="status-text">{order.Status?.trim()}</span>
                   </div>
                 </td>
-                {/* <td>
-                  <div className="action-buttons">
-                    <button 
-                      onClick={() => viewOrderDetails(order)}
-                      className="btn-icon-only"
-                      title="View Details"
-                    >
-                      👁️
-                    </button>
-                  </div>
-                </td> */}
               </tr>
             ))}
           </tbody>
