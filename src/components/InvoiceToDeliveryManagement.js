@@ -62,11 +62,12 @@ const InvoiceToDeliveryManagement = () => {
   };
 
   const getStatusColor = (status) => {
-    switch (status?.toLowerCase()) {
-      case 'pending': return '#ffc107';
-      case 'dispatched': return '#17a2b8';
-      case 'delivered': return '#28a745';
-      default: return '#6c757d';
+    switch (status?.trim()) {
+      case 'Pending': return '#ffc107'; // Yellow
+      case 'Dispatched': return '#17a2b8'; // Blue
+      case 'In Transit': return '#6f42c1'; // Purple
+      case 'Delivered': return '#28a745'; // Green
+      default: return '#6c757d'; // Grey
     }
   };
 
@@ -98,7 +99,7 @@ const InvoiceToDeliveryManagement = () => {
       {error && <div className="error-message">{error}</div>}
 
       {/* Statistics Cards */}
-      {stats && (
+      {/* {stats && (
         <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-header">
@@ -129,13 +130,13 @@ const InvoiceToDeliveryManagement = () => {
             <div className="stat-value">{stats.deliveredCount || 0}</div>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Filters */}
       <div className="filters">
         <input
           type="text"
-          placeholder="Search by invoice, LR number..."
+          placeholder="Search by customer code, invoice, LR number, status..."
           value={searchTerm}
           onChange={handleSearch}
           className="search-input"
@@ -146,9 +147,10 @@ const InvoiceToDeliveryManagement = () => {
           className="filter-select"
         >
           <option value="">All Status</option>
-          <option value="pending">Pending</option>
-          <option value="dispatched">Dispatched</option>
-          <option value="delivered">Delivered</option>
+          <option value="Delivered">Delivered</option>
+          <option value="Shipment Delivered">Shipment Delivered</option>
+          <option value="In Transit">Delivery</option>
+          {/* <option value="Delivered">Delivered</option> */}
         </select>
       </div>
 
@@ -157,30 +159,29 @@ const InvoiceToDeliveryManagement = () => {
         <table className="invoices-table">
           <thead>
             <tr>
-              <th>Sl No</th>
+              <th>Customer Code</th>
               <th>Invoice #</th>
               <th>Invoice Date</th>
-              <th>Value (INR)</th>
+              <th>Value</th>
               <th>LR Number</th>
-              <th>Partner</th>
               <th>Status</th>
-              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {invoices.map(invoice => (
-              <tr key={invoice.sl_no}>
-                <td>{invoice.sl_no}</td>
+            {invoices.map((invoice, index) => (
+              <tr key={index}>
                 <td>
-                  <div className="invoice-number">{invoice.invoice_number}</div>
+                  <div className="customer-code">{invoice.customer_code || '-'}</div>
                 </td>
-                <td>{formatDate(invoice.invoice_date)}</td>
                 <td>
-                  <div className="amount">{formatCurrency(invoice.invoice_value_inr)}</div>
+                  <div className="invoice-number">{invoice.invoice_no || '-'}</div>
                 </td>
-                <td>{invoice.lr_number || '-'}</td>
+                <td>{formatDate(invoice.InvoiceDate)}</td>
                 <td>
-                  <div className="partner-name">{invoice.delivery_partner || '-'}</div>
+                  <div className="amount">{formatCurrency(invoice.Value)}</div>
+                </td>
+                <td>
+                  <div className="lr-number">{invoice.LRNumber || '-'}</div>
                 </td>
                 <td>
                   <div style={{
@@ -192,21 +193,10 @@ const InvoiceToDeliveryManagement = () => {
                     <span 
                       className="status-dot" 
                       style={{
-                        backgroundColor: getStatusColor(invoice.status)
+                        backgroundColor: getStatusColor(invoice.Status)
                       }}
                     ></span>
-                    <span className="status-text">{invoice.status?.toUpperCase()}</span>
-                  </div>
-                </td>
-                <td>
-                  <div className="action-buttons">
-                    <button 
-                      onClick={() => viewInvoiceDetails(invoice)}
-                      className="btn-icon-only"
-                      title="View Details"
-                    >
-                      👁️
-                    </button>
+                    <span className="status-text">{invoice.Status?.trim() || '-'}</span>
                   </div>
                 </td>
               </tr>

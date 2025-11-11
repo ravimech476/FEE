@@ -15,6 +15,7 @@ const Sidebar = ({ userType = 'customer', user }) => {
     { id: 'dashboard', label: 'Dashboard', icon: '🏠', path: '/dashboard', permission: 'dashboard' },
     { id: 'products', label: 'Products', icon: '📦', path: '/products', permission: 'products' },
     { id: 'order-to-cash', label: 'Order to Cash', icon: '💰', path: '/order-to-cash', permission: 'orders' },
+    { id: 'invoice-to-delivery', label: 'Invoice to Delivery', icon: '🚚', path: '/invoice-to-delivery', permission: 'invoice_to_delivery' },
     { id: 'meeting-minutes', label: 'Meeting Minutes', icon: '📝', path: '/meeting-minutes', permission: 'meetings' },
     { id: 'market-report', label: 'Market Report', icon: '📊', path: '/market-report', permission: 'market_reports' },
     // { id: 'payment-info', label: 'Payment Info', icon: '💳', path: '/payment-info', permission: 'payments' }

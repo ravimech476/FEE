@@ -65,6 +65,7 @@ import CustomerViewOrder from './components/customer/CustomerViewOrder';
 import CustomerViewMeetingMinutes from './components/customer/CustomerViewMeetingMinutes';
 import CustomerViewMarketReport from './components/customer/CustomerViewMarketReport';
 import CustomerViewPaymentDetails from './components/customer/CustomerViewPaymentDetails';
+import CustomerInvoiceToDelivery from './components/customer/CustomerInvoiceToDelivery';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, isLoggedIn, userType, requiredUserType, requiredPermission, user }) => {
@@ -579,6 +580,17 @@ function App() {
           <ProtectedRoute isLoggedIn={isLoggedIn} userType={userType} requiredPermission="payments" user={user}>
             <AppLayout userType={userType} user={user} onLogout={handleLogout}>
               {userType === 'customer' ? <CustomerPaymentInfo userType={userType} user={user} /> : <div className="page-content"><h2>Payment Info</h2></div>}
+            </AppLayout>
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/invoice-to-delivery" 
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn} userType={userType} requiredPermission="invoice_to_delivery" user={user}>
+            <AppLayout userType={userType} user={user} onLogout={handleLogout}>
+              <CustomerInvoiceToDelivery user={user} />
             </AppLayout>
           </ProtectedRoute>
         } 
