@@ -200,7 +200,12 @@ const Dashboard = ({ userType, user }) => {
             <div className="news-content-scroll">
               {dashboardData.companyNews.length > 0 ? (
                 dashboardData.companyNews.map((newsItem, index) => (
-                  <div key={newsItem.id || index} className="news-item-box">
+                  <div 
+                    key={newsItem.id || index} 
+                    className="news-item-box clickable-card"
+                    onClick={() => navigate(`/news/${newsItem.id}`)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className="news-icon-box">📄</div>
                     <div className="news-text-box">
                       <h3 className="news-heading">
@@ -234,7 +239,12 @@ const Dashboard = ({ userType, user }) => {
             <h2 className="box-title">Top 3 Products</h2>
             <div className="products-content-scroll">
               {getFormattedProducts().map((product, index) => (
-                <div key={product.id} className={`product-card-box product-${index + 1}`}>
+                <div 
+                  key={product.id} 
+                  className={`product-card-box product-${index + 1} clickable-card`}
+                  onClick={() => navigate(`/products/${product.id}`)}
+                  style={{ cursor: 'pointer' }}
+                >
                   <div className="product-img-box">
                     {product.hasImage ? (
                       <img 

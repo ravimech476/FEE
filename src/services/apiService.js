@@ -387,6 +387,22 @@ class ApiService {
     }
   }
 
+  async getNewsById(id) {
+    try {
+      const response = await this.request(`/news/${id}`);
+      return {
+        success: true,
+        data: response.data || response
+      };
+    } catch (error) {
+      console.error('Error getting news by id:', error);
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  }
+
   async getLatestMarketResearch(limit = 3) {
     try {
       const response = await this.request(`/market-research?limit=${limit}&sort=created_date&order=desc`);
