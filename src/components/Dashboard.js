@@ -18,6 +18,26 @@ const Dashboard = ({ userType, user }) => {
   });
 
   const [selectedPeriod, setSelectedPeriod] = useState('thisMonth');
+  const [selectedProduct, setSelectedProduct] = useState('all');
+  const [productList, setProductList] = useState([]);
+
+  // Fetch product list for filter dropdown
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (userType === 'customer' && user?.customer_code) {
+        try {
+          const response = await apiService.getCustomerProducts(user.customer_code);
+          if (response.success && response.data) {
+            setProductList(response.data);
+          }
+        } catch (error) {
+          console.error('Error fetching products:', error);
+        }
+      }
+    };
+
+    fetchProducts();
+  }, [userType, user]);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -36,7 +56,7 @@ const Dashboard = ({ userType, user }) => {
             }),
             apiService.getTopProducts(3, user.customer_code),
             apiService.getCustomerMeetings(user.customer_code, { limit: 10, sort: 'created_date', order: 'desc' }),
-            apiService.getMonthlySalesChart(selectedPeriod, user.customer_code)
+            apiService.getMonthlySalesChart(selectedPeriod, user.customer_code, selectedProduct)
           ]);
         } else {
           [companyNewsResponse, researchResponse, invoiceStatsResponse, topProductsResponse, meetingResponse, chartResponse] = await Promise.all([
@@ -94,7 +114,7 @@ const Dashboard = ({ userType, user }) => {
     };
 
     fetchDashboardData();
-  }, [userType, user, selectedPeriod]);
+  }, [userType, user, selectedPeriod, selectedProduct]);
 
   const getFormattedProducts = () => {
     const productsArray = Array.isArray(dashboardData.topProducts) ? dashboardData.topProducts : [];
@@ -336,16 +356,38 @@ const Dashboard = ({ userType, user }) => {
       <div className="chart-section">
         <div className="section-header">
           <h3>Sales Performance</h3>
-          <select 
-            className="period-select" 
-            value={selectedPeriod} 
-            onChange={(e) => setSelectedPeriod(e.target.value)}
-          >
-            <option value="thisMonth">This Month</option>
-            <option value="last3months">Last 3 Months</option>
-            <option value="last6months">Last 6 Months</option>
-            <option value="last12months">Last 12 Months</option>
-          </select>
+          <div className="chart-filters">
+            <select 
+              className="period-select" 
+              value={selectedPeriod} 
+              onChange={(e) => setSelectedPeriod(e.target.value)}
+            >
+              <option value="thisMonth">This Month</option>
+              <option value="last3months">Last 3 Months</option>
+              <option value="last6months">Last 6 Months</option>
+              <option value="last12months">Last 12 Months</option>
+              <option value="1year">1 Year</option>
+              <option value="2years">2 Years</option>
+              <option value="3years">3 Years</option>
+              <option value="4years">4 Years</option>
+              <option value="5years">5 Years</option>
+            </select>
+            
+            {userType === 'customer' && productList.length > 0 && (
+              <select 
+                className="product-select" 
+                value={selectedProduct} 
+                onChange={(e) => setSelectedProduct(e.target.value)}
+              >
+                <option value="all">All Products</option>
+                {productList.map((product, index) => (
+                  <option key={index} value={product.product_name}>
+                    {product.product_name}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
         </div>
         <div className="chart-container">
           {dashboardData.salesChartData.length > 0 ? (

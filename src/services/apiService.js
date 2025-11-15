@@ -441,11 +441,14 @@ class ApiService {
     }
   }
 
-  async getMonthlySalesChart(period = 'last6months', customerCode = null) {
+  async getMonthlySalesChart(period = 'last6months', customerCode = null, productName = null) {
     try {
       let url = `/orders/monthly-sales-chart?period=${period}`;
       if (customerCode) {
         url += `&customerCode=${customerCode}`;
+      }
+      if (productName && productName !== 'all') {
+        url += `&productName=${encodeURIComponent(productName)}`;
       }
       const response = await this.request(url);
       return {
@@ -668,6 +671,23 @@ class ApiService {
     return this.request(`/settings/social-media/${id}`, {
       method: 'DELETE'
     });
+  }
+
+  // Get customer's product list for filters
+  async getCustomerProducts(customerCode) {
+    try {
+      const response = await this.request(`/customer/${customerCode}/products`);
+      return {
+        success: true,
+        data: response.data || response
+      };
+    } catch (error) {
+      console.error('Error getting customer products:', error);
+      return {
+        success: false,
+        error: error.message
+      };
+    }
   }
 }
 
