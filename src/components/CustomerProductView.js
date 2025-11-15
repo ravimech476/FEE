@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './CustomerProductView.css';
-import apiService from '../services/apiService';
+import apiService, { API_IMAGE_URL } from '../services/apiService';
 
 const CustomerProductView = () => {
   const { id: productId } = useParams();
@@ -101,10 +101,10 @@ const CustomerProductView = () => {
     }
     
     if (imagePath.startsWith('/uploads')) {
-      return `http://localhost:5000${imagePath}`;
+      return `${API_IMAGE_URL}${imagePath}`;
     }
     
-    return `http://localhost:5000/uploads/${imagePath}`;
+    return `${API_IMAGE_URL}/uploads/${imagePath}`;
   };
 
   const parseJsonField = (field) => {

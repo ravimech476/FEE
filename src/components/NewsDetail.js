@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './NewsDetail.css';
-import apiService from '../services/apiService';
+import apiService, { API_IMAGE_URL } from '../services/apiService';
 
 const NewsDetail = ({ user, userType }) => {
   const { id } = useParams();
@@ -102,7 +102,7 @@ const NewsDetail = ({ user, userType }) => {
           {newsItem.image_url && (
             <div className="news-image-wrapper">
               <img 
-                src={newsItem.image_url.startsWith('http') ? newsItem.image_url : `http://localhost:5000${newsItem.image_url}`}
+                src={newsItem.image_url.startsWith('http') ? newsItem.image_url : `${API_IMAGE_URL}${newsItem.image_url}`}
                 alt={newsItem.title}
                 className="news-featured-image"
                 onError={(e) => {

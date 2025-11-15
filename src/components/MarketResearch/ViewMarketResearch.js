@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import apiService from '../../services/apiService';
+import apiService, { API_IMAGE_URL } from '../../services/apiService';
 import './MarketResearch.css';
 
 const ViewMarketResearch = () => {
@@ -150,7 +150,7 @@ const ViewMarketResearch = () => {
               const fileType = getFileType(research.research_image1);
               const fileUrl = research.research_image1.startsWith('http') 
                 ? research.research_image1 
-                : `http://localhost:5000${research.research_image1}`;
+                : `${API_IMAGE_URL}${research.research_image1}`;
               
               const handleDownload = () => {
                 const link = document.createElement('a');
@@ -254,7 +254,7 @@ const ViewMarketResearch = () => {
               const fileType = getFileType(research.research_image1);
               const fileUrl = research.research_image1.startsWith('http') 
                 ? research.research_image1 
-                : `http://localhost:5000${research.research_image1}`;
+                : `${API_IMAGE_URL}${research.research_image1}`;
               
               const handleDownload = () => {
                 const link = document.createElement('a');
@@ -319,7 +319,7 @@ const ViewMarketResearch = () => {
                   <img 
                     src={research.research_image2.startsWith('http') 
                       ? research.research_image2 
-                      : `http://localhost:5000${research.research_image2}`} 
+                      : `${API_IMAGE_URL}${research.research_image2}`} 
                     alt="Research Image 2" 
                     onError={(e) => {
                       e.target.style.display = 'none';
@@ -354,7 +354,7 @@ const ViewMarketResearch = () => {
                 <a 
                   href={research.document.startsWith('http') 
                     ? research.document 
-                    : `http://localhost:5000${research.document}`} 
+                    : `${API_IMAGE_URL}${research.document}`} 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="btn btn-info"

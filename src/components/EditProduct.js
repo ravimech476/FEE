@@ -602,6 +602,7 @@ const EditProduct = () => {
                 onChange={handleInputChange}
                 className={`form-control ${errors.product_number ? 'error' : ''}`}
                 placeholder="Enter CAS number"
+                required={true}
                 disabled={saving}
               />
               {errors.product_number && <span className="error-text">{errors.product_number}</span>}
@@ -715,7 +716,7 @@ const EditProduct = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="material">Material</label>
+              <label htmlFor="material"> SAP Material Number *</label>
               <input
                 type="text"
                 id="material"
@@ -723,7 +724,8 @@ const EditProduct = () => {
                 value={formData.material}
                 onChange={handleInputChange}
                 className="form-control"
-                placeholder="Enter material information"
+                placeholder="Enter SAP Material Number"
+                required={true}
                 disabled={saving}
               />
             </div>

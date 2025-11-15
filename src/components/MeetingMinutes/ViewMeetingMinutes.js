@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import apiService from '../../services/apiService';
+import apiService, { API_IMAGE_URL } from '../../services/apiService';
 import './MeetingMinutes.css';
 
 const ViewMeetingMinutes = () => {
@@ -229,7 +229,7 @@ const ViewMeetingMinutes = () => {
                     {attachment.name && attachment.name.match(/\.(jpg|jpeg|png|gif)$/i) ? (
                       <>
                         <img 
-                          src={`http://localhost:5000${attachment.url}`} 
+                          src={`${API_IMAGE_URL}${attachment.url}`} 
                           alt={attachment.name}
                           className="attachment-thumbnail"
                           onError={(e) => {
@@ -249,7 +249,7 @@ const ViewMeetingMinutes = () => {
                   </div>
                   <div className="attachment-details">
                     <a 
-                      href={`http://localhost:5000${attachment.url}`} 
+                      href={`${API_IMAGE_URL}${attachment.url}`} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="attachment-name"
@@ -265,7 +265,7 @@ const ViewMeetingMinutes = () => {
                   </div>
                   <div className="attachment-actions">
                     <a 
-                      href={`http://localhost:5000${attachment.url}`} 
+                      href={`${API_IMAGE_URL}${attachment.url}`} 
                       download={attachment.name}
                       className="btn-download"
                       title="Download"

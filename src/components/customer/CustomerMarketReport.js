@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CustomerMarketReport.css';
-import apiService from '../../services/apiService';
+import apiService, { API_IMAGE_URL } from '../../services/apiService';
 
 const CustomerMarketReport = ({ userType, user }) => {
   const navigate = useNavigate();
@@ -29,14 +29,14 @@ const CustomerMarketReport = ({ userType, user }) => {
     }
     
     if (imagePath.startsWith('/uploads')) {
-      return `http://localhost:5000${imagePath}`;
+      return `${API_IMAGE_URL}${imagePath}`;
     }
     
     if (imagePath.startsWith('uploads/')) {
-      return `http://localhost:5000/${imagePath}`;
+      return `${API_IMAGE_URL}/${imagePath}`;
     }
     
-    return `http://localhost:5000/uploads/${imagePath}`;
+    return `${API_IMAGE_URL}/uploads/${imagePath}`;
   };
 
   const getFileType = (filePath) => {

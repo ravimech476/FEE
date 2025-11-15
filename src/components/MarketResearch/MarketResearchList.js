@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import apiService from '../../services/apiService';
+import apiService, { API_IMAGE_URL } from '../../services/apiService';
 import './MarketResearch.css';
 
 const MarketResearchList = () => {
@@ -130,7 +130,7 @@ const MarketResearchList = () => {
               const fileType = getFileType(report.research_image1);
               const fileUrl = report.research_image1?.startsWith('http') 
                 ? report.research_image1 
-                : `http://localhost:5000${report.research_image1}`;
+                : `${API_IMAGE_URL}${report.research_image1}`;
               
               const handleDownload = () => {
                 const link = document.createElement('a');

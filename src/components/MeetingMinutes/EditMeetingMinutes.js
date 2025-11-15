@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import apiService from '../../services/apiService';
+import apiService, { API_IMAGE_URL } from '../../services/apiService';
 import './MeetingMinutes.css';
 import './EditMeetingMinutes.css';
 
@@ -312,7 +312,7 @@ const EditMeetingMinutes = () => {
                         {attachment.name && attachment.name.match(/\.(jpg|jpeg|png|gif)$/i) ? (
                           <>
                             <img 
-                              src={`http://localhost:5000${attachment.url}`} 
+                              src={`${API_IMAGE_URL}${attachment.url}`} 
                               alt={attachment.name}
                               className="edit-meeting-attachment-thumbnail"
                               onError={(e) => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProductList.css';
-import apiService from '../services/apiService';
+import apiService, { API_IMAGE_URL } from '../services/apiService';
 
 const ProductList = ({ userType, user }) => {
   const navigate = useNavigate();
@@ -32,14 +32,14 @@ const ProductList = ({ userType, user }) => {
     }
     
     if (imagePath.startsWith('/uploads')) {
-      return `http://localhost:5000${imagePath}`;
+      return `${API_IMAGE_URL}${imagePath}`;
     }
     
     if (imagePath.startsWith('uploads/')) {
-      return `http://localhost:5000/${imagePath}`;
+      return `${API_IMAGE_URL}/${imagePath}`;
     }
     
-    return `http://localhost:5000/uploads/${imagePath}`;
+    return `${API_IMAGE_URL}/uploads/${imagePath}`;
   };
 
   const handleImageError = (productId) => {

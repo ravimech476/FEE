@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import apiService from '../../services/apiService';
+import apiService, { API_IMAGE_URL } from '../../services/apiService';
 import './MarketResearch.css';
 import './EditMarketResearch.css';
 
@@ -249,7 +249,7 @@ const EditMarketResearch = () => {
                         <img 
                           src={existingFiles.research_image1.startsWith('http') 
                             ? existingFiles.research_image1 
-                            : `http://localhost:5000${existingFiles.research_image1}`} 
+                            : `${API_IMAGE_URL}${existingFiles.research_image1}`} 
                           alt="Current document"
                           onError={(e) => {
                             e.target.style.display = 'none';

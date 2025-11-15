@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './Dashboard.css';
-import apiService from '../services/apiService';
+import apiService, { API_IMAGE_URL } from '../services/apiService';
 
 const Dashboard = ({ userType, user }) => {
   const navigate = useNavigate();
@@ -186,9 +186,9 @@ const Dashboard = ({ userType, user }) => {
                 <div className="summary-card-dash mom-card-dash">
                   <div className="card-title-dash">MOM</div>
                   <div className="card-number-dash">{dashboardData.meetingMinutes?.length || 0}</div>
-                  {dashboardData.meetingMinutes?.length > 0 && (
+                  {/* {dashboardData.meetingMinutes?.length > 0 && (
                     <a href="/meeting-minutes" className="mom-attachment-link">Click to view Attachment</a>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>
@@ -242,7 +242,7 @@ const Dashboard = ({ userType, user }) => {
                 <div 
                   key={product.id} 
                   className={`product-card-box product-${index + 1} clickable-card`}
-                  onClick={() => navigate(`/products/${product.id}`)}
+                  // onClick={() => navigate(`/products/${product.id}`)}
                   style={{ cursor: 'pointer' }}
                 >
                   <div className="product-img-box">
@@ -285,7 +285,7 @@ const Dashboard = ({ userType, user }) => {
                     <div className="market-chart-box">
                       {report.research_image1 ? (
                         <img 
-                          src={`http://localhost:5000${report.research_image1}`}
+                          src={`${API_IMAGE_URL}${report.research_image1}`}
                           alt={report.research_name || 'Market Report'}
                           className="market-report-image"
                           style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }}
