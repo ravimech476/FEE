@@ -258,6 +258,13 @@ const Sidebar = ({ userType = 'customer', user }) => {
       section: 'Business Operations'
     },
     { 
+      id: 'company-news', 
+      label: 'Company News', 
+      icon: '📰',
+      path: '/admin/news',
+      section: 'Business Operations'
+    },
+    { 
       id: 'market-report', 
       label: 'Market Reports', 
       icon: '📊',

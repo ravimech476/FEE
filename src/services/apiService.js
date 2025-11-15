@@ -35,10 +35,23 @@ class ApiService {
 
   async request(endpoint, options = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
+    
+    // Handle FormData differently
     const config = {
-      headers: this.getHeaders(),
       ...options
     };
+    
+    if (options.isFormData) {
+      // For FormData, don't include Content-Type header
+      config.headers = {
+        'Authorization': `Bearer ${this.token}`
+      };
+    } else {
+      config.headers = this.getHeaders();
+      if (options.headers) {
+        config.headers = { ...config.headers, ...options.headers };
+      }
+    }
 
     try {
       const response = await fetch(url, config);
@@ -688,6 +701,59 @@ class ApiService {
         error: error.message
       };
     }
+  }
+
+  // News Management
+  async getAllNews(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/news?${queryString}`);
+  }
+
+  async getNewsById(id) {
+    return this.request(`/news/${id}`);
+  }
+
+  async createNews(newsData) {
+    return this.request('/news', {
+      method: 'POST',
+      body: JSON.stringify(newsData)
+    });
+  }
+
+  async updateNews(id, newsData) {
+    return this.request(`/news/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(newsData)
+    });
+  }
+
+  async deleteNews(id) {
+    return this.request(`/news/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
+  async createNewsWithImage(formData) {
+    return this.request('/news', {
+      method: 'POST',
+      body: formData,
+      // Don't set Content-Type - browser will set it with boundary
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      },
+      isFormData: true
+    });
+  }
+
+  async updateNewsWithImage(id, formData) {
+    return this.request(`/news/${id}`, {
+      method: 'PUT',
+      body: formData,
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      },
+      isFormData: true
+    });
   }
 }
 

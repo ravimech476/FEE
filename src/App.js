@@ -68,6 +68,10 @@ import CustomerViewPaymentDetails from './components/customer/CustomerViewPaymen
 import CustomerInvoiceToDelivery from './components/customer/CustomerInvoiceToDelivery';
 import NewsDetail from './components/NewsDetail';
 
+// News Management Components
+import NewsList from './components/NewsList';
+import NewsForm from './components/NewsForm';
+
 // Protected Route Component
 const ProtectedRoute = ({ children, isLoggedIn, userType, requiredUserType, requiredPermission, user }) => {
 
@@ -879,6 +883,51 @@ function App() {
           <ProtectedRoute isLoggedIn={isLoggedIn} userType={userType} requiredUserType="admin">
             <AppLayout userType={userType} user={user} onLogout={handleLogout}>
               <EditSocialMedia />
+            </AppLayout>
+          </ProtectedRoute>
+        } 
+      />
+
+      {/* News Management Routes */}
+      <Route 
+        path="/admin/news" 
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn} userType={userType} requiredUserType="admin">
+            <AppLayout userType={userType} user={user} onLogout={handleLogout}>
+              <NewsList />
+            </AppLayout>
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/admin/news/create" 
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn} userType={userType} requiredUserType="admin">
+            <AppLayout userType={userType} user={user} onLogout={handleLogout}>
+              <NewsForm mode="create" />
+            </AppLayout>
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/admin/news/:id/edit" 
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn} userType={userType} requiredUserType="admin">
+            <AppLayout userType={userType} user={user} onLogout={handleLogout}>
+              <NewsForm mode="edit" />
+            </AppLayout>
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/admin/news/:id/view" 
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn} userType={userType} requiredUserType="admin">
+            <AppLayout userType={userType} user={user} onLogout={handleLogout}>
+              <NewsDetail user={user} userType={userType} />
             </AppLayout>
           </ProtectedRoute>
         } 

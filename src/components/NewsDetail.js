@@ -99,10 +99,10 @@ const NewsDetail = ({ user, userType }) => {
           </div>
 
           {/* Featured Image */}
-          {newsItem.image_url && (
+          {newsItem.image && (
             <div className="news-image-wrapper">
               <img 
-                src={newsItem.image_url.startsWith('http') ? newsItem.image_url : `${API_IMAGE_URL}${newsItem.image_url}`}
+                src={`${API_IMAGE_URL}api/uploads/${newsItem.image}`}
                 alt={newsItem.title}
                 className="news-featured-image"
                 onError={(e) => {
