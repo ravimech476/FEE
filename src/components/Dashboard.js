@@ -24,15 +24,22 @@ const Dashboard = ({ userType, user }) => {
   // Fetch product list for filter dropdown
   useEffect(() => {
     const fetchProducts = async () => {
-      if (userType === 'customer' && user?.customer_code) {
-        try {
+      try {
+        if (userType === 'customer' && user?.customer_code) {
           const response = await apiService.getCustomerProducts(user.customer_code);
           if (response.success && response.data) {
             setProductList(response.data);
           }
-        } catch (error) {
-          console.error('Error fetching products:', error);
+        } else if (userType === 'admin') {
+          // For admin, get all products
+          const response = await apiService.getProducts({ limit: 1000 });
+          if (response.success && response.data) {
+            const products = response.data.products || response.data;
+            setProductList(products);
+          }
         }
+      } catch (error) {
+        console.error('Error fetching products:', error);
       }
     };
 
@@ -373,7 +380,7 @@ const Dashboard = ({ userType, user }) => {
               <option value="5years">5 Years</option>
             </select>
             
-            {userType === 'customer' && productList.length > 0 && (
+            {productList.length > 0 && (
               <select 
                 className="product-select" 
                 value={selectedProduct} 
