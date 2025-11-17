@@ -184,7 +184,7 @@ const NewsForm = ({ mode = "create" }) => {
           </div>
           <div className="form-group full-width">
             <label htmlFor="content">
-              Company Url <span className="required">*</span>
+              Link <span className="required">*</span>
             </label>
             <input
               type="url"
