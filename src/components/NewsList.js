@@ -67,12 +67,10 @@ const NewsList = () => {
   };
 
   const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
+   if (!dateString) return "N/A";
+
+  const date = new Date(dateString);
+  return date.toISOString().split("T")[0];
   };
 
   if (loading) {
@@ -133,10 +131,10 @@ const NewsList = () => {
             <tr>
               <th>ID</th>
               <th>Title</th>
-              <th>Category</th>
-              <th>Status</th>
+              {/* <th>Category</th>
+              <th>Status</th> */}
               <th>Published Date</th>
-              <th>Created Date</th>
+              {/* <th>Created Date</th> */}
               <th>Actions</th>
             </tr>
           </thead>
@@ -146,14 +144,14 @@ const NewsList = () => {
                 <tr key={item.id}>
                   <td>{item.id}</td>
                   <td className="news-title">{item.title}</td>
-                  <td>{item.category || 'Uncategorized'}</td>
-                  <td>
+                  {/* <td>{item.category || 'Uncategorized'}</td> */}
+                  {/* <td>
                     <span className={`status-badge status-${item.status}`}>
                       {item.status}
                     </span>
-                  </td>
+                  </td> */}
                   <td>{formatDate(item.published_date)}</td>
-                  <td>{formatDate(item.created_date)}</td>
+                  {/* <td>{formatDate(item.created_date)}</td> */}
                   <td className="actions">
                     <button
                       className="btn-icon btn-view"

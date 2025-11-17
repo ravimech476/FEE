@@ -734,6 +734,7 @@ class ApiService {
   }
 
   async createNewsWithImage(formData) {
+    console.log('CreateformData:', formData);
     return this.request('/news', {
       method: 'POST',
       body: formData,
@@ -746,6 +747,7 @@ class ApiService {
   }
 
   async updateNewsWithImage(id, formData) {
+    console.log('UpdateformData:', formData);
     return this.request(`/news/${id}`, {
       method: 'PUT',
       body: formData,

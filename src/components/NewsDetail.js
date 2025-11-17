@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import './NewsDetail.css';
-import apiService, { API_IMAGE_URL } from '../services/apiService';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import "./NewsDetail.css";
+import apiService, { API_IMAGE_URL } from "../services/apiService";
 
 const NewsDetail = ({ user, userType }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [newsItem, setNewsItem] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchNewsDetail();
@@ -17,30 +17,30 @@ const NewsDetail = ({ user, userType }) => {
   const fetchNewsDetail = async () => {
     try {
       setLoading(true);
-      setError('');
-      
+      setError("");
+
       // Call API to get news by ID
       const response = await apiService.getNewsById(id);
-      
+
       if (response.success) {
         setNewsItem(response.data);
       } else {
-        setError('News article not found');
+        setError("News article not found");
       }
     } catch (error) {
-      console.error('Error fetching news detail:', error);
-      setError('Failed to load news article');
+      console.error("Error fetching news detail:", error);
+      setError("Failed to load news article");
     } finally {
       setLoading(false);
     }
   };
 
   const formatDate = (date) => {
-    if (!date) return '';
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    if (!date) return "";
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -59,8 +59,8 @@ const NewsDetail = ({ user, userType }) => {
     return (
       <div className="news-detail-container">
         <div className="error-wrapper">
-          <h2>⚠️ {error || 'News article not found'}</h2>
-          <button onClick={() => navigate('/dashboard')} className="btn-back">
+          <h2>⚠️ {error || "News article not found"}</h2>
+          <button onClick={() => navigate("/dashboard")} className="btn-back">
             ← Back to Dashboard
           </button>
         </div>
@@ -71,7 +71,7 @@ const NewsDetail = ({ user, userType }) => {
   return (
     <div className="news-detail-container">
       <div className="news-detail-header">
-        <button onClick={() => navigate('/dashboard')} className="btn-back">
+        <button onClick={() => navigate("/dashboard")} className="btn-back">
           ← Back to Dashboard
         </button>
       </div>
@@ -87,28 +87,30 @@ const NewsDetail = ({ user, userType }) => {
               📅 {formatDate(newsItem.published_date || newsItem.created_date)}
             </span>
             {newsItem.author && (
-              <span className="news-author">
-                ✍️ {newsItem.author}
-              </span>
+              <span className="news-author">✍️ {newsItem.author}</span>
             )}
             {newsItem.category && (
-              <span className="news-category">
-                🏷️ {newsItem.category}
-              </span>
+              <span className="news-category">🏷️ {newsItem.category}</span>
             )}
           </div>
 
           {/* Featured Image */}
           {newsItem.image && (
             <div className="news-image-wrapper">
-              <img 
-                src={`${API_IMAGE_URL}api/uploads/${newsItem.image}`}
-                alt={newsItem.title}
-                className="news-featured-image"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                }}
-              />
+              <a
+                href={`${API_IMAGE_URL}api/uploads/${newsItem.image}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`${API_IMAGE_URL}api/uploads/${newsItem.image}`}
+                  alt={newsItem.title}
+                  className="news-featured-image"
+                  onError={(e) => {
+                    e.target.style.display = "none";
+                  }}
+                />
+              </a>
             </div>
           )}
 
@@ -120,16 +122,37 @@ const NewsDetail = ({ user, userType }) => {
           )}
 
           {/* Main Content */}
-          <div className="news-body">
-            {newsItem.content ? (
-              <div 
-                dangerouslySetInnerHTML={{ __html: newsItem.content }}
-                className="news-content-html"
-              />
-            ) : (
-              <p>No content available</p>
-            )}
-          </div>
+        <div className="news-body" style={{ marginTop: 10 }}>
+  {newsItem.content ? (
+    <div
+      style={{
+        padding: "12px",
+        border: "1px solid #ddd",
+        borderRadius: "8px",
+        backgroundColor: "#f9f9f9",
+        display: "inline-block",
+        width: "100%",
+        wordBreak: "break-all",
+      }}
+    >
+      <a
+        href={newsItem.content}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          color: "#007bff",
+          fontWeight: "500",
+          textDecoration: "none",
+        }}
+      >
+        {newsItem.content}
+      </a>
+    </div>
+  ) : (
+    <p>No Link available</p>
+  )}
+</div>
+
 
           {/* Tags */}
           {newsItem.tags && newsItem.tags.length > 0 && (
@@ -137,7 +160,9 @@ const NewsDetail = ({ user, userType }) => {
               <h3>Tags:</h3>
               <div className="tags-list">
                 {newsItem.tags.map((tag, index) => (
-                  <span key={index} className="tag-badge">{tag}</span>
+                  <span key={index} className="tag-badge">
+                    {tag}
+                  </span>
                 ))}
               </div>
             </div>
@@ -152,9 +177,7 @@ const NewsDetail = ({ user, userType }) => {
                 </span>
               )}
               {newsItem.views !== undefined && (
-                <span className="news-views">
-                  👁️ {newsItem.views} views
-                </span>
+                <span className="news-views">👁️ {newsItem.views} views</span>
               )}
             </div>
           </div>
