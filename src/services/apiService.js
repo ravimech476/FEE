@@ -211,16 +211,19 @@ class ApiService {
   }
 
   async createProduct(productData) {
-    const headers = this.getHeaders();
-    // Remove Content-Type header if productData is FormData
+    // Check if productData is FormData (for file uploads)
     if (productData instanceof FormData) {
-      delete headers['Content-Type'];
+      return this.request('/products', {
+        method: 'POST',
+        body: productData,
+        isFormData: true
+      });
     }
     
+    // Regular JSON request
     return this.request('/products', {
       method: 'POST',
-      body: productData instanceof FormData ? productData : JSON.stringify(productData),
-      headers
+      body: JSON.stringify(productData)
     });
   }
 
@@ -229,26 +232,20 @@ class ApiService {
   }
 
   async updateProduct(id, productData) {
-    const headers = this.getHeaders();
-    
-    // Handle FormData differently (for file uploads)
+    // Check if productData is FormData (for file uploads)
     if (productData instanceof FormData) {
-      // Don't set Content-Type for FormData - let browser set it with boundary
-      delete headers['Content-Type'];
-      
       return this.request(`/products/${id}`, {
         method: 'PUT',
         body: productData,
-        headers
-      });
-    } else {
-      // Handle regular JSON data
-      return this.request(`/products/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(productData),
-        headers
+        isFormData: true
       });
     }
+    
+    // Regular JSON request
+    return this.request(`/products/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(productData)
+    });
   }
 
   async updateProductWithImages(id, formData) {
@@ -339,13 +336,10 @@ class ApiService {
   }
 
   async createMeetingWithAttachments(formData) {
-    const headers = this.getHeaders();
-    delete headers['Content-Type']; // Let browser set it with boundary for FormData
-    
     return this.request('/meetings', {
       method: 'POST',
       body: formData,
-      headers
+      isFormData: true
     });
   }
 
@@ -357,13 +351,10 @@ class ApiService {
   }
 
   async updateMeetingWithAttachments(id, formData) {
-    const headers = this.getHeaders();
-    delete headers['Content-Type']; // Let browser set it with boundary for FormData
-    
     return this.request(`/meetings/${id}`, {
       method: 'PUT',
       body: formData,
-      headers
+      isFormData: true
     });
   }
 
@@ -687,7 +678,7 @@ class ApiService {
   }
 
   // Get customer's product list for filters
-  async getCustomerProducts(customerCode) {
+  async  getCustomerProducts(customerCode) {
     try {
       const response = await this.request(`/customer/${customerCode}/products`);
       return {

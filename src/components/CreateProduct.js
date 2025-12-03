@@ -20,6 +20,8 @@ const CreateProduct = () => {
     product_number: '',
     common_name: '',
     botanical_name: '',
+    product_short_description: '',
+    product_long_description: '',
     plant_part: '',
     source_country: '',
     harvest_region_new: [],
@@ -450,6 +452,34 @@ const CreateProduct = () => {
                 disabled={loading}
               />
             </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="product_short_description">Short Description</label>
+            <textarea
+              id="product_short_description"
+              name="product_short_description"
+              value={formData.product_short_description}
+              onChange={handleInputChange}
+              className="form-control"
+              placeholder="Enter short description"
+              rows="3"
+              disabled={loading}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="product_long_description">Long Description</label>
+            <textarea
+              id="product_long_description"
+              name="product_long_description"
+              value={formData.product_long_description}
+              onChange={handleInputChange}
+              className="form-control"
+              placeholder="Enter detailed description"
+              rows="5"
+              disabled={loading}
+            />
           </div>
 
           <div className="form-row">
