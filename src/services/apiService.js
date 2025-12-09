@@ -1,6 +1,6 @@
 const API_BASE_URL = 'http://localhost:5000/api';
 
-export const API_IMAGE_URL= 'http://localhost:5000/';
+export const API_IMAGE_URL = 'http://localhost:5000/';
 
 class ApiService {
   constructor() {

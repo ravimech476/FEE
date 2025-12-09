@@ -232,6 +232,20 @@ const ViewProduct = ({ userType, user }) => {
   const peakSeasonMonths = parseJsonField(product.peak_season_months);
   const harvestSeasonMonths = parseJsonField(product.harvest_season_months);
 
+  // Helper function to convert full month name to short form
+  const getShortMonth = (fullMonth) => {
+    const monthMap = {
+      'January': 'JAN', 'February': 'FEB', 'March': 'MAR', 'April': 'APR',
+      'May': 'MAY', 'June': 'JUN', 'July': 'JUL', 'August': 'AUG',
+      'September': 'SEP', 'October': 'OCT', 'November': 'NOV', 'December': 'DEC'
+    };
+    return monthMap[fullMonth] || fullMonth;
+  };
+
+  // Convert stored month arrays to short format for comparison
+  const peakMonthsShort = peakSeasonMonths.map(m => getShortMonth(m));
+  const harvestMonthsShort = harvestSeasonMonths.map(m => getShortMonth(m));
+
   return (
     <div className="view-product">
       <div className="page-header">
@@ -309,7 +323,7 @@ const ViewProduct = ({ userType, user }) => {
         <div className="view-product-desc-section">
           <h3>Product Description</h3>
           <div className="view-product-desc-text">
-            {product.product_long_description || product.product_short_description || 'Spanning cultures and continents, Jasminum grandiflorum weaves a fragrant legacy from Himalayan origins to its new home nestled along the Indian Ocean basin along Africa’s eastern shores. Treasured by diverse cultural symbolisms, adorning individuals and gracing global festivities, rituals, and ceremonies across time. the first-ever poetic flower offers a rich, mellow-floral fruity aroma that intoxicates the senses and delights the spirit.'}
+            {product.product_long_description || product.product_short_description || <span className="not-specified">No description available</span>}
           </div>
         </div>
 
@@ -319,19 +333,19 @@ const ViewProduct = ({ userType, user }) => {
             <tbody>
               <tr>
                 <td>Common Name:</td>
-                <td>{product.common_name || 'Jasmine (English), Jathimalli (Tamil)'}</td>
+                <td>{product.common_name || <span className="not-specified">Not specified</span>}</td>
               </tr>
               <tr>
                 <td>Botanical Name:</td>
-                <td>{product.botanical_name || 'Jasminum Grandiflorum (Oleaceae)'}</td>
+                <td>{product.botanical_name || <span className="not-specified">Not specified</span>}</td>
               </tr>
               <tr>
                 <td>Part:</td>
-                <td>{product.plant_part || 'Flower'}</td>
+                <td>{product.plant_part || <span className="not-specified">Not specified</span>}</td>
               </tr>
               <tr>
                 <td>Source:</td>
-                <td>{product.source_country ? getCountryName(product.source_country) : 'India'}</td>
+                <td>{product.source_country ? getCountryName(product.source_country) : <span className="not-specified">Not specified</span>}</td>
               </tr>
               <tr className="harvest-region-row">
                 <td>Harvest Region:</td>
@@ -343,12 +357,7 @@ const ViewProduct = ({ userType, user }) => {
                       ))}
                     </div>
                   ) : (
-                    <div className="region-tags">
-                      <span className="region-tag">Tamil Nadu</span>
-                      <span className="region-tag">Karnataka</span>
-                      <span className="region-tag">Andhra Pradesh</span>
-                      <span className="region-tag">Kerala</span>
-                    </div>
+                    <span className="not-specified">Not specified</span>
                   )}
                 </td>
               </tr>
@@ -357,24 +366,24 @@ const ViewProduct = ({ userType, user }) => {
                 <td>
                   <div className="season-calendar">
                     {['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'].map(month => {
-                      const isPeak = peakSeasonMonths.includes(month) || ['APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP'].includes(month);
-                      const isActive = harvestSeasonMonths.includes(month) || true; // Default to year-round
+                      const isPeak = peakMonthsShort.includes(month);
+                      const isHarvest = harvestMonthsShort.includes(month);
                       return (
-                        <div key={month} className={`month-block ${isPeak ? 'peak' : ''} ${isActive ? 'active' : ''}`}>
+                        <div key={month} className={`month-block ${isPeak ? 'peak' : ''} ${isHarvest ? 'active' : ''}`}>
                           {month}
                         </div>
                       );
                     })}
                   </div>
                   <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: '#666' }}>
-                    <span style={{ color: '#90EE90' }}>■</span> Peak Season &nbsp;
-                    <span style={{ color: '#FFD700' }}>■</span> Harvest Season
+                    <span style={{ color: '#FFD700' }}>■</span> Peak Season &nbsp;
+                    <span   style={{ color: '#90EE90' }}>■</span> Harvest Season
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>Procurement:</td>
-                <td>{product.procurement_method || 'Contract Farming'}</td>
+                <td>{product.procurement_method || <span className="not-specified">Not specified</span>}</td>
               </tr>
               <tr>
                 <td>Main Component:</td>
@@ -386,37 +395,29 @@ const ViewProduct = ({ userType, user }) => {
                       ))}
                     </div>
                   ) : (
-                    <div className="component-tags">
-                      <span className="component-tag">Linalool</span>
-                      <span className="component-tag">Phenyl methyl acetate</span>
-                      <span className="component-tag">Indole</span>
-                      <span className="component-tag">Benzyl benzoate</span>
-                      <span className="component-tag">Phytol</span>
-                      <span className="component-tag">Farnesene</span>
-                      <span className="component-tag">cis-Jasmone</span>
-                    </div>
+                    <span className="not-specified">Not specified</span>
                   )}
                 </td>
               </tr>
               <tr>
                 <td>Sensory Notes:</td>
-                <td>{product.sensory_notes || 'Sweet, Floral, Fruity, Honey, Waxy, Creamy'}</td>
+                <td>{product.sensory_notes || <span className="not-specified">Not specified</span>}</td>
               </tr>
               <tr>
                 <td>Color:</td>
-                <td>{product.color_absolute || 'Light to dark reddish brown with yellow tinge'}</td>
+                <td>{product.color_absolute || <span className="not-specified">Not specified</span>}</td>
               </tr>
               <tr>
                 <td>Extraction Process:</td>
-                <td>{product.extraction_process || 'Solvent'}</td>
+                <td>{product.extraction_process || <span className="not-specified">Not specified</span>}</td>
               </tr>
               <tr>
                 <td>Application / Uses:</td>
-                <td>{product.applications_uses || 'Fine Fragrance, Cosmetics, Aromatherapy, Candle Industry'}</td>
+                <td>{product.applications_uses || <span className="not-specified">Not specified</span>}</td>
               </tr>
               <tr>
                 <td>Production Availability:</td>
-                <td>{product.production_availability || '2000 Ton. [Flowers]'}</td>
+                <td>{product.production_availability || <span className="not-specified">Not specified</span>}</td>
               </tr>
             </tbody>
           </table>

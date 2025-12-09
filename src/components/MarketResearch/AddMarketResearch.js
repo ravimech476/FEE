@@ -140,10 +140,7 @@ const AddMarketResearch = () => {
       const response = await apiService.request('/market-research', {
         method: 'POST',
         body: formDataToSend,
-        headers: {
-          'Authorization': `Bearer ${apiService.token}`
-          // Don't set Content-Type - let browser set it with boundary for FormData
-        }
+        isFormData: true
       });
 
       navigate('/market-report');

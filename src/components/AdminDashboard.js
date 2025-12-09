@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './AdminDashboard.css';
 import apiService from '../services/apiService';
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const [stats, setStats] = useState(null);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -297,37 +299,37 @@ const AdminDashboard = () => {
           </div>
           <div className="card-content">
             <div className="quick-actions-grid">
-              <div className="quick-action" onClick={() => window.location.href = '/admin/users'}>
+              <div className="quick-action" onClick={() => navigate('/admin/users')}>
                 <div className="quick-action-icon users">
                   <span>👥</span>
                 </div>
                 <div className="quick-action-text">Add User</div>
               </div>
-              <div className="quick-action" onClick={() => window.location.href = '/admin/products/create'}>
+              <div className="quick-action" onClick={() => navigate('/admin/products/create')}>
                 <div className="quick-action-icon products">
                   <span>📦</span>
                 </div>
                 <div className="quick-action-text">Add Product</div>
               </div>
-              <div className="quick-action" onClick={() => window.location.href = '/admin/roles/create'}>
+              <div className="quick-action" onClick={() => navigate('/admin/roles/create')}>
                 <div className="quick-action-icon roles">
                   <span>🔐</span>
                 </div>
                 <div className="quick-action-text">Create Role</div>
               </div>
-              <div className="quick-action" onClick={() => window.location.href = '/admin/meeting-minutes/add'}>
+              <div className="quick-action" onClick={() => navigate('/admin/meeting-minutes/add')}>
                 <div className="quick-action-icon meetings">
                   <span>📝</span>
                 </div>
                 <div className="quick-action-text">Add Meeting</div>
               </div>
-              <div className="quick-action" onClick={() => window.location.href = '/market-report/add'}>
+              <div className="quick-action" onClick={() => navigate('/market-report/add')}>
                 <div className="quick-action-icon reports">
                   <span>📊</span>
                 </div>
                 <div className="quick-action-text">Add Report</div>
               </div>
-              <div className="quick-action" onClick={() => window.location.href = '/admin/settings'}>
+              <div className="quick-action" onClick={() => navigate('/admin/settings')}>
                 <div className="quick-action-icon settings">
                   <span>⚙️</span>
                 </div>

@@ -177,6 +177,10 @@
   padding: 1.5rem 2rem;
   border-bottom: 2px solid #8B4513;
   position: relative;
+  display: flex;
+  flex-direction: row; 
+   align-items: center;       /* vertical alignment */
+  justify-content: space-around;
 }
 
 .product-title-section h1 {
@@ -1048,4 +1052,11 @@
     padding: 0.4rem 0.8rem;
     font-size: 0.75rem;
   }
+}
+
+/* Not Specified Placeholder Style */
+.not-specified {
+  color: #999;
+  font-style: italic;
+  opacity: 0.8;
 }

@@ -184,6 +184,14 @@ const EditMeetingMinutes = () => {
     setExistingAttachments(prev => prev.filter((_, i) => i !== index));
   };
 
+  // Helper function to get proper image URL (handles double slash issue)
+  const getAttachmentUrl = (url) => {
+    if (!url) return '';
+    // Remove leading slash if present to avoid double slash with API_IMAGE_URL
+    const cleanUrl = url.startsWith('/') ? url.substring(1) : url;
+    return `${API_IMAGE_URL}${cleanUrl}`;
+  };
+
   if (loading) {
     return (
       <div className="meeting-minutes-page">
@@ -312,7 +320,7 @@ const EditMeetingMinutes = () => {
                         {attachment.name && attachment.name.match(/\.(jpg|jpeg|png|gif)$/i) ? (
                           <>
                             <img 
-                              src={`${API_IMAGE_URL}${attachment.url}`} 
+                              src={getAttachmentUrl(attachment.url)} 
                               alt={attachment.name}
                               className="edit-meeting-attachment-thumbnail"
                               onError={(e) => {
