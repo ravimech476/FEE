@@ -708,7 +708,7 @@ class ApiService {
   // Get customer's product list for filters
   async  getCustomerProducts(customerCode) {
     try {
-      const response = await this.request(`/customer/${customerCode}/products`);
+      const response = await this.request(`/customer/${customerCode}/products/list`);
       return {
         success: true,
         data: response.data || response
@@ -774,6 +774,40 @@ class ApiService {
         'Authorization': `Bearer ${this.token}`
       },
       isFormData: true
+    });
+  }
+
+  // SAP Material Management
+  async getSapMaterials(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/sap-materials?${queryString}`);
+  }
+
+  async getActiveSapMaterials() {
+    return this.request('/sap-materials/active');
+  }
+
+  async getSapMaterialById(id) {
+    return this.request(`/sap-materials/${id}`);
+  }
+
+  async createSapMaterial(data) {
+    return this.request('/sap-materials', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async updateSapMaterial(id, data) {
+    return this.request(`/sap-materials/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async deleteSapMaterial(id) {
+    return this.request(`/sap-materials/${id}`, {
+      method: 'DELETE'
     });
   }
 }

@@ -17,6 +17,7 @@ const EditProduct = () => {
   const [plantParts, setPlantParts] = useState([]);
   const [procurementMethods, setProcurementMethods] = useState([]);
   const [extractionProcesses, setExtractionProcesses] = useState([]);
+  const [sapMaterials, setSapMaterials] = useState([]);
 
   const [formData, setFormData] = useState({
     product_number: '',
@@ -38,6 +39,7 @@ const EditProduct = () => {
     harvest_season_enabled: false,
     harvest_season_months: [],
     material: '',
+    sap_material_ids: [],
     procurement_method: [],
     main_components: '',
     sensory_notes: '',
@@ -164,6 +166,16 @@ const EditProduct = () => {
         'Expression', 'Maceration', 'Other'
       ]);
 
+      // Load SAP Materials from API
+      try {
+        const sapResponse = await apiService.getActiveSapMaterials();
+        if (sapResponse.success && sapResponse.data) {
+          setSapMaterials(sapResponse.data);
+        }
+      } catch (err) {
+        console.error('Error loading SAP materials:', err);
+      }
+
     } catch (error) {
       console.error('Error loading dropdown data:', error);
     }
@@ -254,6 +266,7 @@ const EditProduct = () => {
           harvest_season_enabled: product.harvest_season_enabled || false,
           harvest_season_months: harvestSeasonMonths,
           material: product.material || '',
+          sap_material_ids: product.sap_material_ids || [],
           procurement_method: procurementMethods,
           main_components: product.main_components || '',
           sensory_notes: product.sensory_notes || '',
@@ -498,6 +511,9 @@ const EditProduct = () => {
           submitData.append(key, JSON.stringify(formData[key]));
         } else if (key === 'procurement_method' && Array.isArray(formData[key])) {
           // Convert procurement_method array to JSON string
+          submitData.append(key, JSON.stringify(formData[key]));
+        } else if (key === 'sap_material_ids' && Array.isArray(formData[key])) {
+          // Convert sap_material_ids array to JSON string
           submitData.append(key, JSON.stringify(formData[key]));
         } else {
           submitData.append(key, formData[key]);
@@ -784,18 +800,47 @@ const EditProduct = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="material"> SAP Material Number *</label>
-              <input
-                type="text"
-                id="material"
-                name="material"
-                value={formData.material}
-                onChange={handleInputChange}
-                className="form-control"
-                placeholder="Enter SAP Material Number"
-                required={true}
-                disabled={saving}
-              />
+              <label>SAP Material Numbers</label>
+              <div className="multi-select-container">
+                <div className="selected-items">
+                  {formData.sap_material_ids.length > 0 ? (
+                    formData.sap_material_ids.map(id => {
+                      const sap = sapMaterials.find(s => s.id === id);
+                      return sap ? (
+                        <span key={id} className="selected-item">
+                          {sap.sap_material_number}
+                          <button
+                            type="button"
+                            onClick={() => handleMultiSelectChange('sap_material_ids', id)}
+                            className="remove-item-btn"
+                            disabled={saving}
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ) : null;
+                    })
+                  ) : (
+                    <span className="placeholder">Select SAP Material Numbers</span>
+                  )}
+                </div>
+                <div className="dropdown-options">
+                  {sapMaterials.map(sap => (
+                    <label key={sap.id} className="dropdown-option">
+                      <input
+                        type="checkbox"
+                        checked={formData.sap_material_ids.includes(sap.id)}
+                        onChange={() => handleMultiSelectChange('sap_material_ids', sap.id)}
+                        disabled={saving}
+                      />
+                      {sap.sap_material_number}
+                    </label>
+                  ))}
+                  {sapMaterials.length === 0 && (
+                    <div className="no-options">No SAP Materials available. Add them in Settings.</div>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div className="form-group">

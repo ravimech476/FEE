@@ -175,6 +175,28 @@ const Settings = () => {
 
       <div className="settings-container">
         <div className="settings-content">
+          {/* SAP Materials Section */}
+          <div className="sap-materials-section" style={{ marginBottom: '24px' }}>
+            <div className="settings-card">
+              <div className="card-header">
+                <h3>SAP Material Numbers</h3>
+                <button 
+                  onClick={() => navigate('/admin/settings/sap-materials')}
+                  className="btn btn-primary"
+                  disabled={loading}
+                >
+                  Manage SAP Materials →
+                </button>
+              </div>
+              <div className="card-content">
+                <p style={{ color: '#666', margin: 0 }}>
+                  Configure SAP Material Numbers that can be linked to multiple products.
+                  These are used in the Product forms as a multi-select field.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="ask-expert-section">
             <div className="section-header">
               <h2>Ask Expert Configuration</h2>

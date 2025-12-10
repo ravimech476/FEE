@@ -528,3 +528,12 @@
     padding: 16px;
   }
 }
+
+/* No options message */
+.no-options {
+  padding: 12px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  font-size: 13px;
+}

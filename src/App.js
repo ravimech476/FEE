@@ -55,6 +55,9 @@ import ViewInvoiceToDelivery from './components/ViewInvoiceToDelivery';
 import Settings from './components/Settings';
 import AddSocialMedia from './components/AddSocialMedia';
 import EditSocialMedia from './components/EditSocialMedia';
+import SapMaterialList from './components/SapMaterialList';
+import AddSapMaterial from './components/AddSapMaterial';
+import EditSapMaterial from './components/EditSapMaterial';
 
 // Customer Components
 import CustomerPaymentInfo from './components/customer/CustomerPaymentInfo';
@@ -883,6 +886,40 @@ function App() {
           <ProtectedRoute isLoggedIn={isLoggedIn} userType={userType} requiredUserType="admin">
             <AppLayout userType={userType} user={user} onLogout={handleLogout}>
               <EditSocialMedia />
+            </AppLayout>
+          </ProtectedRoute>
+        } 
+      />
+
+      {/* SAP Materials Routes */}
+      <Route 
+        path="/admin/settings/sap-materials" 
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn} userType={userType} requiredUserType="admin">
+            <AppLayout userType={userType} user={user} onLogout={handleLogout}>
+              <SapMaterialList />
+            </AppLayout>
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/admin/settings/sap-materials/add" 
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn} userType={userType} requiredUserType="admin">
+            <AppLayout userType={userType} user={user} onLogout={handleLogout}>
+              <AddSapMaterial />
+            </AppLayout>
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/admin/settings/sap-materials/edit/:id" 
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn} userType={userType} requiredUserType="admin">
+            <AppLayout userType={userType} user={user} onLogout={handleLogout}>
+              <EditSapMaterial />
             </AppLayout>
           </ProtectedRoute>
         } 
