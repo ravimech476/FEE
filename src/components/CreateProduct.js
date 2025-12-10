@@ -52,6 +52,11 @@ const CreateProduct = () => {
     harvest_region_image: null
   });
 
+  const [imageErrors, setImageErrors] = useState({
+    image1: '',
+    image2: ''
+  });
+
   const [errors, setErrors] = useState({});
 
   // Month options for season checkboxes
@@ -129,7 +134,7 @@ const CreateProduct = () => {
       setProcurementMethods([
         'Contract Farming', 'Wild Collection', 'Cultivation', 'Direct Purchase',
         'Cooperative', 'Organic Farming', 'Sustainable Harvesting',
-        'Import', 'Local Sourcing', 'Other'
+        'Import', 'Local Sourcing', 'Market Procurement','Other'
       ]);
 
       // Load extraction processes
@@ -205,38 +210,100 @@ const CreateProduct = () => {
     const file = e.target.files[0];
     
     if (file) {
+      // Clear previous image error
+      if (imageKey === 'image1' || imageKey === 'image2') {
+        setImageErrors(prev => ({ ...prev, [imageKey]: '' }));
+      }
+
       // Validate file type
       const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
       if (!validTypes.includes(file.type)) {
-        setError(`Please select a valid image file (JPEG, PNG) for ${imageKey}`);
+        if (imageKey === 'image1' || imageKey === 'image2') {
+          setImageErrors(prev => ({ ...prev, [imageKey]: 'Please select a valid image file (JPEG, PNG)' }));
+        } else {
+          setError(`Please select a valid image file (JPEG, PNG) for ${imageKey}`);
+        }
         return;
       }
 
       // Validate file size (5MB max)
       const maxSize = 5 * 1024 * 1024; // 5MB in bytes
       if (file.size > maxSize) {
-        setError(`Image file size should be less than 5MB for ${imageKey}`);
+        if (imageKey === 'image1' || imageKey === 'image2') {
+          setImageErrors(prev => ({ ...prev, [imageKey]: 'Image file size should be less than 5MB' }));
+        } else {
+          setError(`Image file size should be less than 5MB for ${imageKey}`);
+        }
         return;
       }
 
-      // Update images state
-      setImages(prev => ({
-        ...prev,
-        [imageKey]: file
-      }));
+      // For image1 and image2, validate dimensions (1100 x 600)
+      if (imageKey === 'image1' || imageKey === 'image2') {
+        const img = new Image();
+        const objectUrl = URL.createObjectURL(file);
+        
+        img.onload = () => {
+          URL.revokeObjectURL(objectUrl);
+          
+          const requiredWidth = 1100;
+          const requiredHeight = 600;
+          
+          if (img.width !== requiredWidth || img.height !== requiredHeight) {
+            setImageErrors(prev => ({
+              ...prev,
+              [imageKey]: `Image must be exactly ${requiredWidth} x ${requiredHeight} pixels. Your image is ${img.width} x ${img.height} pixels.`
+            }));
+            // Reset file input
+            e.target.value = '';
+            return;
+          }
+          
+          // Dimensions are valid, proceed with upload
+          setImages(prev => ({
+            ...prev,
+            [imageKey]: file
+          }));
 
-      // Create preview
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreviews(prev => ({
+          // Create preview
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            setImagePreviews(prev => ({
+              ...prev,
+              [imageKey]: e.target.result
+            }));
+          };
+          reader.readAsDataURL(file);
+
+          // Clear any existing error
+          setImageErrors(prev => ({ ...prev, [imageKey]: '' }));
+        };
+        
+        img.onerror = () => {
+          URL.revokeObjectURL(objectUrl);
+          setImageErrors(prev => ({ ...prev, [imageKey]: 'Failed to load image for validation. Please try again.' }));
+        };
+        
+        img.src = objectUrl;
+      } else {
+        // For harvest_region_image, no dimension validation
+        setImages(prev => ({
           ...prev,
-          [imageKey]: e.target.result
+          [imageKey]: file
         }));
-      };
-      reader.readAsDataURL(file);
 
-      // Clear any existing error
-      setError(null);
+        // Create preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setImagePreviews(prev => ({
+            ...prev,
+            [imageKey]: e.target.result
+          }));
+        };
+        reader.readAsDataURL(file);
+
+        // Clear any existing error
+        setError(null);
+      }
     }
   };
 
@@ -831,7 +898,7 @@ const CreateProduct = () => {
                     <div className="upload-placeholder">
                       <span className="upload-icon">📁</span>
                       <span>Upload Image (JPEG, PNG)</span>
-                      <small>Maximum file size: 5MB</small>
+                      <small>Required: 1100 x 600 pixels | Max: 5MB</small>
                     </div>
                   )}
                 </label>
@@ -845,6 +912,7 @@ const CreateProduct = () => {
                     ✕ Remove
                   </button>
                 )}
+                {imageErrors.image1 && <div className="image-error-text">{imageErrors.image1}</div>}
               </div>
             </div>
 
@@ -872,7 +940,7 @@ const CreateProduct = () => {
                     <div className="upload-placeholder">
                       <span className="upload-icon">📁</span>
                       <span>Upload Image (JPEG, PNG)</span>
-                      <small>Maximum file size: 5MB</small>
+                      <small>Required: 1100 x 600 pixels | Max: 5MB</small>
                     </div>
                   )}
                 </label>
@@ -886,6 +954,7 @@ const CreateProduct = () => {
                     ✕ Remove
                   </button>
                 )}
+                {imageErrors.image2 && <div className="image-error-text">{imageErrors.image2}</div>}
               </div>
             </div>
           </div>

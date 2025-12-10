@@ -118,6 +118,34 @@ class ApiService {
     return this.request(`/users?${queryString}`);
   }
 
+  // Get all customer codes (users with customer_code)
+  async getCustomerCodes() {
+    try {
+      const response = await this.request('/users?status=active');
+      const users = response.data || response.users || response;
+      
+      // Filter users with customer_code and return unique codes
+      const customerCodes = users
+        .filter(user => user.customer_code)
+        .map(user => ({
+          customer_code: user.customer_code,
+          customer_name: `${user.first_name || ''} ${user.last_name || ''}`.trim() || user.username
+        }));
+      
+      return {
+        success: true,
+        data: customerCodes
+      };
+    } catch (error) {
+      console.error('Error getting customer codes:', error);
+      return {
+        success: false,
+        error: error.message,
+        data: []
+      };
+    }
+  }
+
   async getUserById(id) {
     return this.request(`/users/${id}`);
   }

@@ -138,6 +138,10 @@ const ViewMeetingMinutes = () => {
               <p>{formatDate(meeting.meeting_date)}</p>
             </div>
             <div className="detail-item">
+              <label>Customer Code</label>
+              <p>{meeting.customer_code || 'N/A'}</p>
+            </div>
+            <div className="detail-item">
               <label>Next Meeting Date</label>
               <p>{formatDate(meeting.next_meeting_date)}</p>
             </div>

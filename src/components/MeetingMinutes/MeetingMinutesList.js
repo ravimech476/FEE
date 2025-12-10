@@ -120,6 +120,7 @@ const MeetingMinutesList = () => {
             <tr>
               <th>MOM Number</th>
               <th>Title</th>
+              <th>Customer Code</th>
               <th>Meeting Date</th>
               <th>Attendees</th>
               <th>Status</th>
@@ -135,6 +136,9 @@ const MeetingMinutesList = () => {
                 </td>
                 <td>
                   <div className="meeting-title">{meeting.title}</div>
+                </td>
+                <td>
+                  <div className="customer-code">{meeting.customer_code || '-'}</div>
                 </td>
                 <td>{new Date(meeting.meeting_date).toLocaleDateString()}</td>
                 <td>

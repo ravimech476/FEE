@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../../services/apiService';
 import './MeetingMinutes.css';
@@ -8,11 +8,13 @@ const AddMeetingMinutes = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [customerCodes, setCustomerCodes] = useState([]);
   
   const [formData, setFormData] = useState({
     mom_number: '',
     title: '',
     meeting_date: '',
+    customer_code: '',
     attendees: [],
     agenda: '',
     minutes: '',
@@ -21,6 +23,22 @@ const AddMeetingMinutes = () => {
     status: 'draft',
     attachments: []
   });
+
+  // Fetch customer codes on component mount
+  useEffect(() => {
+    fetchCustomerCodes();
+  }, []);
+
+  const fetchCustomerCodes = async () => {
+    try {
+      const response = await apiService.getCustomerCodes();
+      if (response.success) {
+        setCustomerCodes(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching customer codes:', error);
+    }
+  };
 
   const [attendeeInput, setAttendeeInput] = useState('');
   const [actionItemInput, setActionItemInput] = useState('');
@@ -46,6 +64,7 @@ const AddMeetingMinutes = () => {
           mom_number: formData.mom_number,
           title: formData.title,
           meeting_date: new Date(formData.meeting_date).toISOString(),
+          customer_code: formData.customer_code || null,
           attendees: formData.attendees,
           agenda: formData.agenda,
           minutes: formData.minutes,
@@ -65,6 +84,7 @@ const AddMeetingMinutes = () => {
         formDataToSend.append('mom_number', formData.mom_number);
         formDataToSend.append('title', formData.title);
         formDataToSend.append('meeting_date', new Date(formData.meeting_date).toISOString());
+        formDataToSend.append('customer_code', formData.customer_code || '');
         formDataToSend.append('attendees', JSON.stringify(formData.attendees));
         formDataToSend.append('agenda', formData.agenda);
         formDataToSend.append('minutes', formData.minutes);
@@ -231,7 +251,25 @@ const AddMeetingMinutes = () => {
             </div>
 
             <div className="add-meeting-form-row">
-              <div className="add-meeting-form-group full-width">
+              <div className="add-meeting-form-group">
+                <label htmlFor="customer_code">Customer Code</label>
+                <select
+                  id="customer_code"
+                  name="customer_code"
+                  value={formData.customer_code}
+                  onChange={handleInputChange}
+                  className="add-meeting-form-control"
+                  disabled={loading}
+                >
+                  <option value="">Select Customer Code</option>
+                  {customerCodes.map((customer, index) => (
+                    <option key={index} value={customer.customer_code}>
+                      {customer.customer_code} - {customer.customer_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="add-meeting-form-group">
                 <label htmlFor="next_meeting_date">Next Meeting Date</label>
                 <input
                   type="date"

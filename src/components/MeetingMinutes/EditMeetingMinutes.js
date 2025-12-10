@@ -10,11 +10,13 @@ const EditMeetingMinutes = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [customerCodes, setCustomerCodes] = useState([]);
   
   const [formData, setFormData] = useState({
     mom_number: '',
     title: '',
     meeting_date: '',
+    customer_code: '',
     attendees: [],
     agenda: '',
     minutes: '',
@@ -30,8 +32,20 @@ const EditMeetingMinutes = () => {
   const [existingAttachments, setExistingAttachments] = useState([]);
 
   useEffect(() => {
+    fetchCustomerCodes();
     fetchMeetingDetails();
   }, [id]);
+
+  const fetchCustomerCodes = async () => {
+    try {
+      const response = await apiService.getCustomerCodes();
+      if (response.success) {
+        setCustomerCodes(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching customer codes:', error);
+    }
+  };
 
   const fetchMeetingDetails = async () => {
     try {
@@ -42,6 +56,7 @@ const EditMeetingMinutes = () => {
         mom_number: meeting.mom_number || '',
         title: meeting.title || '',
         meeting_date: meeting.meeting_date ? new Date(meeting.meeting_date).toISOString().split('T')[0] : '',
+        customer_code: meeting.customer_code || '',
         attendees: meeting.attendees || [],
         agenda: meeting.agenda || '',
         minutes: meeting.minutes || '',
@@ -78,6 +93,7 @@ const EditMeetingMinutes = () => {
           mom_number: formData.mom_number,
           title: formData.title,
           meeting_date: new Date(formData.meeting_date).toISOString(),
+          customer_code: formData.customer_code || null,
           attendees: formData.attendees,
           agenda: formData.agenda,
           minutes: formData.minutes,
@@ -98,6 +114,7 @@ const EditMeetingMinutes = () => {
         formDataToSend.append('mom_number', formData.mom_number);
         formDataToSend.append('title', formData.title);
         formDataToSend.append('meeting_date', new Date(formData.meeting_date).toISOString());
+        formDataToSend.append('customer_code', formData.customer_code || '');
         formDataToSend.append('attendees', JSON.stringify(formData.attendees));
         formDataToSend.append('agenda', formData.agenda);
         formDataToSend.append('minutes', formData.minutes);
@@ -291,7 +308,25 @@ const EditMeetingMinutes = () => {
             </div>
 
             <div className="edit-meeting-form-row">
-              <div className="edit-meeting-form-group full-width">
+              <div className="edit-meeting-form-group">
+                <label htmlFor="customer_code">Customer Code</label>
+                <select
+                  id="customer_code"
+                  name="customer_code"
+                  value={formData.customer_code}
+                  onChange={handleInputChange}
+                  className="edit-meeting-form-control"
+                  disabled={saving}
+                >
+                  <option value="">Select Customer Code</option>
+                  {customerCodes.map((customer, index) => (
+                    <option key={index} value={customer.customer_code}>
+                      {customer.customer_code} - {customer.customer_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="edit-meeting-form-group">
                 <label htmlFor="next_meeting_date">Next Meeting Date</label>
                 <input
                   type="date"
