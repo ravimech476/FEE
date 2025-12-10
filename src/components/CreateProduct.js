@@ -19,6 +19,7 @@ const CreateProduct = () => {
 
   const [formData, setFormData] = useState({
     product_number: '',
+    product_name: '',
     common_name: '',
     botanical_name: '',
     product_short_description: '',
@@ -408,6 +409,7 @@ const CreateProduct = () => {
   const resetForm = () => {
     setFormData({
       product_number: '',
+      product_name: '',
       common_name: '',
       botanical_name: '',
       product_short_description: '',
@@ -494,7 +496,7 @@ const CreateProduct = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="common_name">Common Name</label>
+              <label htmlFor="common_name">Common Name *</label>
               <input
                 type="text"
                 id="common_name"
@@ -504,6 +506,22 @@ const CreateProduct = () => {
                 className="form-control"
                 placeholder="e.g., Jasmine"
                 disabled={loading}
+                required={true}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="product_name">Product Name * </label>
+              <input
+                type="text"
+                id="product_name"
+                name="product_name"
+                value={formData.product_name}
+                onChange={handleInputChange}
+                className="form-control"
+                placeholder="Enter product name"
+                disabled={loading}
+                required={true}
               />
             </div>
           </div>

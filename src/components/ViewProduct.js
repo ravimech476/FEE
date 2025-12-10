@@ -315,7 +315,7 @@ const ViewProduct = ({ userType, user }) => {
 
         {/* Product Title Section */}
         <div className="product-title-section">
-          <h1>{product.common_name || product.product_name}- [Floral]</h1>
+          <h1>{ product.product_name}</h1>
           <div className="subtitle">[CAS No: {product.product_number}]</div>
         </div>
 

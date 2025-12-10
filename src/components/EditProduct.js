@@ -770,7 +770,7 @@ const EditProduct = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="common_name">Common Name</label>
+              <label htmlFor="common_name">Common Name *</label>
               <input
                 type="text"
                 id="common_name"
@@ -780,6 +780,7 @@ const EditProduct = () => {
                 className="form-control"
                 placeholder="e.g., Jasmine"
                 disabled={saving}
+                required={true}
               />
             </div>
 
