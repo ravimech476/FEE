@@ -98,7 +98,7 @@ const Sidebar = ({ userType = 'customer', user }) => {
                   console.log('✓ Permissions object validated');
                   
                   // Check if any of our expected permissions exist
-                  const expectedPermissions = ['dashboard', 'products', 'orders', 'meetings', 'market_reports', 'payments'];
+                  const expectedPermissions = ['dashboard', 'products', 'orders', 'meetings', 'market_reports', 'invoice_to_delivery'];
                   const foundPermissions = expectedPermissions.filter(perm => {
                     const permission = roleData.permissions[perm];
                     return permission && permission.view === true;

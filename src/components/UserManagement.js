@@ -174,7 +174,7 @@ const UserManagement = () => {
                     >
                       ✏️
                     </span>
-                    <span 
+                    {/* <span 
                       onClick={() => handleDelete(user.id)}
                       className="icon-action"
                       title={user.status === 'inactive' ? 'User already inactive' : 'Deactivate User'}
@@ -184,7 +184,7 @@ const UserManagement = () => {
                       }}
                     >
                       🚫
-                    </span>
+                    </span> */}
                   </div>
                 </td>
               </tr>

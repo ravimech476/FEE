@@ -23,7 +23,7 @@ const EditRole = () => {
       orders: { view: false },
       meetings: { view: false },
       market_reports: { view: false },
-      payments: { view: false }
+      invoice_to_delivery: { view: false }
     }
   });
 
@@ -35,7 +35,7 @@ const EditRole = () => {
     orders: 'Order To Cash',
     meetings: 'Meeting Minutes',
     market_reports: 'Market Reports',
-    payments: 'Payment Information'
+    invoice_to_delivery: 'Invoice to Delivery'
   };
 
   const operationLabels = {

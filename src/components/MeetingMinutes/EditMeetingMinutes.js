@@ -87,51 +87,32 @@ const EditMeetingMinutes = () => {
     setError(null);
 
     try {
-      // If there are no new attachments and no changes to existing attachments, send as JSON
-      if (attachmentFiles.length === 0 && existingAttachments.length === formData.attachments.length) {
-        const meetingData = {
-          mom_number: formData.mom_number,
-          title: formData.title,
-          meeting_date: new Date(formData.meeting_date).toISOString(),
-          customer_code: formData.customer_code || null,
-          attendees: formData.attendees,
-          agenda: formData.agenda,
-          minutes: formData.minutes,
-          action_items: formData.action_items,
-          next_meeting_date: formData.next_meeting_date 
-            ? new Date(formData.next_meeting_date).toISOString() 
-            : null,
-          status: formData.status,
-          attachments: existingAttachments
-        };
-        
-        await apiService.updateMeeting(id, meetingData);
-      } else {
-        // If there are attachments, send as FormData
-        const formDataToSend = new FormData();
-        
-        // Add individual fields to FormData
-        formDataToSend.append('mom_number', formData.mom_number);
-        formDataToSend.append('title', formData.title);
-        formDataToSend.append('meeting_date', new Date(formData.meeting_date).toISOString());
-        formDataToSend.append('customer_code', formData.customer_code || '');
-        formDataToSend.append('attendees', JSON.stringify(formData.attendees));
-        formDataToSend.append('agenda', formData.agenda);
-        formDataToSend.append('minutes', formData.minutes);
-        formDataToSend.append('action_items', JSON.stringify(formData.action_items));
-        formDataToSend.append('next_meeting_date', formData.next_meeting_date 
-          ? new Date(formData.next_meeting_date).toISOString() 
-          : '');
-        formDataToSend.append('status', formData.status);
-        formDataToSend.append('existing_attachments', JSON.stringify(existingAttachments));
-        
-        // Add new attachment files
-        attachmentFiles.forEach((file, index) => {
-          formDataToSend.append(`attachments`, file);
-        });
+      // Always use FormData to ensure attachments are handled properly
+      const formDataToSend = new FormData();
+      
+      // Add individual fields to FormData
+      formDataToSend.append('mom_number', formData.mom_number);
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('meeting_date', new Date(formData.meeting_date).toISOString());
+      formDataToSend.append('customer_code', formData.customer_code || '');
+      formDataToSend.append('attendees', JSON.stringify(formData.attendees));
+      formDataToSend.append('agenda', formData.agenda);
+      formDataToSend.append('minutes', formData.minutes);
+      formDataToSend.append('action_items', JSON.stringify(formData.action_items));
+      formDataToSend.append('next_meeting_date', formData.next_meeting_date 
+        ? new Date(formData.next_meeting_date).toISOString() 
+        : '');
+      formDataToSend.append('status', formData.status);
+      
+      // Always send existing_attachments to preserve them
+      formDataToSend.append('existing_attachments', JSON.stringify(existingAttachments));
+      
+      // Add new attachment files if any
+      attachmentFiles.forEach((file) => {
+        formDataToSend.append('attachments', file);
+      });
 
-        await apiService.updateMeetingWithAttachments(id, formDataToSend);
-      }
+      await apiService.updateMeetingWithAttachments(id, formDataToSend);
       
       navigate('/admin/meeting-minutes');
     } catch (error) {

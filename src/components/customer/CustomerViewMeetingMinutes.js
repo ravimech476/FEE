@@ -85,6 +85,26 @@ const CustomerViewMeetingMinutes = ({ userType, user }) => {
     return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
   };
 
+  // Helper function to get proper attachment URL (handles double slash issue)
+  const getAttachmentUrl = (url) => {
+    if (!url) return '';
+    // Remove leading slash if present to avoid double slash with API_IMAGE_URL
+    let cleanUrl = url;
+    if (cleanUrl.startsWith('/')) {
+      cleanUrl = cleanUrl.substring(1);
+    }
+    // Ensure API_IMAGE_URL doesn't end with slash
+    const baseUrl = API_IMAGE_URL.endsWith('/') ? API_IMAGE_URL.slice(0, -1) : API_IMAGE_URL;
+    return `${baseUrl}/${cleanUrl}`;
+  };
+
+  // Handle download click - open in new tab
+  const handleDownloadClick = (e, url) => {
+    e.preventDefault();
+    const attachmentUrl = getAttachmentUrl(url);
+    window.open(attachmentUrl, '_blank');
+  };
+
   if (loading) {
     return (
       <div className="meeting-minutes-page">
@@ -329,7 +349,7 @@ const CustomerViewMeetingMinutes = ({ userType, user }) => {
                     {attachment.name && attachment.name.match(/\.(jpg|jpeg|png|gif)$/i) ? (
                       <>
                         <img 
-                          src={`${API_IMAGE_URL}${attachment.url}`} 
+                          src={getAttachmentUrl(attachment.url)} 
                           alt={attachment.name}
                           className="attachment-thumbnail"
                           onError={(e) => {
@@ -348,15 +368,14 @@ const CustomerViewMeetingMinutes = ({ userType, user }) => {
                     )}
                   </div>
                   <div className="attachment-details">
-                    <a 
-                      href={`${API_IMAGE_URL}${attachment.url}`} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
+                    <span
                       className="attachment-name"
                       title={attachment.name}
+                      style={{ cursor: 'pointer', color: '#007bff' }}
+                      onClick={(e) => handleDownloadClick(e, attachment.url)}
                     >
                       {attachment.name}
-                    </a>
+                    </span>
                     {attachment.size && (
                       <span className="attachment-size">
                         {formatFileSize(attachment.size)}
@@ -364,14 +383,22 @@ const CustomerViewMeetingMinutes = ({ userType, user }) => {
                     )}
                   </div>
                   <div className="attachment-actions">
-                    <a 
-                      href={`${API_IMAGE_URL}${attachment.url}`} 
-                      download={attachment.name}
+                    {/* <button 
+                      onClick={(e) => handleDownloadClick(e, attachment.url)}
+                      className="btn-download"
+                      title="Open in new tab"
+                      type="button"
+                    >
+                      🔗
+                    </button> */}
+                    <button 
+                      onClick={(e) => handleDownloadClick(e, attachment.url)}
                       className="btn-download"
                       title="Download"
+                      type="button"
                     >
                       ⬇️
-                    </a>
+                    </button>
                   </div>
                 </div>
               ))}

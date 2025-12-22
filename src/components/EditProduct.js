@@ -475,9 +475,7 @@ const EditProduct = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.product_number.trim()) {
-      newErrors.product_number = 'CAS Number is required';
-    }
+    // CAS Number is now optional - no validation needed
 
     if (!formData.product_name.trim()) {
       newErrors.product_name = 'Product Name is required';
@@ -677,7 +675,7 @@ const EditProduct = () => {
           
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="product_number">CAS Number *</label>
+              <label htmlFor="product_number">CAS Number</label>
               <input
                 type="text"
                 id="product_number"
@@ -686,7 +684,6 @@ const EditProduct = () => {
                 onChange={handleInputChange}
                 className={`form-control ${errors.product_number ? 'error' : ''}`}
                 placeholder="Enter CAS number"
-                required={true}
                 disabled={saving}
               />
               {errors.product_number && <span className="error-text">{errors.product_number}</span>}

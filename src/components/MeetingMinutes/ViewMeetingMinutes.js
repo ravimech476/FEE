@@ -63,8 +63,20 @@ const ViewMeetingMinutes = () => {
   const getAttachmentUrl = (url) => {
     if (!url) return '';
     // Remove leading slash if present to avoid double slash with API_IMAGE_URL
-    const cleanUrl = url.startsWith('/') ? url.substring(1) : url;
-    return `${API_IMAGE_URL}${cleanUrl}`;
+    let cleanUrl = url;
+    if (cleanUrl.startsWith('/')) {
+      cleanUrl = cleanUrl.substring(1);
+    }
+    // Ensure API_IMAGE_URL doesn't end with slash
+    const baseUrl = API_IMAGE_URL.endsWith('/') ? API_IMAGE_URL.slice(0, -1) : API_IMAGE_URL;
+    return `${baseUrl}/${cleanUrl}`;
+  };
+
+  // Handle download click - open in new tab
+  const handleDownloadClick = (e, url) => {
+    e.preventDefault();
+    const attachmentUrl = getAttachmentUrl(url);
+    window.open(attachmentUrl, '_blank');
   };
 
   if (loading) {
@@ -276,14 +288,22 @@ const ViewMeetingMinutes = () => {
                     )}
                   </div>
                   <div className="attachment-actions">
-                    <a 
-                      href={getAttachmentUrl(attachment.url)} 
-                      download={attachment.name}
+                    {/* <button 
+                      onClick={(e) => handleDownloadClick(e, attachment.url)}
+                      className="btn-download"
+                      title="Open in new tab"
+                      type="button"
+                    >
+                      🔗
+                    </button> */}
+                    <button 
+                      onClick={(e) => handleDownloadClick(e, attachment.url)}
                       className="btn-download"
                       title="Download"
+                      type="button"
                     >
                       ⬇️
-                    </a>
+                    </button>
                   </div>
                 </div>
               ))}
